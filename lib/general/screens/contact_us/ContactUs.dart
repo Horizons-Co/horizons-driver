@@ -40,7 +40,7 @@ class _ContactUsState extends State<ContactUs> {
             title: tr("contactUsWhatsapp"),
             image: Res.contactWhatsApp,
             onTap: () => Utils.launchURL(
-                url: "http://api.whatsapp.com/send?phone=+966544551663"),
+                url: "https://api.whatsapp.com/send?phone=+966544551663"),
           ),
           BuildContactUsItem(
             title: tr("contactUs"),
