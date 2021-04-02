@@ -71,7 +71,7 @@ dependencies:
   infinite_scroll_pagination: ^2.3.0
   background_locator: ^1.4.0+1
   location_permissions:
-  onesignal_flutter: ^2.0.0
+  onesignal_flutter: ^2.6.3
 
 
 

@@ -10,11 +10,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    super.initState();
     _homeData.tabController = TabController(length: 4, vsync: this);
 
     if (IsolateNameServer.lookupPortByName(
-            LocationServiceRepository.isolateName) !=
+        LocationServiceRepository.isolateName) !=
         null) {
       IsolateNameServer.removePortNameMapping(
           LocationServiceRepository.isolateName);
@@ -24,22 +23,20 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         _homeData.port.sendPort, LocationServiceRepository.isolateName);
 
     _homeData.port.listen(
-      (dynamic data) async {
+          (dynamic data) async {
         await _homeData.updateUI(data);
       },
     );
     _homeData.initPlatformState();
-    bool _isOnline = context.read<UserCubit>().state.model.isOnline;
-    _homeData.orderState.onUpdateData(_isOnline);
+    var user = context.read<UserCubit>().state.model;
+    _homeData.orderState.onUpdateData(user.isOnline);
     if (_homeData.orderState.state.data == true) {
       _homeData.onStart();
     }
+    CustomOneSignal.initPlatformState(user.id, context);
+    super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

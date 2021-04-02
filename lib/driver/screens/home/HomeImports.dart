@@ -19,6 +19,7 @@ import 'package:base_structure/general/blocs/generic_cubit/generic_cubit.dart';
 import 'package:base_structure/general/blocs/user_cubit/user_cubit.dart';
 import 'package:base_structure/general/constants/GlobalState.dart';
 import 'package:base_structure/general/constants/MyColors.dart';
+import 'package:base_structure/general/utilities/utils_functions/CustomOneSignal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_permissions/location_permissions.dart';
