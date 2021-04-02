@@ -1,0 +1,96 @@
+{
+  "back": "Back",
+  "status": "Status : ",
+  "available": "Available",
+  "unAvailable": "Un available",
+  "hello": "Hello",
+  "myInfo": "My information",
+  "customerService": "Customer service",
+  "language": "Language",
+  "logout": "Logout",
+  "areYouSureToLogout": "Are you sure you want to logout",
+  "version": "Version",
+  "noOrders": "No orders",
+  "currentOrders": "Current orders",
+  "hasReceived": "Has received",
+  "hasDelivered": "Has delivered",
+  "canceled": "Canceled",
+  "deliveryInformation": "Delivery information",
+  "name": "Name",
+  "phone": "Phone",
+  "receivingTime": "receive time",
+  "receivingAddress": "Receive address",
+  "receiveFrom": "receive from",
+  "deliverTo": "Deliver to",
+  "received": "Received",
+  "delivered": "Delivered",
+  "hasBeenReceived": "Has been received order?",
+  "hasBeenDelivered": "Has been delivered order?",
+  "confirmReceive": "Confirm receive",
+  "confirmDeliver": "confirm delivery",
+  "orderNumber": "Order number",
+  "payment": "Payment",
+  "orderType": "Order type",
+  "note": "Note",
+  "paymentInfo": "Payment information",
+  "orderPrice": "Order price",
+  "delivery": "Delivery",
+  "tax": "Tax",
+  "total": "Total",
+  "receiveTime": "Receive time",
+  "receiveAddress": "Receive address",
+  "receiveInfo": "Receive info",
+  "shopOrClientName": "shop name / client",
+  "update": "Update",
+  "city": "City",
+  "identityNumber": "Identity number",
+  "carMark": "Car mark",
+  "carModel": "Car model",
+  "carLicenceImage": "Car licence image",
+  "carImage": "Car image",
+  "profileImage": "Profile image",
+  "phoneStartWith05": "Please, Phone number must not start with 05",
+  "identityNumberMustBe10": "Please , identity number must be 10 numbers",
+  "wrongPasswordOrActiveCode": "Mistake in Phone number or Active code",
+  "activate": "Activate",
+  "activeCode": "Active code",
+  "insertCodeSendTo": "Insert Active Code \n send to phone",
+  "contactUsWhatsapp": "ContactUs whats app",
+  "contactUs": "Contact us",
+  "send": "Send",
+  "registerNewDriver": "Register new Driver",
+  "forgetPassword": "Forget password?",
+  "login": "Login",
+  "password": "Password",
+  "byRegisterTouAcceptTerms": "By register you accept all terms and conditions",
+  "register": "Register",
+  "save": "save",
+  "writeNewPassword": "Write new password",
+  "accountIsNotValid": "Account isn't Valid",
+  "fillField": "Please enter this field",
+  "passValidation": "Enter at least 6 letters or numbers",
+  "mailValidation": "Enter a valid email",
+  "phoneValidation": "Enter the correct mobile number",
+  "confirmValidation": "Enter a confirmation password match",
+  "nationality": "Nationality"
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

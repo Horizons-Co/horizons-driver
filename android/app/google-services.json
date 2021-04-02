@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "653209200371",
+    "firebase_url": "https://quick-go-295816.firebaseio.com",
+    "project_id": "quick-go-295816",
+    "storage_bucket": "quick-go-295816.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:653209200371:android:60bf8463403dc59d49b986",
+        "android_client_info": {
+          "package_name": "com.driver.Horizons"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "653209200371-b7hcjh419m03q0tqn1p5mgje6g1d1e8r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDh2XSl6dr0Sw1wMSq1pgNVE_rBUxhB11A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "653209200371-b7hcjh419m03q0tqn1p5mgje6g1d1e8r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:653209200371:android:72f569bc213c07af49b986",
+        "android_client_info": {
+          "package_name": "com.quick.quickgo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "653209200371-b7hcjh419m03q0tqn1p5mgje6g1d1e8r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDh2XSl6dr0Sw1wMSq1pgNVE_rBUxhB11A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "653209200371-b7hcjh419m03q0tqn1p5mgje6g1d1e8r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

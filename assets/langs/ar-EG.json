@@ -1,0 +1,95 @@
+{
+  "back": "تراجع",
+  "status": "الحالة : ",
+  "available": "متاح",
+  "unAvailable": "غير متاح",
+  "hello": "مرحبا",
+  "myInfo": "معلوماتي",
+  "customerService": "الدعم الفني",
+  "language": "اللغة",
+  "logout": "تسجيل الخروج",
+  "areYouSureToLogout": "هل أنت متاكد من تسجيل الخروج؟",
+  "version": "الإصدار",
+  "noOrders": "لا يوجد طلبات",
+  "currentOrders": "الطلبات الحالية",
+  "hasReceived": "تم استلامها",
+  "hasDelivered": "تم التوصيل",
+  "canceled": "ملغي",
+  "deliveryInformation": "معلومات التسليم",
+  "name": "الاسم",
+  "phone": "رقم الهاتف",
+  "receivingTime": "وقت التسليم",
+  "receivingAddress": "عنوان التسليم",
+  "receiveFrom": "استلام من",
+  "deliverTo": "توصيل الي",
+  "received": "تم الإستلام",
+  "delivered": "تم التوصيل",
+  "hasBeenReceived": "هل تم استلام الطلب ؟",
+  "hasBeenDelivered": "هل تم توصيل الطلب ؟",
+  "confirmReceive": "تأكيد الإستلام",
+  "confirmDeliver": "تأكيد التوصيل",
+  "orderNumber": "رقم الطلب",
+  "payment": "الدفع",
+  "orderType": "نوع الطلب",
+  "note": "ملاحظة",
+  "paymentInfo": "معلومات الدفع",
+  "orderPrice": "سعر الطلب",
+  "delivery": "التوصيل",
+  "tax": "الضريبة",
+  "total": "المجموع",
+  "receiveTime": "وقت الإستلام",
+  "receiveAddress": "عنوان الإستلام",
+  "receiveInfo": "معلومات الإستلام",
+  "shopOrClientName": "اسم المتجر / العميل",
+  "update": "تحديث",
+  "city": "المدينة",
+  "identityNumber": "رقم الهوية",
+  "carMark": "ماركة السيارة",
+  "carModel": "موديل السيارة",
+  "carLicenceImage": "صورة رخصة السيارة",
+  "carImage": "صورة السيارة",
+  "profileImage": "الصورة الشخصية",
+  "phoneStartWith05": "من فضلك رقم الجوال يجب الا يبدا ب 05",
+  "identityNumberMustBe10": "من فضلك رقم الهوية يجب ان يكون 10 ارقام",
+  "wrongPasswordOrActiveCode": "خطأ في كلمة المرور او كود التفعيل",
+  "activate": "تحقق",
+  "activeCode": "كود التحقق",
+  "insertCodeSendTo": "ادخل كود التحقق \n المرسل لجوالة",
+  "contactUsWhatsapp": "تواصل معنا واتساب",
+  "contactUs": "اتصل بنا",
+  "send": "ارسال",
+  "registerNewDriver": "تسجيل كابتن جديد",
+  "forgetPassword": "هل نسيت كلمة المرور ؟",
+  "login": "دخول",
+  "password": "كلمة المرور",
+  "byRegisterTouAcceptTerms": "بتسجيلك معنا فانت توافق علي الشروط والأحكام",
+  "register": "سجل",
+  "save": "حفظ",
+  "writeNewPassword": "اكتب كلمة مرور جديدة",
+  "accountIsNotValid": "الحساب غير موجود لدينا",
+  "fillField": "من فضلك ادخل هذا الحقل",
+  "passValidation": "ادخل علي الاقل ٦ حروف او ارقام",
+  "mailValidation": "ادخل البريد الالكتروني صحيحا",
+  "phoneValidation": "ادخل رقم الجوال صحيحا",
+  "confirmValidation": "ادخل تاكيد رمز المرور متطابقا",
+  "nationality": "الجنسية"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
