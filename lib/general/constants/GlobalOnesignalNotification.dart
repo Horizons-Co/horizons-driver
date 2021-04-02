@@ -17,11 +17,26 @@ void globalNotification(GlobalKey<NavigatorState> navigatorKey) async {
   OneSignal.shared
       .setNotificationReceivedHandler((OSNotification notification) {
     // will be called whenever a notification is received
+
+    print("notification received *****");
+    print(notification.payload.rawPayload['custom']['a']['order']['id']
+        .toString());
+    int orderStatus =
+        notification.payload.rawPayload['custom']['a']['order']['status_id'];
+    var orderId = notification.payload.rawPayload['custom']['a']['order']['id']
+        .toString();
+    print("notification received *****");
   });
 
   OneSignal.shared
       .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
-    // will be called whenever a notification is opened/button pressed.
+    // a notification has been opened
+    print("a notification has been opened");
+    int orderStatus = result.notification.payload.rawPayload['custom']['a']
+        ['order']['status_id'];
+    var orderId = result
+        .notification.payload.rawPayload['custom']['a']['order']['id']
+        .toString();
   });
 
   OneSignal.shared.setPermissionObserver((OSPermissionStateChanges changes) {
