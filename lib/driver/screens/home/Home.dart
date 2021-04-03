@@ -3,7 +3,7 @@ part of "HomeImports.dart";
 class Home extends StatefulWidget {
   final int index;
 
-  const Home({this.index=0});
+  const Home({this.index = 0});
   @override
   _HomeState createState() => _HomeState();
 }
@@ -16,7 +16,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _homeData.tabController = TabController(length: 4, vsync: this);
 
     if (IsolateNameServer.lookupPortByName(
-        LocationServiceRepository.isolateName) !=
+            LocationServiceRepository.isolateName) !=
         null) {
       IsolateNameServer.removePortNameMapping(
           LocationServiceRepository.isolateName);
@@ -26,7 +26,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         _homeData.port.sendPort, LocationServiceRepository.isolateName);
 
     _homeData.port.listen(
-          (dynamic data) async {
+      (dynamic data) async {
         await _homeData.updateUI(data);
       },
     );
@@ -41,7 +41,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {

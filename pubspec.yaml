@@ -72,6 +72,7 @@ dependencies:
   background_locator: ^1.4.0+1
   location_permissions:
   onesignal_flutter: ^2.6.3
+  audioplayers: ^0.17.3
 
 
 
@@ -129,6 +130,7 @@ flutter:
     - assets/images/contactUsMobile.png
     - assets/images/contactWhatsApp.png
     - assets/images/luncherIcon.png
+    - assets/notification.mp3
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

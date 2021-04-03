@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:base_structure/general/constants/GlobalState.dart';
 import 'package:base_structure/general/resources/GeneralRepository.dart';
 import 'package:base_structure/general/utilities/routers/Router.gr.dart';
+import 'package:base_structure/general/utilities/utils_functions/playSound.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
@@ -20,23 +24,26 @@ class CustomOneSignal {
         .setNotificationReceivedHandler((OSNotification notification) {
       print(
           "Received notification: \n${notification.jsonRepresentation().replaceAll("\\n", "\n")}");
-      int orderStatus =
-          notification.payload.rawPayload['custom']['a']['order']['status_id'];
-      var orderId = notification
-          .payload.rawPayload['custom']['a']['order']['id']
-          .toString();
+      var order = json.decode(notification.payload.rawPayload['custom']);
+      print("order is ${order['a']['order']['id']}");
+      var orderID = order['a']['order']['id'];
+      print("orderID is $orderID");
+      GlobalState.instance.set("currentOrderId", orderID);
+      PlayNotificationSound.playSound();
     });
 
     OneSignal.shared
         .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
       print(
-          "Opened notification: \n${result.notification.jsonRepresentation().replaceAll("\\n", "\n")}");
-      int orderStatus = result.notification.payload.rawPayload['custom']['a']
-          ['order']['status_id'];
+          "json decode ${json.decode(result.notification.payload.rawPayload['custom'])}");
 
-      var orderId = result
-          .notification.payload.rawPayload['custom']['a']['order']['id']
-          .toString();
+      // print(
+      //     "Opened notification: \n${result.notification.jsonRepresentation().replaceAll("\\n", "\n")}");
+      var order = json.decode(result.notification.payload.rawPayload['custom']);
+      print("orderssssssssss ${order['a']['order']['status_id']}");
+
+      int orderStatus = order['a']['order']['status_id'];
+
       if (orderStatus == 3) {
         ExtendedNavigator.root
             .push(Routes.home, arguments: HomeArguments(index: 0));
@@ -90,6 +97,8 @@ class CustomOneSignal {
   static void handleAndroid(String merchantId, BuildContext context) async {
     var status = await OneSignal.shared.getPermissionSubscriptionState();
     print("player id android : " + status.subscriptionStatus.userId);
+    GlobalState.instance
+        .set("oneSignalUserId", status.subscriptionStatus.userId);
     if (status.subscriptionStatus.userId != "null")
       sendDeviceToken(
           merchantId: merchantId,
