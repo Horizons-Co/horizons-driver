@@ -7,6 +7,7 @@ import 'package:base_structure/general/models/dots/RegisterModel.dart';
 import 'package:base_structure/general/models/user_model.dart';
 import 'package:base_structure/general/utilities/dio_helper/DioImports.dart';
 import 'package:base_structure/general/utilities/routers/Router.gr.dart';
+import 'package:base_structure/general/utilities/utils_functions/CustomOneSignal.dart';
 import 'package:base_structure/general/utilities/utils_functions/UtilsImports.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -49,6 +50,7 @@ class AuthHttpMethods {
         GlobalState.instance.set("token", _data["data"]["access_token"]);
         await Utils.saveUserData(user);
         Utils.setCurrentUserData(user, context);
+        CustomOneSignal.initPlatformState(user.id, context);
         ExtendedNavigator.root
             .pushAndRemoveUntil(Routes.home, (route) => false);
       }
