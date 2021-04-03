@@ -36,9 +36,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       _homeData.onStart();
     }
     CustomOneSignal.initPlatformState(user.id, context);
-    setState(() {
-      _homeData.tabController.index = widget.index;
-    });
+    _homeData.tabController.index = widget.index;
+
     super.initState();
   }
 
@@ -56,6 +55,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             homeData: _homeData,
           ),
           body: TabBarView(
+            controller: _homeData.tabController,
             physics: NeverScrollableScrollPhysics(),
             children: [
               CurrentOrders(_homeData),

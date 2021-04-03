@@ -76,6 +76,9 @@ class HomeAppBar extends PreferredSize {
             labelColor: MyColors.white,
             labelPadding: const EdgeInsets.all(0),
             indicatorPadding: const EdgeInsets.all(0),
+            onTap: (index) {
+              homeData.tabController.index = index;
+            },
             tabs: [
               TabItem(
                 title: tr("currentOrders"),
