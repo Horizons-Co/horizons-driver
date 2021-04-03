@@ -16,8 +16,9 @@ class Utils {
         // GlobalState.instance.set("userId", data.id);
         changeLanguage(lang ?? "ar", context);
         // setCurrentUserData(data, context);
-        ExtendedNavigator.of(context)
-            .pushAndRemoveUntil(Routes.home, (route) => false);
+        ExtendedNavigator.of(context).pushAndRemoveUntil(
+            Routes.home, (route) => false,
+            arguments: HomeArguments(index: 0));
       } else {
         BackgroundLocator.unRegisterLocationUpdate();
         clearSavedData();
