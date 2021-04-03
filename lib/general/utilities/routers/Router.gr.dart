@@ -115,9 +115,11 @@ class AppRouter extends RouterBase {
       );
     },
     Home: (data) {
-      final args = data.getArgs<HomeArguments>(nullOk: false);
+      final args = data.getArgs<HomeArguments>(
+        orElse: () => HomeArguments(),
+      );
       return buildAdaptivePageRoute<dynamic>(
-        builder: (context) => Home(args.index),
+        builder: (context) => Home(index: args.index),
         settings: data,
       );
     },
@@ -157,5 +159,5 @@ class ActiveAccountArguments {
 /// Home arguments holder class
 class HomeArguments {
   final int index;
-  HomeArguments({@required this.index});
+  HomeArguments({this.index = 0});
 }

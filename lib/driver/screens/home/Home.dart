@@ -1,6 +1,9 @@
 part of "HomeImports.dart";
 
 class Home extends StatefulWidget {
+  final int index;
+
+  const Home({this.index=0});
   @override
   _HomeState createState() => _HomeState();
 }
