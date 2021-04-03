@@ -9,7 +9,6 @@ import 'general/blocs/bloc_observer/BlocObserver.dart';
 import 'general/screens/splash/SplashImports.dart';
 import 'general/utilities/main_data/MainDataImports.dart';
 import 'general/utilities/routers/Router.gr.dart';
-import 'general/utilities/utils_functions/CustomOneSignal.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
