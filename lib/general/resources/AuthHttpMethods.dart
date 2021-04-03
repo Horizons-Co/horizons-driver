@@ -224,7 +224,10 @@ class AuthHttpMethods {
 
   Future<void> logout() async {
     LoadingDialog.showLoadingDialog();
-    final response = await DioHelper(context).post("drivers/logout", {});
+    Map<String, dynamic> body = {
+      "device_token": GlobalState.instance.get("oneSignalUserId")
+    };
+    final response = await DioHelper(context).post("drivers/logout", body);
     if (response != null) {
       EasyLoading.dismiss().then((value) {
         Utils.clearSavedData();
