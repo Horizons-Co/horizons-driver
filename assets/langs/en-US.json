@@ -73,8 +73,9 @@
   "phoneValidation": "Enter the correct mobile number",
   "confirmValidation": "Enter a confirmation password match",
   "nationality": "Nationality",
-  "chickNet": "check your internet"
-
+  "chickNet": "check your internet",
+  "search": "Search",
+  "wrongActiveCode": "Wrong active code"
 
 }
 

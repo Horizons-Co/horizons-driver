@@ -152,18 +152,23 @@ class AuthHttpMethods {
       body,
     );
     if (_data != null) {
-      if (token == "" || token == null) {
-        ExtendedNavigator.root
-            .pushAndRemoveUntil(Routes.login, (route) => false);
+      if (_data["data"]["status"]) {
+        if (token == "" || token == null) {
+          ExtendedNavigator.root
+              .pushAndRemoveUntil(Routes.login, (route) => false);
+        } else {
+          print("user id is ${userModel.id}");
+          await Utils.setDeviceId(token);
+          GlobalState.instance.set("userId", userModel.id);
+          GlobalState.instance.set("token", token);
+          await Utils.saveUserData(userModel);
+          Utils.setCurrentUserData(userModel, context);
+          ExtendedNavigator.root.pushAndRemoveUntil(
+              Routes.home, (route) => false,
+              arguments: HomeArguments(index: 0));
+        }
       } else {
-        print("user id is ${userModel.id}");
-        await Utils.setDeviceId(token);
-        GlobalState.instance.set("userId", userModel.id);
-        GlobalState.instance.set("token", token);
-        await Utils.saveUserData(userModel);
-        Utils.setCurrentUserData(userModel, context);
-        ExtendedNavigator.root.pushAndRemoveUntil(Routes.home, (route) => false,
-            arguments: HomeArguments(index: 0));
+        LoadingDialog.showSimpleToast("wrongActiveCode");
       }
 
       return true;

@@ -73,7 +73,9 @@
   "phoneValidation": "ادخل رقم الجوال صحيحا",
   "confirmValidation": "ادخل تاكيد رمز المرور متطابقا",
   "nationality": "الجنسية",
-  "chickNet": "تآكد من الانترنت"
+  "chickNet": "تآكد من الانترنت",
+  "search": "بحث",
+  "wrongActiveCode": "كود تفعيل خاطئ"
 }
 
 
