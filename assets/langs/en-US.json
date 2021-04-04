@@ -72,7 +72,10 @@
   "mailValidation": "Enter a valid email",
   "phoneValidation": "Enter the correct mobile number",
   "confirmValidation": "Enter a confirmation password match",
-  "nationality": "Nationality"
+  "nationality": "Nationality",
+  "chickNet": "check your internet",
+  "search": "Search",
+  "wrongActiveCode": "Wrong active code"
 
 }
 

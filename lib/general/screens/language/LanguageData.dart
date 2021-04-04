@@ -15,6 +15,7 @@ class LanguageData {
     } else {
       Utils.changeLanguage("en", context);
     }
-    ExtendedNavigator.root.pushAndRemoveUntil(Routes.home, (route) => false);
+    ExtendedNavigator.root.pushAndRemoveUntil(Routes.home, (route) => false,
+        arguments: HomeArguments(index: 0));
   }
 }

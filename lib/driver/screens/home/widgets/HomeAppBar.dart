@@ -70,11 +70,15 @@ class HomeAppBar extends PreferredSize {
                   bottom: BorderSide(color: MyColors.greyWhite, width: .5),
                   top: BorderSide(color: MyColors.greyWhite, width: .5))),
           child: TabBar(
+            controller: homeData.tabController,
             indicator: BoxDecoration(color: MyColors.greyWhite),
             unselectedLabelColor: MyColors.white,
             labelColor: MyColors.white,
             labelPadding: const EdgeInsets.all(0),
             indicatorPadding: const EdgeInsets.all(0),
+            onTap: (index) {
+              homeData.tabController.index = index;
+            },
             tabs: [
               TabItem(
                 title: tr("currentOrders"),

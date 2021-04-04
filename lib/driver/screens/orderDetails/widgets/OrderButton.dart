@@ -29,10 +29,10 @@ class OrderButton extends StatelessWidget {
                 return _buildStepperItem(
                     index: index,
                     place: index == 0
-                        ? orderItemModel.pickupPoint.id == 2
+                        ? orderItemModel.pickupPoint.id == 1
                             ? orderItemModel.branch.district.name
                             : orderItemModel.client.district.name
-                        : orderItemModel.pickupPoint.id == 1
+                        : orderItemModel.pickupPoint.id == 2
                             ? orderItemModel.branch.district.name
                             : orderItemModel.client.district.name,
                     title: index == 0 ? tr("receiveFrom") : tr("deliverTo"),

@@ -7,6 +7,7 @@ import 'package:base_structure/general/models/dots/RegisterModel.dart';
 import 'package:base_structure/general/models/user_model.dart';
 import 'package:base_structure/general/utilities/dio_helper/DioImports.dart';
 import 'package:base_structure/general/utilities/routers/Router.gr.dart';
+import 'package:base_structure/general/utilities/utils_functions/CustomOneSignal.dart';
 import 'package:base_structure/general/utilities/utils_functions/UtilsImports.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -49,8 +50,9 @@ class AuthHttpMethods {
         GlobalState.instance.set("token", _data["data"]["access_token"]);
         await Utils.saveUserData(user);
         Utils.setCurrentUserData(user, context);
-        ExtendedNavigator.root
-            .pushAndRemoveUntil(Routes.home, (route) => false);
+        CustomOneSignal.initPlatformState(user.id, context);
+        ExtendedNavigator.root.pushAndRemoveUntil(Routes.home, (route) => false,
+            arguments: HomeArguments(index: 0));
       }
 
       return true;
@@ -150,18 +152,23 @@ class AuthHttpMethods {
       body,
     );
     if (_data != null) {
-      if (token == "" || token == null) {
-        ExtendedNavigator.root
-            .pushAndRemoveUntil(Routes.login, (route) => false);
+      if (_data["data"]["status"]) {
+        if (token == "" || token == null) {
+          ExtendedNavigator.root
+              .pushAndRemoveUntil(Routes.login, (route) => false);
+        } else {
+          print("user id is ${userModel.id}");
+          await Utils.setDeviceId(token);
+          GlobalState.instance.set("userId", userModel.id);
+          GlobalState.instance.set("token", token);
+          await Utils.saveUserData(userModel);
+          Utils.setCurrentUserData(userModel, context);
+          ExtendedNavigator.root.pushAndRemoveUntil(
+              Routes.home, (route) => false,
+              arguments: HomeArguments(index: 0));
+        }
       } else {
-        print("user id is ${userModel.id}");
-        await Utils.setDeviceId(token);
-        GlobalState.instance.set("userId", userModel.id);
-        GlobalState.instance.set("token", token);
-        await Utils.saveUserData(userModel);
-        Utils.setCurrentUserData(userModel, context);
-        ExtendedNavigator.root
-            .pushAndRemoveUntil(Routes.home, (route) => false);
+        LoadingDialog.showSimpleToast("wrongActiveCode");
       }
 
       return true;
@@ -209,10 +216,25 @@ class AuthHttpMethods {
     }
   }
 
+  Future<bool> sendDeviceToken(String merchantId, String oneSignalToken) async {
+    Map<String, dynamic> body = {"id": oneSignalToken};
+    var _data =
+        await DioHelper(context).post("drivers/$merchantId/mobile/token", body);
+    if (_data != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<void> logout() async {
     LoadingDialog.showLoadingDialog();
-    final response = await DioHelper(context).post("drivers/logout", {});
+    Map<String, dynamic> body = {
+      "device_token": GlobalState.instance.get("oneSignalUserId")
+    };
+    final response = await DioHelper(context).post("drivers/logout", body);
     if (response != null) {
+      await CustomOneSignal.setLogOut();
       EasyLoading.dismiss().then((value) {
         Utils.clearSavedData();
         Phoenix.rebirth(context);

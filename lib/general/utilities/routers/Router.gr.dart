@@ -115,8 +115,11 @@ class AppRouter extends RouterBase {
       );
     },
     Home: (data) {
+      final args = data.getArgs<HomeArguments>(
+        orElse: () => HomeArguments(),
+      );
       return buildAdaptivePageRoute<dynamic>(
-        builder: (context) => Home(),
+        builder: (context) => Home(index: args.index),
         settings: data,
       );
     },
@@ -151,4 +154,10 @@ class ActiveAccountArguments {
   final UserModel user;
   final String token;
   ActiveAccountArguments({@required this.user, @required this.token});
+}
+
+/// Home arguments holder class
+class HomeArguments {
+  final int index;
+  HomeArguments({this.index = 0});
 }

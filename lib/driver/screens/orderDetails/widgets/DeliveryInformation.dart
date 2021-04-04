@@ -89,7 +89,7 @@ class DeliveryInfo extends StatelessWidget {
                   ? orderItemModel.type.name
                   : orderItemModel.scheduledAt,
               timeTitle: "${tr("receivingTime")}:",
-              addressValue: orderItemModel.pickupPoint.id == 1
+              addressValue: orderItemModel.pickupPoint.id == 2
                   ? orderItemModel.branch.district.name
                   : orderItemModel.client.district.name,
               addressTitle: "${tr("receivingAddress")}:"),

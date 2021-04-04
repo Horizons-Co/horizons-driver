@@ -1,12 +1,17 @@
 import 'package:base_structure/driver/models/order_item_model.dart';
 import 'package:base_structure/driver/screens/orderDetails/OrderDetailsImports.dart';
+import 'package:base_structure/general/constants/GlobalState.dart';
 import 'package:base_structure/general/constants/MyColors.dart';
+import 'package:base_structure/general/utilities/utils_functions/playSound.dart';
 import 'package:base_structure/general/widgets/MyText.dart';
 import 'package:flutter/material.dart';
 
 Widget orderItem({OrderItemModel orderItemModel, BuildContext context}) {
   return InkWell(
     onTap: () {
+      if (orderItemModel.id == GlobalState.instance.get("currentOrderId")) {
+        PlayNotificationSound.stopSound();
+      }
       if (orderItemModel.status.id != 5)
         Navigator.push(context,
             MaterialPageRoute(builder: (_) => OrderDetails(orderItemModel)));

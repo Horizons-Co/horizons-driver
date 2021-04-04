@@ -43,8 +43,14 @@ class GeneralRepository {
 
   Future<List<DropDownModel>> getCities() async =>
       _generalHttpMethods.getCities();
+
   Future<List<DropDownModel>> getCarMArks() async =>
       _generalHttpMethods.getCarMArks();
+
   Future<List<DropDownModel>> getCarModel(String carMark) async =>
       _generalHttpMethods.getCarModel(carMark);
+
+  Future<bool> sendDeviceToken({String merchantId, String oneSignalToken})=>
+      _authHttpMethods.sendDeviceToken(merchantId, oneSignalToken);
+
 }

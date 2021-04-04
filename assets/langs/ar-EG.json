@@ -72,7 +72,10 @@
   "mailValidation": "ادخل البريد الالكتروني صحيحا",
   "phoneValidation": "ادخل رقم الجوال صحيحا",
   "confirmValidation": "ادخل تاكيد رمز المرور متطابقا",
-  "nationality": "الجنسية"
+  "nationality": "الجنسية",
+  "chickNet": "تآكد من الانترنت",
+  "search": "بحث",
+  "wrongActiveCode": "كود تفعيل خاطئ"
 }
 
 

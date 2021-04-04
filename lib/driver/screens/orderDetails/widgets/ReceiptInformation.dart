@@ -24,7 +24,7 @@ class ReceiptInfo extends StatelessWidget {
                   ? orderItemModel.type.name
                   : "${orderItemModel.logs[0].date} ${orderItemModel.logs[0].time.substring(0, orderItemModel.logs[0].time.length - 3)}",
               timeTitle: "${tr("receiveTime")}:",
-              addressValue: orderItemModel.pickupPoint.id == 2
+              addressValue: orderItemModel.pickupPoint.id == 1
                   ? orderItemModel.branch.district.name
                   : orderItemModel.client.district.name,
               addressTitle: "${tr("receiveAddress")}:"),
