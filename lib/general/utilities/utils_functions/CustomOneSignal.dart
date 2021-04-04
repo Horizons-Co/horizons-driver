@@ -85,7 +85,7 @@ class CustomOneSignal {
     // NOTE: Replace with your own app ID from https://www.onesignal.com
     await OneSignal.shared
         .init("d66944b7-5bf6-46e1-ae97-ed55adccea38", iOSSettings: settings);
-
+    await OneSignal.shared.setSubscription(true);
     OneSignal.shared
         .setInFocusDisplayType(OSNotificationDisplayType.notification);
 
@@ -114,4 +114,10 @@ class CustomOneSignal {
     GeneralRepository(context).sendDeviceToken(
         merchantId: merchantId, oneSignalToken: oneSignalToken);
   }
+
+
+  static Future<void> setLogOut()async{
+   await  OneSignal.shared.setSubscription(false);;
+  }
+
 }
