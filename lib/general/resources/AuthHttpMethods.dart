@@ -234,6 +234,7 @@ class AuthHttpMethods {
     };
     final response = await DioHelper(context).post("drivers/logout", body);
     if (response != null) {
+      await CustomOneSignal.setLogOut();
       EasyLoading.dismiss().then((value) {
         Utils.clearSavedData();
         Phoenix.rebirth(context);
