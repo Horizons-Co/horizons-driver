@@ -15,6 +15,7 @@ class BuildForgetPassInput extends StatelessWidget {
           ),
         ),
         label: "55xxxxxxxxx",
+        maxLength: 8,
         controller: forgetPasswordData.phone,
         type: TextInputType.phone,
         validate: (value) => value.validatePhone(),

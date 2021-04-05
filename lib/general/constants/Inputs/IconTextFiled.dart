@@ -12,6 +12,7 @@ class IconTextFiled extends StatelessWidget {
   final Widget suffixIcon;
   final bool isPassword;
   final Widget prefixIcon;
+  final int maxLength;
   final Function(String value) validate;
   final Color filledColor;
   final TextInputAction action;
@@ -23,6 +24,7 @@ class IconTextFiled extends StatelessWidget {
       this.controller,
       this.margin,
       this.type,
+      this.maxLength,
       this.action,
       this.submit,
       this.suffixIcon,
@@ -48,6 +50,7 @@ class IconTextFiled extends StatelessWidget {
               minWidth: double.infinity,
               maxWidth: double.infinity),
           child: TextFormField(
+            maxLength: maxLength,
             controller: controller,
             keyboardType: type ?? TextInputType.text,
             enabled: true,

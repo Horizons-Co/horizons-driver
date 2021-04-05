@@ -41,13 +41,13 @@ class OrderDetails extends StatelessWidget {
               vertical: false,
               distance: 200,
               index: 2,
-              child: ReceiptInfo(orderItemModel)),
+              child: ReceiptInfo(orderItemModel, _orderDetailsData)),
           AnimationContainer(
               duration: Duration(seconds: 1),
               vertical: false,
               distance: 200,
               index: 3,
-              child: DeliveryInfo(orderItemModel)),
+              child: DeliveryInfo(orderItemModel, _orderDetailsData)),
           AnimationContainer(
               duration: Duration(seconds: 1),
               vertical: false,

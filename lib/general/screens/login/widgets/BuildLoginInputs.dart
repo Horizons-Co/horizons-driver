@@ -27,6 +27,7 @@ class _BuildLoginInputsState extends State<BuildLoginInputs> {
             action: TextInputAction.next,
             controller: widget.loginData.phone,
             type: TextInputType.phone,
+            maxLength: 8,
             margin: const EdgeInsets.only(top: 30),
             validate: (value) => value.validateEmpty(),
           ),

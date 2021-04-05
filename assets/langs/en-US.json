@@ -70,12 +70,15 @@
   "fillField": "Please enter this field",
   "passValidation": "Enter at least 6 letters or numbers",
   "mailValidation": "Enter a valid email",
-  "phoneValidation": "Enter the correct mobile number",
+  "phoneValidation": "Phone must be 8 numbers and not start with 05",
   "confirmValidation": "Enter a confirmation password match",
   "nationality": "Nationality",
   "chickNet": "check your internet",
   "search": "Search",
-  "wrongActiveCode": "Wrong active code"
+  "wrongActiveCode": "Wrong active code",
+  "callVia": "Call Via",
+  "whatsApp": "WhatsApp",
+  "viaPhone": "Phone"
 
 }
 

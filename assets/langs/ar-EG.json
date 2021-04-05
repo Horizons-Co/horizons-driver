@@ -70,12 +70,15 @@
   "fillField": "من فضلك ادخل هذا الحقل",
   "passValidation": "ادخل علي الاقل ٦ حروف او ارقام",
   "mailValidation": "ادخل البريد الالكتروني صحيحا",
-  "phoneValidation": "ادخل رقم الجوال صحيحا",
+  "phoneValidation": "رقم الجوال يجب ان يكون 8 ارقام ولا يبدا ب 05",
   "confirmValidation": "ادخل تاكيد رمز المرور متطابقا",
   "nationality": "الجنسية",
   "chickNet": "تآكد من الانترنت",
   "search": "بحث",
-  "wrongActiveCode": "كود تفعيل خاطئ"
+  "wrongActiveCode": "كود تفعيل خاطئ",
+  "callVia": "محادثة عن طريق",
+  "whatsApp": "WhatsApp",
+  "viaPhone": "اتصال"
 }
 
 

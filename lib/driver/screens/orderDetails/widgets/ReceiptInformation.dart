@@ -2,7 +2,8 @@ part of "OrderWidgetsImports.dart";
 
 class ReceiptInfo extends StatelessWidget {
   final OrderItemModel orderItemModel;
-  const ReceiptInfo(this.orderItemModel);
+  final OrderDetailsData orderDetailsData;
+  const ReceiptInfo(this.orderItemModel, this.orderDetailsData);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,23 +18,36 @@ class ReceiptInfo extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          infoItems(),
+          infoItems(context),
           infoItemsColor(
               context: context,
-              timeValue: orderItemModel.type.id == 1
+              timeValue: orderItemModel.type.id == 2
                   ? orderItemModel.type.name
                   : "${orderItemModel.logs[0].date} ${orderItemModel.logs[0].time.substring(0, orderItemModel.logs[0].time.length - 3)}",
               timeTitle: "${tr("receiveTime")}:",
               addressValue: orderItemModel.pickupPoint.id == 1
                   ? orderItemModel.branch.district.name
                   : orderItemModel.client.district.name,
+              onTap: () {
+                if (orderItemModel.pickupPoint.id == 1) {
+                  Utils.openMap(json.encode({
+                    "lat": orderItemModel.branch.lat,
+                    "lng": orderItemModel.branch.lng,
+                  }));
+                } else {
+                  Utils.openMap(json.encode({
+                    "lat": orderItemModel.client.lat,
+                    "lng": orderItemModel.client.lag,
+                  }));
+                }
+              },
               addressTitle: "${tr("receiveAddress")}:"),
         ],
       ),
     );
   }
 
-  Widget infoItems() {
+  Widget infoItems(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
@@ -78,8 +92,19 @@ class ReceiptInfo extends StatelessWidget {
                 ],
               ),
               InkWell(
-                onTap: () => Utils.callPhone(
-                    phone: orderItemModel.merchant.mobile ?? ""),
+                onTap: () => orderDetailsData.callWhatsAppOrPhone(
+                    context: context,
+                    whatsApp: () {
+                      String phone =
+                          orderItemModel.merchant.mobile.replaceFirst("0", "");
+                      Utils.launchURL(
+                          url:
+                              "https://api.whatsapp.com/send?phone=+966$phone");
+                    },
+                    phone: () {
+                      Utils.callPhone(
+                          phone: orderItemModel.merchant.mobile ?? "");
+                    }),
                 child: Image.asset(
                   Res.whats,
                   width: 32,
@@ -98,6 +123,7 @@ class ReceiptInfo extends StatelessWidget {
       String addressTitle,
       String addressValue,
       String timeTitle,
+      Function onTap,
       String timeValue}) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5),
@@ -134,10 +160,13 @@ class ReceiptInfo extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Image.asset(
-                      Res.location,
-                      width: 32,
-                      height: 32,
+                    InkWell(
+                      onTap: onTap,
+                      child: Image.asset(
+                        Res.location,
+                        width: 32,
+                        height: 32,
+                      ),
                     )
                   ],
                 ),
