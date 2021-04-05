@@ -7,6 +7,7 @@ import 'package:base_structure/general/utilities/routers/Router.gr.dart';
 import 'package:base_structure/general/utilities/utils_functions/playSound.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomOneSignal {
   static Future<void> initPlatformState(
@@ -17,13 +18,12 @@ class CustomOneSignal {
 
     var settings = {
       OSiOSSettings.autoPrompt: false,
-      OSiOSSettings.promptBeforeOpeningPushUrl: true
+      OSiOSSettings.promptBeforeOpeningPushUrl: false
     };
 
     OneSignal.shared
         .setNotificationReceivedHandler((OSNotification notification) {
-      print(
-          "Received notification: \n${notification.jsonRepresentation().replaceAll("\\n", "\n")}");
+      print("Received notification: \n${notification.jsonRepresentation().replaceAll("\\n", "\n")}");
       var order = json.decode(notification.payload.rawPayload['custom']);
       print("order is ${order['a']['order']['id']}");
       var orderID = order['a']['order']['id'];
@@ -99,6 +99,8 @@ class CustomOneSignal {
     print("player id android : " + status.subscriptionStatus.userId);
     GlobalState.instance
         .set("oneSignalUserId", status.subscriptionStatus.userId);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("oneSignalUserId", status.subscriptionStatus.userId);
     if (status.subscriptionStatus.userId != "null")
       sendDeviceToken(
           merchantId: merchantId,

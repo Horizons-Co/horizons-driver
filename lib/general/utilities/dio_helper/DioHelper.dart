@@ -125,6 +125,40 @@ class DioHelper {
     return null;
   }
 
+  Future<dynamic> postToken(String url, Map<String, dynamic> body,
+      {bool showLoader = true}) async {
+    // body.addAll({"fk_branch": "$_branch"});
+
+    if (showLoader) LoadingDialog.showLoadingDialog();
+    _printRequestBody(body);
+    _dio.options.headers = await _getHeader();
+
+    try {
+      var response = await _dio.post("$_baseUrl$url",
+          data: FormData.fromMap(body), options: _buildCacheOptions(body));
+      print("response ${response.statusCode}");
+      if (showLoader) EasyLoading.dismiss();
+      // response.data["msg"] == null
+      //     ? null
+      //     : LoadingDialog.showToastNotification(
+      //         response.data["msg"].toString());
+      var data = response.data;
+      return data;
+    } on DioError catch (e) {
+      if (showLoader) EasyLoading.dismiss();
+      if (e.response.statusCode == 422) {
+        // LoadingDialog.showToastNotification(
+        //     e.response.data["message"].toString());
+      } else if (e.response.statusCode == 401 || e.response.statusCode == 301) {
+        tokenExpired();
+      } else {
+        // LoadingDialog.showToastNotification(tr("chickNet"));
+      }
+    }
+
+    return null;
+  }
+
   Future<dynamic> patch(String url, Map<String, dynamic> body,
       {bool showLoader = true}) async {
     // body.addAll({"fk_branch": "$_branch"});

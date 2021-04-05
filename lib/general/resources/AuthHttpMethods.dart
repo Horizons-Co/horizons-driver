@@ -218,8 +218,8 @@ class AuthHttpMethods {
 
   Future<bool> sendDeviceToken(String merchantId, String oneSignalToken) async {
     Map<String, dynamic> body = {"id": oneSignalToken};
-    var _data =
-        await DioHelper(context).post("drivers/$merchantId/mobile/token", body);
+    var _data = await DioHelper(context)
+        .postToken("drivers/$merchantId/mobile/token", body);
     if (_data != null) {
       return true;
     } else {

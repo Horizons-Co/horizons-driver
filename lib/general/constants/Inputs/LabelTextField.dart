@@ -14,9 +14,11 @@ class LabelTextField extends StatefulWidget {
   final Function() onSubmit;
   final Function(String) onChange;
   final TextInputAction action;
+  final int maxLength;
 
   LabelTextField(
       {this.label,
+      this.maxLength,
       this.controller,
       this.onChange,
       this.margin,
@@ -47,6 +49,7 @@ class _LabelTextFieldState extends State<LabelTextField> {
             minWidth: double.infinity,
             maxWidth: double.infinity),
         child: TextFormField(
+          maxLength: widget.maxLength,
           controller: widget.controller,
           keyboardType: widget.type ?? TextInputType.text,
           obscureText: widget.isPassword,

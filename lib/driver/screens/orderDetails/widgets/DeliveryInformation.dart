@@ -2,8 +2,9 @@ part of "OrderWidgetsImports.dart";
 
 class DeliveryInfo extends StatelessWidget {
   final OrderItemModel orderItemModel;
+  final OrderDetailsData orderDetailsData;
 
-  const DeliveryInfo(this.orderItemModel);
+  const DeliveryInfo(this.orderItemModel, this.orderDetailsData);
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +71,19 @@ class DeliveryInfo extends StatelessWidget {
                 ],
               ),
               InkWell(
-                onTap: () =>
-                    Utils.callPhone(phone: orderItemModel.client.mobile ?? ""),
+                onTap: () => orderDetailsData.callWhatsAppOrPhone(
+                    context: context,
+                    whatsApp: () {
+                      String phone =
+                          orderItemModel.client.mobile.replaceFirst("0", "");
+                      Utils.launchURL(
+                          url:
+                              "https://api.whatsapp.com/send?phone=+966$phone");
+                    },
+                    phone: () {
+                      Utils.callPhone(
+                          phone: orderItemModel.client.mobile ?? "");
+                    }),
                 child: Image.asset(
                   Res.whats,
                   width: 32,
@@ -92,6 +104,19 @@ class DeliveryInfo extends StatelessWidget {
               addressValue: orderItemModel.pickupPoint.id == 2
                   ? orderItemModel.branch.district.name
                   : orderItemModel.client.district.name,
+              onTap: () {
+                if (orderItemModel.pickupPoint.id == 2) {
+                  Utils.openMap(json.encode({
+                    "lat": orderItemModel.branch.lat,
+                    "lng": orderItemModel.branch.lng,
+                  }));
+                } else {
+                  Utils.openMap(json.encode({
+                    "lat": orderItemModel.client.lat,
+                    "lng": orderItemModel.client.lag,
+                  }));
+                }
+              },
               addressTitle: "${tr("receivingAddress")}:"),
         ],
       ),
@@ -103,6 +128,7 @@ class DeliveryInfo extends StatelessWidget {
       String addressTitle,
       String addressValue,
       String timeTitle,
+      Function onTap,
       String timeValue}) {
     return Container(
       child: Column(
@@ -138,10 +164,13 @@ class DeliveryInfo extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Image.asset(
-                      Res.location,
-                      width: 32,
-                      height: 32,
+                    InkWell(
+                      onTap: onTap,
+                      child: Image.asset(
+                        Res.location,
+                        width: 32,
+                        height: 32,
+                      ),
                     )
                   ],
                 ),

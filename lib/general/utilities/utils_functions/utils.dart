@@ -6,6 +6,8 @@ class Utils {
     var strUser = prefs.get("user");
     var lang = prefs.get("lang");
     String token = prefs.getString("deviceId");
+    final String oneSignalUserId = prefs.getString("oneSignalUserId");
+    GlobalState.instance.set("oneSignalUserId", oneSignalUserId);
 
     if (strUser != null) {
       GlobalState.instance.set("token", token);
@@ -261,6 +263,31 @@ class Utils {
       current = await location.getLocation();
     }
     return current;
+  }
+
+  static void openMap(String location) async {
+    Map<String, dynamic> address = json.decode(location);
+    String url;
+    String urlAppleMaps;
+    if (Platform.isAndroid) {
+      url =
+          "https://www.google.com/maps/search/?api=1&query=${address["lat"].toString()},${address["lng"].toString()}";
+      print("url is $url");
+      if (await canLaunch(url)) {
+        print("sss");
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    } else {
+      urlAppleMaps =
+          'https://maps.apple.com/?q=${address["lat"].toString()},${address["lng"].toString()}';
+      if (await canLaunch(urlAppleMaps)) {
+        await launch(urlAppleMaps);
+      } else {
+        throw 'Could not launch $urlAppleMaps';
+      }
+    }
   }
 
   static String convertDigitsToLatin(String s) {

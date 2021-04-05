@@ -33,6 +33,7 @@ class _BuildRegisterInputsState extends State<BuildRegisterInputs> {
               ),
             ),
             label: "55xxxxxxxxx",
+            maxLength: 8,
             action: TextInputAction.next,
             controller: widget.registerData.phone,
             type: TextInputType.phone,
@@ -74,6 +75,7 @@ class _BuildRegisterInputsState extends State<BuildRegisterInputs> {
             type: TextInputType.phone,
             validate: (value) => value.validateEmpty(),
             margin: const EdgeInsets.symmetric(vertical: 5),
+            maxLength: 10,
           ),
           DropdownTextField<DropDownModel>(
             dropKey: widget.registerData.carMarkKey,
