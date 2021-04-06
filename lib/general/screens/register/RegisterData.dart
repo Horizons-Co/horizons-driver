@@ -82,7 +82,7 @@ class RegisterData {
   Future<void> register(BuildContext context) async {
     FocusScope.of(context).requestFocus(new FocusNode());
     if (formKey.currentState.validate()) {
-      if (phone.text.startsWith("05")) {
+      if (!phone.text.startsWith("5")) {
         return LoadingDialog.showSimpleToast(tr("phoneStartWith05"));
       } else if (identityNumber.text.length != 10) {
         return LoadingDialog.showSimpleToast(tr("identityNumberMustBe10"));
@@ -91,7 +91,7 @@ class RegisterData {
       await GeneralRepository(context).userRegister(RegisterModel(
         userImage: userImage.state.data,
         userCountry: nationality.id.toString(),
-        userPhone: "05${phone.text}",
+        userPhone: "0${phone.text}",
         userName: name.text,
         userCity: city.id.toString(),
         userPassword: password.text,

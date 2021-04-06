@@ -10,11 +10,11 @@ class ForgetPasswordData {
   Future<void> sendCode(BuildContext context) async {
     FocusScope.of(context).requestFocus(new FocusNode());
     if (formKey.currentState.validate()) {
-      if (phone.text.startsWith("05")) {
+      if (!phone.text.startsWith("5")) {
         return LoadingDialog.showSimpleToast(tr("phoneStartWith05"));
       }
       btnKey.currentState.animateForward();
-      await GeneralRepository(context).forgetPassword("05${phone.text}");
+      await GeneralRepository(context).forgetPassword("0${phone.text}");
       btnKey.currentState.animateReverse();
     }
   }

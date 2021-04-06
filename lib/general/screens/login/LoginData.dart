@@ -12,12 +12,12 @@ class LoginData {
   Future<void> login(BuildContext context) async {
     FocusScope.of(context).requestFocus(new FocusNode());
     if (formKey.currentState.validate()) {
-      if (phone.text.startsWith("05")) {
+      if (!phone.text.startsWith("5")) {
         return LoadingDialog.showSimpleToast(tr("phoneStartWith05"));
       }
       btnKey.currentState.animateForward();
       await GeneralRepository(context)
-          .setUserLogin(phone: "05${phone.text}", pass: password.text);
+          .setUserLogin(phone: "0${phone.text}", pass: password.text);
       btnKey.currentState.animateReverse();
     }
   }

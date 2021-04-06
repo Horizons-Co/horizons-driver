@@ -19,6 +19,7 @@ class _ReceivedOrdersState extends State<ReceivedOrders> {
   @override
   Widget build(BuildContext context) {
     return PagedListView<int, OrderItemModel>(
+      padding: const EdgeInsets.symmetric(vertical: 10),
       pagingController: _receivedOrdersData.pagingController,
       builderDelegate: PagedChildBuilderDelegate<OrderItemModel>(
           noItemsFoundIndicatorBuilder: (_) => Center(

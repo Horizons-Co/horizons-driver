@@ -19,6 +19,7 @@ class _CanceledOrdersState extends State<CanceledOrders> {
   @override
   Widget build(BuildContext context) {
     return PagedListView<int, OrderItemModel>(
+      padding: const EdgeInsets.symmetric(vertical: 10),
       pagingController: canceledOrdersData.pagingController,
       builderDelegate: PagedChildBuilderDelegate<OrderItemModel>(
           noItemsFoundIndicatorBuilder: (_) => Center(

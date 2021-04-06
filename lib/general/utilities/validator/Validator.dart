@@ -51,7 +51,7 @@ extension Validator on String {
         // !RegExp(
         //             r'(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)')
         //         .hasMatch(this) ||
-        this.length != 8) {
+        this.length != 9) {
       return message ?? tr("phoneValidation");
     }
     return null;

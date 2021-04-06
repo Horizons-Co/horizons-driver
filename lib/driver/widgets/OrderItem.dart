@@ -56,8 +56,7 @@ Widget orderItem({OrderItemModel orderItemModel, BuildContext context}) {
                       size: 14,
                     ),
                     MyText(
-                      title:
-                          "${orderItemModel.price} ${orderItemModel.currency}",
+                      title: "${orderItemModel.total}",
                       color: MyColors.blackOpacity,
                       size: 14,
                     ),

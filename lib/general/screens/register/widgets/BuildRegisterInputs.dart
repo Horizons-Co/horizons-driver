@@ -33,7 +33,7 @@ class _BuildRegisterInputsState extends State<BuildRegisterInputs> {
               ),
             ),
             label: "55xxxxxxxxx",
-            maxLength: 8,
+            maxLength: 9,
             action: TextInputAction.next,
             controller: widget.registerData.phone,
             type: TextInputType.phone,

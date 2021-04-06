@@ -27,9 +27,9 @@ class _BuildLoginInputsState extends State<BuildLoginInputs> {
             action: TextInputAction.next,
             controller: widget.loginData.phone,
             type: TextInputType.phone,
-            maxLength: 8,
+            maxLength: 9,
             margin: const EdgeInsets.only(top: 30),
-            validate: (value) => value.validateEmpty(),
+            validate: (value) => value.validatePhone(),
           ),
           BlocBuilder<GenericCubit<bool>, GenericState<bool>>(
               cubit: widget.loginData.showPassCubit,

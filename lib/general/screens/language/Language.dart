@@ -38,10 +38,12 @@ class _LanguageState extends State<Language> {
           ),
           BuildLanguageItem(
             title: "العربية",
+            selected: context.read<LangCubit>().state.lang == "ar",
             changeLang: () => _languageData.changeLang(context, "ar"),
           ),
           BuildLanguageItem(
             title: "English",
+            selected: context.read<LangCubit>().state.lang == "en",
             changeLang: () => _languageData.changeLang(context, "en"),
           ),
         ],
