@@ -37,6 +37,15 @@ class GeneralHttpMethods {
     }
   }
 
+  Future<String> getContactUs()async {
+    final data = await DioHelper(context).getGET("general-settings");
+    if (data != null) {
+      return data["data"]["whatsapp_support_mobile"];
+    } else {
+      return "";
+    }
+  }
+
   Future<List<DropDownModel>> getCarModel(String carMark) async {
     final data = await DioHelper(context).getGET("car-makers/$carMark/models");
     if (data != null) {

@@ -47,6 +47,8 @@ class GeneralRepository {
   Future<List<DropDownModel>> getCarMArks() async =>
       _generalHttpMethods.getCarMArks();
 
+  Future<String> getContactUs()=> _generalHttpMethods.getContactUs();
+
   Future<List<DropDownModel>> getCarModel(String carMark) async =>
       _generalHttpMethods.getCarModel(carMark);
 
