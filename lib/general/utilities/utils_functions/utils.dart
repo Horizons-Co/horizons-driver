@@ -220,6 +220,19 @@ class Utils {
     }
   }
 
+
+  static Future<File> getImageFile() async {
+    FilePickerResult result = await FilePicker.platform
+        .pickFiles(allowMultiple: false, type: FileType.image);
+
+    if (result != null) {
+      List<File> files = result.paths.map((path) => File(path)).toList();
+      return files.first;
+    } else {
+      return null;
+    }
+  }
+
   static Future<File> getVideo() async {
     PickedFile image =
         await ImagePicker().getVideo(source: ImageSource.gallery);

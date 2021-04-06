@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/auto_route_annotations.dart';
 import 'package:base_structure/driver/screens/home/HomeImports.dart';
 import 'package:base_structure/driver/screens/profile/ProfileImports.dart';
@@ -13,16 +14,16 @@ import 'package:base_structure/general/screens/splash/SplashImports.dart';
 @MaterialAutoRouter(
   routes: <AutoRoute>[
     //general routes
-    AdaptiveRoute(page: Splash, initial: true),
-    AdaptiveRoute(page: Login),
-    AdaptiveRoute(page: Register, fullscreenDialog: true),
-    AdaptiveRoute(page: ForgetPassword),
-    AdaptiveRoute(page: ResetPassword),
-    AdaptiveRoute(page: ContactUs),
-    AdaptiveRoute(page: ActiveAccount),
-    AdaptiveRoute(page: Home),
-    AdaptiveRoute(page: Profile),
-    AdaptiveRoute(page: Language),
+    CustomRoute(page: Splash, initial: true),
+    CustomRoute(page: Login, transitionsBuilder: TransitionsBuilders.slideRight),
+    CustomRoute(page: Register, fullscreenDialog: true),
+    CustomRoute(page: ForgetPassword, transitionsBuilder: TransitionsBuilders.slideRight),
+    CustomRoute(page: ResetPassword, transitionsBuilder: TransitionsBuilders.slideRight),
+    CustomRoute(page: ContactUs, transitionsBuilder: TransitionsBuilders.slideRight),
+    CustomRoute(page: ActiveAccount, transitionsBuilder: TransitionsBuilders.slideRight),
+    CustomRoute(page: Home, transitionsBuilder: TransitionsBuilders.slideRight),
+    CustomRoute(page: Profile, transitionsBuilder: TransitionsBuilders.slideRight),
+    CustomRoute(page: Language, transitionsBuilder: TransitionsBuilders.slideRight),
   ],
 )
 class $AppRouter {}

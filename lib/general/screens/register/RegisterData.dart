@@ -40,7 +40,7 @@ class RegisterData {
 
   Future<void> getCarLicenceImage(BuildContext context) async {
     FocusScope.of(context).requestFocus(new FocusNode());
-    File image = await Utils.getImage(imageSource: ImageSource.gallery);
+    File image = await Utils.getImageFile();
     if (image != null) {
       return carLicenceImage.onUpdateData(image);
     }
@@ -48,7 +48,7 @@ class RegisterData {
 
   Future<void> getCarImage(BuildContext context) async {
     FocusScope.of(context).requestFocus(new FocusNode());
-    File image = await Utils.getImage(imageSource: ImageSource.gallery);
+    File image = await Utils.getImageFile();
     if (image != null) {
       return carImage.onUpdateData(image);
     }
@@ -56,7 +56,7 @@ class RegisterData {
 
   Future<void> getUserImage(BuildContext context) async {
     FocusScope.of(context).requestFocus(new FocusNode());
-    File image = await Utils.getImage(imageSource: ImageSource.gallery);
+    File image = await Utils.getImageFile();
     if (image != null) {
       return userImage.onUpdateData(image);
     }
@@ -85,6 +85,8 @@ class RegisterData {
     if (formKey.currentState.validate()) {
       if (!phone.text.startsWith("5")) {
         return LoadingDialog.showSimpleToast(tr("phoneStartWith05"));
+      } else if (phone.text.startsWith("0")) {
+        return LoadingDialog.showSimpleToast(tr("phoneValidation"));
       } else if (identityNumber.text.length != 10) {
         return LoadingDialog.showSimpleToast(tr("identityNumberMustBe10"));
       }

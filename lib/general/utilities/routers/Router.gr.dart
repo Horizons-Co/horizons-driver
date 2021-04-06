@@ -7,6 +7,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 
 import '../../../driver/screens/home/HomeImports.dart';
 import '../../../driver/screens/profile/ProfileImports.dart';
@@ -64,75 +65,85 @@ class AppRouter extends RouterBase {
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
     Splash: (data) {
-      return buildAdaptivePageRoute<dynamic>(
-        builder: (context) => Splash(),
+      return PageRouteBuilder<dynamic>(
+        pageBuilder: (context, animation, secondaryAnimation) => Splash(),
         settings: data,
       );
     },
     Login: (data) {
-      return buildAdaptivePageRoute<dynamic>(
-        builder: (context) => Login(),
+      return PageRouteBuilder<dynamic>(
+        pageBuilder: (context, animation, secondaryAnimation) => Login(),
         settings: data,
+        transitionsBuilder: TransitionsBuilders.slideRight,
       );
     },
     Register: (data) {
-      return buildAdaptivePageRoute<dynamic>(
-        builder: (context) => Register(),
+      return PageRouteBuilder<dynamic>(
+        pageBuilder: (context, animation, secondaryAnimation) => Register(),
         settings: data,
         fullscreenDialog: true,
       );
     },
     ForgetPassword: (data) {
-      return buildAdaptivePageRoute<dynamic>(
-        builder: (context) => ForgetPassword(),
+      return PageRouteBuilder<dynamic>(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            ForgetPassword(),
         settings: data,
+        transitionsBuilder: TransitionsBuilders.slideRight,
       );
     },
     ResetPassword: (data) {
       final args = data.getArgs<ResetPasswordArguments>(nullOk: false);
-      return buildAdaptivePageRoute<dynamic>(
-        builder: (context) => ResetPassword(
+      return PageRouteBuilder<dynamic>(
+        pageBuilder: (context, animation, secondaryAnimation) => ResetPassword(
           args.userId,
           args.phone,
         ),
         settings: data,
+        transitionsBuilder: TransitionsBuilders.slideRight,
       );
     },
     ContactUs: (data) {
-      return buildAdaptivePageRoute<dynamic>(
-        builder: (context) => ContactUs(),
+      return PageRouteBuilder<dynamic>(
+        pageBuilder: (context, animation, secondaryAnimation) => ContactUs(),
         settings: data,
+        transitionsBuilder: TransitionsBuilders.slideRight,
       );
     },
     ActiveAccount: (data) {
       final args = data.getArgs<ActiveAccountArguments>(nullOk: false);
-      return buildAdaptivePageRoute<dynamic>(
-        builder: (context) => ActiveAccount(
+      return PageRouteBuilder<dynamic>(
+        pageBuilder: (context, animation, secondaryAnimation) => ActiveAccount(
           args.user,
           args.token,
         ),
         settings: data,
+        transitionsBuilder: TransitionsBuilders.slideRight,
       );
     },
     Home: (data) {
       final args = data.getArgs<HomeArguments>(
         orElse: () => HomeArguments(),
       );
-      return buildAdaptivePageRoute<dynamic>(
-        builder: (context) => Home(index: args.index),
+      return PageRouteBuilder<dynamic>(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            Home(index: args.index),
         settings: data,
+        transitionsBuilder: TransitionsBuilders.slideRight,
       );
     },
     Profile: (data) {
-      return buildAdaptivePageRoute<dynamic>(
-        builder: (context) => Profile(),
+      return PageRouteBuilder<dynamic>(
+        pageBuilder: (context, animation, secondaryAnimation) => Profile(),
         settings: data,
+        transitionsBuilder: TransitionsBuilders.slideRight,
       );
     },
     Language: (data) {
-      return buildAdaptivePageRoute<dynamic>(
-        builder: (context) => Language(),
+      return PageRouteBuilder<dynamic>(
+        pageBuilder: (context, animation, secondaryAnimation) => Language(),
         settings: data,
+        transitionsBuilder: TransitionsBuilders.slideRight,
       );
     },
   };

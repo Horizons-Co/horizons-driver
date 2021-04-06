@@ -14,6 +14,8 @@ class LoginData {
     if (formKey.currentState.validate()) {
       if (!phone.text.startsWith("5")) {
         return LoadingDialog.showSimpleToast(tr("phoneStartWith05"));
+      }else if (phone.text.startsWith("0")) {
+        return LoadingDialog.showSimpleToast(tr("phoneValidation"));
       }
       btnKey.currentState.animateForward();
       await GeneralRepository(context)
