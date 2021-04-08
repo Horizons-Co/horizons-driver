@@ -59,8 +59,7 @@ class OrdersHttpMethods {
     final response =
         await DioHelper(context).patch("orders/$orderId/actions/$action", {});
     if (response != null) {
-      ExtendedNavigator.root.pushAndRemoveUntil(Routes.home, (route) => false,
-          arguments: HomeArguments(index: 0));
+      ExtendedNavigator.root.popUntilPath(Routes.home);
       return true;
     } else {
       return false;
