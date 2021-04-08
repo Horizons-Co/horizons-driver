@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:background_locator/background_locator.dart';
 import 'package:base_structure/general/constants/GlobalState.dart';
 import 'package:base_structure/general/constants/ModaLs/LoadingDialog.dart';
 import 'package:base_structure/general/models/dots/RegisterModel.dart';
@@ -229,6 +230,8 @@ class AuthHttpMethods {
 
   Future<void> logout() async {
     LoadingDialog.showLoadingDialog();
+    BackgroundLocator.unRegisterLocationUpdate();
+    await BackgroundLocator.isServiceRunning();
     Map<String, dynamic> body = {
       "device_token": GlobalState.instance.get("oneSignalUserId")
     };
