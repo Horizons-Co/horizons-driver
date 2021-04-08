@@ -51,8 +51,6 @@ class AuthHttpMethods {
         GlobalState.instance.set("token", _data["data"]["access_token"]);
         await Utils.saveUserData(user);
         Utils.setCurrentUserData(user, context);
-        // CustomOneSignal.initPlatformState(user.id, context);
-        CustomPushNotification.initNotification(merchantId: user.id,context: context);
         ExtendedNavigator.root.pushAndRemoveUntil(Routes.home, (route) => false,
             arguments: HomeArguments(index: 0));
       }

@@ -69,5 +69,12 @@
 	<string>This app needs access to photo library to add user photo and service images.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>recognize speech</string>
+	<key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
+    <key>com.apple.security.network.client</key>
+    <true/>
 </dict>
 </plist>

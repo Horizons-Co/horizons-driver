@@ -15,12 +15,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomPushNotification{
 
-  static initNotification({String merchantId, BuildContext context})async{
+  static initNotification({String merchantId, BuildContext context,TabController tabController})async{
     var notificationsPermissionGranted = await FlutterOneSignal.startInit(
       appId: "d66944b7-5bf6-46e1-ae97-ed55adccea38",
       inFocusDisplaying: OSInFocusDisplayOption.Notification,
-      notificationReceivedHandler: onReceiveMessage,
-      notificationOpenedHandler: onOpenMessage,
+      notificationReceivedHandler: (data)=>onReceiveMessage(data,tabController),
+      notificationOpenedHandler: (data)=>onOpenMessage(data,tabController),
     );
 
     print('Push notification permission granted $notificationsPermissionGranted');
@@ -32,45 +32,56 @@ class CustomPushNotification{
     handleAndroid(merchantId,userId,context);
   }
 
-  static onReceiveMessage(notification){
+  static onReceiveMessage(notification,TabController tabController){
     print('received : $notification');
     var data = json.decode(notification)["payload"]["rawPayload"];
     BotToast.showNotification(
-      onTap: ()=>onOpenMessage(notification),
-      title: (_) => MyText(title: data["aps"]["alert"]["title"],size: 14,color: MyColors.primary,),
-      subtitle: (_) => MyText(title: data["aps"]["alert"]["body"],size: 12,color: MyColors.black,),
+      onTap: ()=>onOpenMessage(notification,tabController),
+      title: (_) => MyText(title: data["aps"]["alert"]["title"],size: 12,color: MyColors.primary,),
+      subtitle: (_) => MyText(title: data["aps"]["alert"]["body"],size: 10,color: MyColors.black,),
       leading: (_)=> Image.asset(Res.logo,width: 50,height: 50),
-      contentPadding: EdgeInsets.symmetric(horizontal: 5),
+        trailing: (cancel) => IconButton(
+          icon: Icon(Icons.cancel),
+          onPressed: cancel,
+        ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 5,vertical: 10),
       enableSlideOff: true,
-      duration: Duration(seconds: 5)
+      duration: Duration(seconds: 4),
+        animationDuration:
+        Duration(milliseconds: 500),
+    animationReverseDuration:
+    Duration(milliseconds: 500),
     );
     var order = data['custom'];
     print("order is ${order['a']['order']['id']}");
     var orderID = order['a']['order']['id'];
     print("orderID is $orderID");
     GlobalState.instance.set("currentOrderId", orderID);
+    print('playSound');
     PlayNotificationSound.playSound();
   }
 
-  static onOpenMessage(notification){
+  static onOpenMessage(notification,TabController tabController){
     print('opened : $notification');
+    BotToast.cleanAll();
     var data = json.decode(notification)["payload"]["rawPayload"];
 
     var order = data['custom'];
     print("orderssssssssss ${order['a']['order']['status_id']}");
     int orderStatus = order['a']['order']['status_id'];
+
     if (orderStatus == 3) {
-      ExtendedNavigator.root
-          .push(Routes.home, arguments: HomeArguments(index: 0));
+      ExtendedNavigator.root.popUntilPath(Routes.home);
+      tabController.animateTo(0);
     } else if (orderStatus == 21) {
-      ExtendedNavigator.root
-          .push(Routes.home, arguments: HomeArguments(index: 3));
+      ExtendedNavigator.root.popUntilPath(Routes.home);
+      tabController.animateTo(3);
     } else if (orderStatus == 4) {
-      ExtendedNavigator.root
-          .push(Routes.home, arguments: HomeArguments(index: 1));
+      ExtendedNavigator.root.popUntilPath(Routes.home);
+      tabController.animateTo(1);
     } else if (orderStatus == 5) {
-      ExtendedNavigator.root
-          .push(Routes.home, arguments: HomeArguments(index: 2));
+      ExtendedNavigator.root.popUntilPath(Routes.home);
+      tabController.animateTo(2);
     } else {
       ExtendedNavigator.root.pushAndRemoveUntil(Routes.home, (route) => false,
           arguments: HomeArguments(index: 0));

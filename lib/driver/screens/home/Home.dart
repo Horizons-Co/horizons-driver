@@ -4,6 +4,7 @@ class Home extends StatefulWidget {
   final int index;
 
   const Home({this.index = 0});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -38,7 +39,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       _homeData.onStart();
     }
     _homeData.tabController.index = widget.index;
-    CustomPushNotification.initNotification(merchantId: user.id,context: context);
+    CustomPushNotification.initNotification(
+      merchantId: user.id,
+      context: context,
+      tabController: _homeData.tabController,
+    );
 
     super.initState();
   }
