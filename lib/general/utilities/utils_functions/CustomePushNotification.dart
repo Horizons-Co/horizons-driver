@@ -51,6 +51,7 @@ class CustomPushNotification{
     GlobalState.instance.set("currentOrderId", orderID);
     PlayNotificationSound.playSound();
   }
+
   static onOpenMessage(notification){
     print('opened : $notification');
     var data = json.decode(notification)["payload"]["rawPayload"];
