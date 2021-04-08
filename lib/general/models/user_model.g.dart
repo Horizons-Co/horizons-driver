@@ -26,6 +26,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     personalImage: json['personal_image'] as String,
     isVerified: json['is_verified'] as bool,
     isOnline: json['is_online'] as bool,
+    isActive: json['is_active'] as bool,
     suspended: json['suspended'] as bool,
   );
 }
@@ -43,6 +44,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'personal_image': instance.personalImage,
       'is_verified': instance.isVerified,
       'is_online': instance.isOnline,
+      'is_active': instance.isActive,
       'suspended': instance.suspended,
     };
 

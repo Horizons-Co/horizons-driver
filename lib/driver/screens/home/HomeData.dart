@@ -11,16 +11,22 @@ class HomeData {
   DateTime lastTimeLocation;
 
   void changeActiveState({bool active, BuildContext context}) async {
-    bool _changed = await DriverRepository(context).changeNotify(active);
-    if (_changed) {
-      if (active == true) {
-        onStart();
-        orderState.onUpdateData(active);
-      } else {
-        onStop();
-        orderState.onUpdateData(active);
+    var user = context.read<UserCubit>().state.model;
+    if(user.isActive){
+      bool _changed = await DriverRepository(context).changeNotify(active);
+      if (_changed) {
+        if (active == true) {
+          onStart();
+          orderState.onUpdateData(active);
+        } else {
+          onStop();
+          orderState.onUpdateData(active);
+        }
       }
+    }else{
+      LoadingDialog.showToastNotification("لايمكنك استقبال طلبات حتي يتم تفعيلك من قبل الادارة .");
     }
+
   }
 
   Future<void> updateUI(LocationDto data) async {

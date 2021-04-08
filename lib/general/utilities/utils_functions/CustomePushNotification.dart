@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:base_structure/general/blocs/user_cubit/user_cubit.dart';
 import 'package:base_structure/general/constants/GlobalState.dart';
 import 'package:base_structure/general/constants/MyColors.dart';
+import 'package:base_structure/general/models/user_model.dart';
 import 'package:base_structure/general/resources/GeneralRepository.dart';
 import 'package:base_structure/general/utilities/routers/Router.gr.dart';
 import 'package:base_structure/general/utilities/utils_functions/playSound.dart';
@@ -12,6 +14,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_one_signal/flutter_one_signal.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomPushNotification{
 
@@ -19,7 +22,7 @@ class CustomPushNotification{
     var notificationsPermissionGranted = await FlutterOneSignal.startInit(
       appId: "d66944b7-5bf6-46e1-ae97-ed55adccea38",
       inFocusDisplaying: OSInFocusDisplayOption.Notification,
-      notificationReceivedHandler: (data)=>onReceiveMessage(data,tabController),
+      notificationReceivedHandler: (data)=>onReceiveMessage(data,tabController,context),
       notificationOpenedHandler: (data)=>onOpenMessage(data,tabController),
     );
 
@@ -32,7 +35,7 @@ class CustomPushNotification{
     handleAndroid(merchantId,userId,context);
   }
 
-  static onReceiveMessage(notification,TabController tabController){
+  static onReceiveMessage(notification,TabController tabController,BuildContext context){
     print('received : $notification');
     var data = json.decode(notification)["payload"]["rawPayload"];
     BotToast.showNotification(
@@ -54,9 +57,15 @@ class CustomPushNotification{
     );
     var order = data['custom'];
     print("order is ${order['a']['order']['id']}");
-    var orderID = order['a']['order']['id'];
-    print("orderID is $orderID");
-    GlobalState.instance.set("currentOrderId", orderID);
+    if(order["a"]["driver"]!=null){
+      UserModel user = UserModel.fromJson(order["a"]["driver"]);
+      context.read<UserCubit>().onUpdateUserData(user);
+    }else{
+      var orderID = order['a']['order']['id'];
+      print("orderID is $orderID");
+      GlobalState.instance.set("currentOrderId", orderID);
+    }
+
     print('playSound');
     PlayNotificationSound.playSound();
   }
@@ -67,9 +76,11 @@ class CustomPushNotification{
     var data = json.decode(notification)["payload"]["rawPayload"];
 
     var order = data['custom'];
-    print("orderssssssssss ${order['a']['order']['status_id']}");
+    if(order["a"]["driver"]!=null){
+      ExtendedNavigator.root.pushAndRemoveUntilPath(Routes.profile,Routes.home);
+      return;
+    }
     int orderStatus = order['a']['order']['status_id'];
-
     if (orderStatus == 3) {
       ExtendedNavigator.root.popUntilPath(Routes.home);
       tabController.animateTo(0);
@@ -83,8 +94,8 @@ class CustomPushNotification{
       ExtendedNavigator.root.popUntilPath(Routes.home);
       tabController.animateTo(2);
     } else {
-      ExtendedNavigator.root.pushAndRemoveUntil(Routes.home, (route) => false,
-          arguments: HomeArguments(index: 0));
+      ExtendedNavigator.root.popUntilPath(Routes.home);
+      tabController.animateTo(0);
     }
 
   }

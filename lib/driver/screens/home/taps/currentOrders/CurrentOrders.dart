@@ -20,6 +20,7 @@ class _CurrentOrdersState extends State<CurrentOrders> {
 
   @override
   Widget build(BuildContext context) {
+    var user = context.watch<UserCubit>().state.model;
     return BlocBuilder<GenericCubit<bool>, GenericState<bool>>(
         cubit: widget._homeData.orderState,
         builder: (_, state) {
@@ -34,7 +35,7 @@ class _CurrentOrdersState extends State<CurrentOrders> {
                   child: Image.asset(Res.noOrders),
                 ),
                 MyText(
-                  title: tr("noOrders"),
+                  title: user.isActive? tr("noOrders"):tr("noActive"),
                   size: 12,
                   color: MyColors.grey.withOpacity(.3),
                 )

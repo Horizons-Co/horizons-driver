@@ -79,7 +79,8 @@
   "wrongActiveCode": "كود تفعيل خاطئ",
   "callVia": "محادثة عن طريق",
   "whatsApp": "WhatsApp",
-  "viaPhone": "اتصال"
+  "viaPhone": "اتصال",
+  "noActive": "لايمكنك استقبال طلبات حتي يتم تفعيلك من قبل الادارة ."
 }
 
 

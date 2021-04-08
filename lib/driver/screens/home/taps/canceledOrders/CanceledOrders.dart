@@ -18,13 +18,14 @@ class _CanceledOrdersState extends State<CanceledOrders> {
 
   @override
   Widget build(BuildContext context) {
+    var user = context.watch<UserCubit>().state.model;
     return PagedListView<int, OrderItemModel>(
       padding: const EdgeInsets.symmetric(vertical: 10),
       pagingController: canceledOrdersData.pagingController,
       builderDelegate: PagedChildBuilderDelegate<OrderItemModel>(
           noItemsFoundIndicatorBuilder: (_) => Center(
                 child: MyText(
-                  title: tr("noOrders"),
+                  title: user.isActive? tr("noOrders"):tr("noActive"),
                   size: 12,
                   color: MyColors.primary,
                 ),

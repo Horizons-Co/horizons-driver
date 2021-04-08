@@ -28,6 +28,8 @@ class UserModel {
   bool isVerified;
   @JsonKey(name: "is_online")
   bool isOnline;
+  @JsonKey(name: "is_active")
+  bool isActive;
   @JsonKey(name: "suspended")
   bool suspended;
 
@@ -44,6 +46,7 @@ class UserModel {
       this.personalImage,
       this.isVerified,
       this.isOnline,
+      this.isActive,
       this.suspended});
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
