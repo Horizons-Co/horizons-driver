@@ -113,8 +113,19 @@ class DioHelper {
     } on DioError catch (e) {
       if (showLoader) EasyLoading.dismiss();
       if (e.response.statusCode == 422) {
-        LoadingDialog.showToastNotification(
-            e.response.data["message"].toString());
+        if(e.response.data["errors"]!=null){
+          Map<String,dynamic> errors = e.response.data["errors"];
+          print("______________$errors");
+          errors.forEach((key, value){
+            List<String> lst = List<String>.from(value.map((e) => e));
+            lst.forEach((e) {
+              LoadingDialog.showToastNotification(e);
+            });
+          });
+        }else{
+          LoadingDialog.showToastNotification(
+              e.response.data["message"].toString());
+        }
       } else if (e.response.statusCode == 401 || e.response.statusCode == 301) {
         tokenExpired();
       } else {

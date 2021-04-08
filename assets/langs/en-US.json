@@ -79,7 +79,8 @@
   "wrongActiveCode": "Wrong active code",
   "callVia": "Call Via",
   "whatsApp": "WhatsApp",
-  "viaPhone": "Phone"
+  "viaPhone": "Phone",
+  "noActive": "You cannot receive requests until you are activated by the administration"
 
 }
 

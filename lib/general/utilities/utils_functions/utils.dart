@@ -24,6 +24,7 @@ class Utils {
       } else {
         BackgroundLocator.unRegisterLocationUpdate();
         clearSavedData();
+
         changeLanguage("ar", context);
         ExtendedNavigator.of(context)
             .pushAndRemoveUntil(Routes.login, (route) => false);
@@ -84,6 +85,7 @@ class Utils {
 
   static void clearSavedData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    GlobalState.instance.set("token", "");
     prefs.clear();
   }
 
