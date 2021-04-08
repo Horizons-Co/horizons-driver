@@ -69,6 +69,7 @@
   "accountIsNotValid": "الحساب غير موجود لدينا",
   "fillField": "من فضلك ادخل هذا الحقل",
   "passValidation": "ادخل علي الاقل ٦ حروف او ارقام",
+  "phoneValidation0": "رقم الجوال يجب ان يبدا ب 5",
   "mailValidation": "ادخل البريد الالكتروني صحيحا",
   "phoneValidation": "رقم الجوال يجب ان يكون 9 ارقام و يبدا ب 5",
   "confirmValidation": "ادخل تاكيد رمز المرور متطابقا",

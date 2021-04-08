@@ -38,6 +38,7 @@ class _BuildRegisterInputsState extends State<BuildRegisterInputs> {
             controller: widget.registerData.phone,
             type: TextInputType.phone,
             validate: (value) => value.validatePhone(),
+            onChange: widget.registerData.onChangePhone,
             margin: const EdgeInsets.symmetric(vertical: 5),
           ),
           IconTextFiled(

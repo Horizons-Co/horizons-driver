@@ -79,6 +79,12 @@ class RegisterData {
   //   getCarModels.onUpdateData(carModels);
   // }
 
+  onChangePhone(String value){
+    if (phone.text.startsWith("0")) {
+      return LoadingDialog.showSimpleToast(tr("phoneValidation0"));
+    }
+  }
+
 
   Future<void> register(BuildContext context) async {
     FocusScope.of(context).requestFocus(new FocusNode());

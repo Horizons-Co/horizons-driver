@@ -43,14 +43,15 @@ class HomeData {
     await BackgroundLocator.initialize();
     print('Initialization done');
     final _isRunning = await BackgroundLocator.isServiceRunning();
-
+    isRunning.onUpdateData(_isRunning);
     print('Running ${isRunning.toString()}');
   }
 
   void onStart() async {
-    if (await _checkLocationPermission()) {
-      await _startLocator();
-      final _isRunning = await BackgroundLocator.isServiceRunning();
+    var result = await _checkLocationPermission();
+    if (result) {
+      await startLocator();
+      await BackgroundLocator.isServiceRunning();
     } else {
       // show error
     }
@@ -88,12 +89,12 @@ class HomeData {
     }
   }
 
-  void _startLocator() {
+  Future<void> startLocator()async {
     Map<String, dynamic> data = {
       "userID": GlobalState.instance.get("userId"),
       "token": GlobalState.instance.get("token")
     };
-    BackgroundLocator.registerLocationUpdate(
+    await BackgroundLocator.registerLocationUpdate(
       LocationCallbackHandler.callback,
       initCallback: LocationCallbackHandler.initCallback,
       initDataCallback: data,

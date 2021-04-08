@@ -118,6 +118,7 @@ class LoadingDialog {
   static showSimpleToast(msg) {
     BotToast.showText(
         text: msg,
+        duration: Duration(milliseconds: 2000),
         textStyle: GoogleFonts.cairo(fontSize: 14, color: MyColors.white));
   }
 }

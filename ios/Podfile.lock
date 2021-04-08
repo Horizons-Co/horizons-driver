@@ -84,6 +84,9 @@ PODS:
     - Flutter
   - flutter_local_notifications (0.0.1):
     - Flutter
+  - flutter_one_signal (0.0.1):
+    - Flutter
+    - OneSignal
   - flutter_sim_country_code (0.0.1):
     - Flutter
   - FMDB (2.7.5):
@@ -167,6 +170,7 @@ DEPENDENCIES:
   - flutter_absolute_path (from `.symlinks/plugins/flutter_absolute_path/ios`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
+  - flutter_one_signal (from `.symlinks/plugins/flutter_one_signal/ios`)
   - flutter_sim_country_code (from `.symlinks/plugins/flutter_sim_country_code/ios`)
   - geolocator (from `.symlinks/plugins/geolocator/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
@@ -224,6 +228,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
+  flutter_one_signal:
+    :path: ".symlinks/plugins/flutter_one_signal/ios"
   flutter_sim_country_code:
     :path: ".symlinks/plugins/flutter_sim_country_code/ios"
   geolocator:
@@ -273,6 +279,7 @@ SPEC CHECKSUMS:
   flutter_absolute_path: 5adb13678c88f0bdfba527f3851f9543d01dde66
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
+  flutter_one_signal: 43677310f29cf0b14ea815aa897894ca185cbfbd
   flutter_sim_country_code: 364e91e71f067cdec1dd1228eb4d1f13ab1a54e5
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geolocator: f7622e0e7e2a24718285b73916d60c4a54b9f5b6

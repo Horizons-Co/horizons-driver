@@ -71,6 +71,7 @@
   "passValidation": "Enter at least 6 letters or numbers",
   "mailValidation": "Enter a valid email",
   "phoneValidation": "Phone must be 9 numbers and start with 5",
+  "phoneValidation0": "Phone must start with 5",
   "confirmValidation": "Enter a confirmation password match",
   "nationality": "Nationality",
   "chickNet": "check your internet",

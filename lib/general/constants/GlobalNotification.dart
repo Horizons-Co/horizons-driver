@@ -11,8 +11,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../utilities/utils_functions/UtilsImports.dart';
 
 class GlobalNotification {
-  static StreamController<Map<String, dynamic>> _onMessageStreamController =
-      StreamController.broadcast();
+  // static StreamController<Map<String, dynamic>> _onMessageStreamController =
+  //     StreamController.broadcast();
 
   final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
   FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
@@ -62,9 +62,9 @@ class GlobalNotification {
     });
   }
 
-  StreamController<Map<String, dynamic>> get notificationSubject {
-    return _onMessageStreamController;
-  }
+  // StreamController<Map<String, dynamic>> get notificationSubject {
+  //   return _onMessageStreamController;
+  // }
 
   _showLocalNotification(message, id) async {
     // var provider= navigatorKey.currentContext.read<NotifyProvider>();

@@ -8,6 +8,7 @@ import 'package:base_structure/general/models/user_model.dart';
 import 'package:base_structure/general/utilities/dio_helper/DioImports.dart';
 import 'package:base_structure/general/utilities/routers/Router.gr.dart';
 import 'package:base_structure/general/utilities/utils_functions/CustomOneSignal.dart';
+import 'package:base_structure/general/utilities/utils_functions/CustomePushNotification.dart';
 import 'package:base_structure/general/utilities/utils_functions/UtilsImports.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -30,7 +31,7 @@ class AuthHttpMethods {
       "mobile": "$phone",
       "password": "$pass",
     };
-    var _data = await DioHelper(context).get("drivers/login", body);
+    var _data = await DioHelper(context).post("drivers/login", body,showLoader: false);
     if (_data != null) {
       if (_data['data']['is_verified'] == false ||
           _data['data']["user"]['is_verified'] == false) {
@@ -50,7 +51,8 @@ class AuthHttpMethods {
         GlobalState.instance.set("token", _data["data"]["access_token"]);
         await Utils.saveUserData(user);
         Utils.setCurrentUserData(user, context);
-        CustomOneSignal.initPlatformState(user.id, context);
+        // CustomOneSignal.initPlatformState(user.id, context);
+        CustomPushNotification.initNotification(merchantId: user.id,context: context);
         ExtendedNavigator.root.pushAndRemoveUntil(Routes.home, (route) => false,
             arguments: HomeArguments(index: 0));
       }
@@ -234,7 +236,7 @@ class AuthHttpMethods {
     };
     final response = await DioHelper(context).post("drivers/logout", body);
     if (response != null) {
-      await CustomOneSignal.setLogOut();
+      await CustomPushNotification.setLogOut();
       EasyLoading.dismiss().then((value) {
         Utils.clearSavedData();
         Phoenix.rebirth(context);

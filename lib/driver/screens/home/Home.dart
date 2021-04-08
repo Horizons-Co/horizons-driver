@@ -27,6 +27,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
     _homeData.port.listen(
       (dynamic data) async {
+        print("dddddddddddddddddddddddddddddd => $data");
         await _homeData.updateUI(data);
       },
     );
@@ -37,6 +38,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       _homeData.onStart();
     }
     _homeData.tabController.index = widget.index;
+    CustomPushNotification.initNotification(merchantId: user.id,context: context);
 
     super.initState();
   }

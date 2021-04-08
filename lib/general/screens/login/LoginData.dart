@@ -9,6 +9,12 @@ class LoginData {
   final GlobalKey<CustomButtonState> btnKey =
       new GlobalKey<CustomButtonState>();
 
+  onChangePhone(String value){
+    if (phone.text.startsWith("0")) {
+      return LoadingDialog.showSimpleToast(tr("phoneValidation0"));
+    }
+  }
+
   Future<void> login(BuildContext context) async {
     FocusScope.of(context).requestFocus(new FocusNode());
     if (formKey.currentState.validate()) {
