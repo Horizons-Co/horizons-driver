@@ -53,10 +53,8 @@ class HomeAppBar extends PreferredSize {
                       activeTrackColor: Colors.green,
                       activeColor: MyColors.white,
                       value: state.data ?? false,
-                      onChanged: (bool value) {
-                        homeData.changeActiveState(
-                            context: context, active: value);
-                      })
+                      onChanged: (bool value)=>homeData.changeActiveState(context: context, active: value)
+                  )
                 ],
               );
             })

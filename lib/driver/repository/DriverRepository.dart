@@ -24,6 +24,8 @@ class DriverRepository {
       _orderHttpMethods.getDeliveredOrders(currentPage);
   Future<bool> changeOrderStatus({String orderId, String action}) async =>
       _orderHttpMethods.changeOrderStatus(orderId: orderId, action: action);
+  Future<bool> changeOrderStatusFromNotify({String orderId, String action}) async =>
+      _orderHttpMethods.changeOrderStatusFromNotify(orderId: orderId, action: action);
 
 //  auth
 

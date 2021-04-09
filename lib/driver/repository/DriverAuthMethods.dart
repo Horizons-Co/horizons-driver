@@ -43,6 +43,7 @@ class DriverAuthMethods {
           idNo: user.idNo,
           isOnline: user.isOnline,
           isVerified: active,
+          isActive: user.isActive,
           nationality: user.nationality,
           personalImage: user.personalImage,
           suspended: user.suspended);

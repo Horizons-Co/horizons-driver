@@ -16,9 +16,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   void initState() {
     var user = context.read<UserCubit>().state.model;
     _homeData.orderState.onUpdateData(user.isOnline);
-    print("is online userrrrrrrrrrrrrrrr ${user.isOnline}");
-    print(
-        "is online orderStateeeeeeeeeeeeee ${_homeData.orderState.state.data}");
+    // print("is online userrrrrrrrrrrrrrrr ${user.isOnline}");
+    // print(
+    //     "is online orderStateeeeeeeeeeeeee ${_homeData.orderState.state.data}");
     _homeData.tabController = TabController(length: 4, vsync: this);
 
     if (IsolateNameServer.lookupPortByName(
@@ -33,7 +33,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
     _homeData.port.listen(
       (dynamic data) async {
-        print("dddddddddddddddddddddddddddddd => $data");
+        // print("dddddddddddddddddddddddddddddd => $data");
         await _homeData.updateUI(data);
       },
     );

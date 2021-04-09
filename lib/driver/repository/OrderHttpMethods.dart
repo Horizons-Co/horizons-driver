@@ -67,6 +67,16 @@ class OrdersHttpMethods {
     }
   }
 
+  Future<bool> changeOrderStatusFromNotify({String orderId, String action}) async {
+    final response =
+        await DioHelper(context).patch("orders/$orderId/actions/$action", {});
+    if (response != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<void> trackingOrder() async {
     final location = await Utils.getCurrentLocation();
 

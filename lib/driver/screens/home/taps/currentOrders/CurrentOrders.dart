@@ -48,6 +48,7 @@ class _CurrentOrdersState extends State<CurrentOrders> {
           } else {
             return PagedListView<int, OrderItemModel>(
               pagingController: currentOrdersData.pagingController,
+              physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
               padding: const EdgeInsets.symmetric(vertical: 10),
               builderDelegate: PagedChildBuilderDelegate<OrderItemModel>(
                   noItemsFoundIndicatorBuilder: (_) => Center(
