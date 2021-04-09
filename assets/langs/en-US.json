@@ -80,7 +80,9 @@
   "callVia": "Call Via",
   "whatsApp": "WhatsApp",
   "viaPhone": "Phone",
-  "noActive": "You cannot receive requests until you are activated by the administration"
+  "noActive": "You cannot receive requests until you are activated by the administration",
+  "Forbidden": "Please check your information"
+
 
 }
 

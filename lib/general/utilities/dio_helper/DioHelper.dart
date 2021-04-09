@@ -100,8 +100,7 @@ class DioHelper {
     _dio.options.headers = await _getHeader();
 
     try {
-      var response = await _dio.post("$_baseUrl$url",
-          data: FormData.fromMap(body), options: _buildCacheOptions(body));
+      var response = await _dio.post("$_baseUrl$url", data: FormData.fromMap(body));
       print("response ${response.statusCode}");
       if (showLoader) EasyLoading.dismiss();
       response.data["msg"] == null
@@ -112,7 +111,7 @@ class DioHelper {
       return data;
     } on DioError catch (e) {
       if (showLoader) EasyLoading.dismiss();
-      if (e.response.statusCode == 422) {
+      if (e.response.statusCode == 422||e.response.statusCode ==403) {
         if(e.response.data["errors"]!=null){
           Map<String,dynamic> errors = e.response.data["errors"];
           print("______________$errors");
@@ -122,6 +121,8 @@ class DioHelper {
               LoadingDialog.showToastNotification(e);
             });
           });
+        }if(e.response.data["error"]!=null){
+          LoadingDialog.showToastNotification(tr(e.response.data["error"]));
         }else{
           LoadingDialog.showToastNotification(
               e.response.data["message"].toString());
