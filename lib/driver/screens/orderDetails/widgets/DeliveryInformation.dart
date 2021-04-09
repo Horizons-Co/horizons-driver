@@ -102,8 +102,8 @@ class DeliveryInfo extends StatelessWidget {
                   : orderItemModel.scheduledAt,
               timeTitle: "${tr("receivingTime")}:",
               addressValue: orderItemModel.pickupPoint.id == 2
-                  ? orderItemModel.branch.district.name
-                  : orderItemModel.client.district.name,
+                  ? orderItemModel.branch.district?.name ?? ""
+                  : orderItemModel.client.district?.name ?? "",
               onTap: () {
                 if (orderItemModel.pickupPoint.id == 2) {
                   Utils.openMap(json.encode({
