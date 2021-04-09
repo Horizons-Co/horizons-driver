@@ -9,12 +9,16 @@ class CurrentOrders extends StatefulWidget {
 }
 
 class _CurrentOrdersState extends State<CurrentOrders> {
+
   final CurrentOrdersData currentOrdersData = CurrentOrdersData();
+
   @override
   void initState() {
     currentOrdersData.pagingController.addPageRequestListener((pageKey) {
       currentOrdersData.fetchPage(context, pageKey);
     });
+    currentOrdersData.streamListener(context, mounted);
+
     super.initState();
   }
 

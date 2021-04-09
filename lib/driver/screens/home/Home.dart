@@ -44,6 +44,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       context: context,
       tabController: _homeData.tabController,
     );
+    // CustomOneSignal.initNotification(
+    //   merchantId: user.id,
+    //   context: context,
+    //   tabController: _homeData.tabController,
+    // );
 
     super.initState();
   }

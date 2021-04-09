@@ -56,6 +56,18 @@ class LoadingDialog {
     );
   }
 
+  static showNotifyDialog(
+      {@required BuildContext context,
+      @required String title,
+      @required Function confirm}) {
+    return showCupertinoDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return _alertDialog(title, confirm, context, "موافقة",bkText: "الغاء");
+      },
+    );
+  }
+
   static showAuthDialog({@required BuildContext context}) {
     return showCupertinoDialog(
       context: context,
@@ -70,28 +82,30 @@ class LoadingDialog {
   }
 
   static Widget _alertDialog(
-      String title, Function confirm, BuildContext context, String okText) {
+      String title, Function confirm, BuildContext context, String okText,
+      {String bkText}) {
     return CupertinoAlertDialog(
       title: MyText(
         title: title,
-        size: 12,
+        size: 16,
         color: MyColors.black,
+        alien: TextAlign.center,
       ),
       // content: MyText(title: title,size: 12,color: MyColors.blackOpacity,),
       actions: [
         CupertinoDialogAction(
           child: MyText(
-            title: "رجوع",
-            size: 12,
-            color: MyColors.blackOpacity,
+            title: bkText??"رجوع",
+            size: 14,
+            color: MyColors.headerColor,
           ),
           onPressed: () => Navigator.pop(context),
         ),
         CupertinoDialogAction(
           child: MyText(
             title: okText,
-            size: 12,
-            color: MyColors.blackOpacity,
+            size: 14,
+            color: MyColors.headerColor,
           ),
           onPressed: confirm,
         ),

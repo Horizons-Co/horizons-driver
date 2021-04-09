@@ -132,7 +132,7 @@ class AuthHttpMethods {
     Map<String, dynamic> body = {
       "mobile": "$phone",
     };
-    var _data = await DioHelper(context).get("drivers/forget-password", body);
+    var _data = await DioHelper(context).post("drivers/forget-password", body,showLoader: false);
     if (_data != null) {
       ExtendedNavigator.root.push(Routes.resetPassword,
           arguments: ResetPasswordArguments(userId: "sss", phone: phone));
@@ -148,9 +148,10 @@ class AuthHttpMethods {
       "pin_code": "$pinCode",
       "mobile": userModel.mobile
     };
-    var _data = await DioHelper(context).get(
+    var _data = await DioHelper(context).post(
       "drivers/mobile/verify",
       body,
+      showLoader: false
     );
     if (_data != null) {
       if (_data["data"]["status"]) {
@@ -186,7 +187,7 @@ class AuthHttpMethods {
       "password": "$pass",
     };
     var _data =
-        await DioHelper(context).get("drivers/forget-password/confirm", body);
+        await DioHelper(context).post("drivers/forget-password/confirm", body,showLoader: false);
     print("data is $_data");
     if (_data != null) {
       if (_data["data"]["status"] == true) {

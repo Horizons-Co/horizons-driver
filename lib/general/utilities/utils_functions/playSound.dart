@@ -1,21 +1,18 @@
-import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class PlayNotificationSound {
   static AudioPlayer audioPlayer = AudioPlayer();
-  static AudioCache audioCache = AudioCache(fixedPlayer: audioPlayer);
+  static const alert = "https://www.fesliyanstudios.com/play-mp3/4386";
 
-  static playSound() {
-    audioCache.play(
-      "notification.mp3",
-    );
-    audioPlayer.onPlayerStateChanged.listen((state) {
-      if (state == AudioPlayerState.COMPLETED) {
-        audioCache.play(
-          "notification.mp3",
-        );
+  static playSound()async{
+    audioPlayer.onPlayerStateChanged.listen((state)async {
+      print("playSound state $state");
+      if (state == AudioPlayerState.COMPLETED){
+        print("playSound finish");
+        await audioPlayer.seek(Duration.zero);
       }
     });
+    await audioPlayer.play(alert);
     print("playSound ahmed");
   }
 
