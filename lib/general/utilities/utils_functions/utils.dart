@@ -144,11 +144,7 @@ class Utils {
     if (!url.toString().startsWith("https")) {
       url = "https://" + url;
     }
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      LoadingDialog.showToastNotification("${tr("checkLink")}");
-    }
+    await launch(url);
   }
 
   static void launchWhatsApp(phone) async {
@@ -221,7 +217,6 @@ class Utils {
       return [];
     }
   }
-
 
   static Future<File> getImageFile() async {
     FilePickerResult result = await FilePicker.platform
