@@ -59,11 +59,12 @@ class LoadingDialog {
   static showNotifyDialog(
       {@required BuildContext context,
       @required String title,
-      @required Function confirm}) {
+      @required Function confirm,
+      Function onCancel}) {
     return showCupertinoDialog(
       context: context,
       builder: (BuildContext context) {
-        return _alertDialog(title, confirm, context, "موافقة",bkText: "الغاء");
+        return _alertDialog(title, confirm, context, "موافقة", bkText: "الغاء",onCancel: onCancel);
       },
     );
   }
@@ -83,7 +84,7 @@ class LoadingDialog {
 
   static Widget _alertDialog(
       String title, Function confirm, BuildContext context, String okText,
-      {String bkText}) {
+      {String bkText, Function onCancel}) {
     return CupertinoAlertDialog(
       title: MyText(
         title: title,
@@ -95,11 +96,11 @@ class LoadingDialog {
       actions: [
         CupertinoDialogAction(
           child: MyText(
-            title: bkText??"رجوع",
+            title: bkText ?? "رجوع",
             size: 14,
             color: MyColors.headerColor,
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: onCancel ?? () => Navigator.pop(context),
         ),
         CupertinoDialogAction(
           child: MyText(

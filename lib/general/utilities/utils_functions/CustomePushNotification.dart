@@ -2,13 +2,17 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:base_structure/driver/repository/DriverRepository.dart';
 import 'package:base_structure/general/blocs/user_cubit/user_cubit.dart';
 import 'package:base_structure/general/constants/GlobalState.dart';
 import 'package:base_structure/general/constants/ModaLs/LoadingDialog.dart';
+import 'package:base_structure/general/constants/MyColors.dart';
 import 'package:base_structure/general/models/user_model.dart';
 import 'package:base_structure/general/resources/GeneralRepository.dart';
 import 'package:base_structure/general/utilities/routers/Router.gr.dart';
 import 'package:base_structure/general/utilities/utils_functions/playSound.dart';
+import 'package:base_structure/general/widgets/MyText.dart';
+import 'package:base_structure/res.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_one_signal/flutter_one_signal.dart';
@@ -46,24 +50,56 @@ class CustomPushNotification {
       notification, TabController tabController, BuildContext context) {
     print('received : $notification');
     var data = json.decode(notification)["payload"]["rawPayload"];
+    var order = data['custom'];
+    if (order["a"]["driver"] != null) {
+      onDriverReceived(notification,tabController,context);
+    } else {
+      onOrderReceived(notification,tabController,context);
+    }
+
+  }
+
+  static onOrderReceived(notification, TabController tabController, BuildContext context){
+    var data = json.decode(notification)["payload"]["rawPayload"];
+    var order = data['custom'];
+    print("order is ${order['a']['order']['id']}");
     LoadingDialog.showNotifyDialog(
       context: context,
       title: data["aps"]["alert"]["title"],
-      confirm: (){},
+      confirm: ()=>acceptOrder(context,order['a']['order']['id']),
+      onCancel: ()=>closeDialog(context)
     );
-    var order = data['custom'];
-    print("order is ${order['a']['order']['id']}");
-    if (order["a"]["driver"] != null) {
-      UserModel user = UserModel.fromJson(order["a"]["driver"]);
-      context.read<UserCubit>().onUpdateUserData(user);
-    } else {
-      var orderID = order['a']['order']['id'];
-      print("orderID is $orderID");
-      GlobalState.instance.set("currentOrderId", orderID);
-    }
+    var orderID = order['a']['order']['id'];
+    print("orderID is $orderID");
+    GlobalState.instance.set("currentOrderId", orderID);
     print('playSound');
     PlayNotificationSound.playSound();
     _onMessageStreamController.add("notification");
+  }
+
+  static onDriverReceived(notification, TabController tabController, BuildContext context){
+    var data = json.decode(notification)["payload"]["rawPayload"];
+    var order = data['custom'];
+    UserModel user = UserModel.fromJson(order["a"]["driver"]);
+    context.read<UserCubit>().onUpdateUserData(user);
+    BotToast.showNotification(
+      onTap: ()=>onOpenMessage(notification,tabController),
+      title: (_) => MyText(title: data["aps"]["alert"]["title"],size: 12,color: MyColors.primary,),
+      subtitle: (_) => MyText(title: data["aps"]["alert"]["body"],size: 10,color: MyColors.black,),
+      leading: (_)=> Image.asset(Res.logo,width: 50,height: 50),
+      trailing: (cancel) => IconButton(
+        icon: Icon(Icons.cancel),
+        onPressed: cancel,
+      ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+      enableSlideOff: true,
+      duration: Duration(seconds: 4),
+      animationDuration:
+      Duration(milliseconds: 500),
+      animationReverseDuration:
+      Duration(milliseconds: 500),
+    );
+
   }
 
   static onOpenMessage(notification, TabController tabController) {
@@ -124,22 +160,17 @@ class CustomPushNotification {
     return _onMessageStreamController;
   }
 
+  static void acceptOrder(BuildContext context,int orderId){
+    PlayNotificationSound.stopSound();
+    DriverRepository(context).changeOrderStatus(
+        orderId: "$orderId",
+        action: "1");
+  }
+
+  static void closeDialog(BuildContext context){
+    Navigator.pop(context);
+    PlayNotificationSound.stopSound();
+  }
+
 }
 
-// BotToast.showNotification(
-// onTap: ()=>onOpenMessage(notification,tabController),
-// title: (_) => MyText(title: data["aps"]["alert"]["title"],size: 12,color: MyColors.primary,),
-// subtitle: (_) => MyText(title: data["aps"]["alert"]["body"],size: 10,color: MyColors.black,),
-// leading: (_)=> Image.asset(Res.logo,width: 50,height: 50),
-// trailing: (cancel) => IconButton(
-// icon: Icon(Icons.cancel),
-// onPressed: cancel,
-// ),
-// contentPadding: EdgeInsets.symmetric(horizontal: 5,vertical: 10),
-// enableSlideOff: true,
-// duration: Duration(seconds: 4),
-// animationDuration:
-// Duration(milliseconds: 500),
-// animationReverseDuration:
-// Duration(milliseconds: 500),
-// );

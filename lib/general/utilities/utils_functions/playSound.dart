@@ -5,19 +5,12 @@ class PlayNotificationSound {
   static const alert = "https://www.fesliyanstudios.com/play-mp3/4386";
 
   static playSound()async{
-    audioPlayer.onPlayerStateChanged.listen((state)async {
-      print("playSound state $state");
-      if (state == AudioPlayerState.COMPLETED){
-        print("playSound finish");
-        await audioPlayer.seek(Duration.zero);
-      }
-    });
-    await audioPlayer.play(alert);
-    print("playSound ahmed");
+    audioPlayer.setUrl(alert);
+    await audioPlayer.setReleaseMode(ReleaseMode.LOOP);
+    audioPlayer.resume();
   }
 
-  static stopSound() {
-    audioPlayer.stop();
-    print("stopSound ahmed");
+  static stopSound()async{
+    await audioPlayer.release();
   }
 }
