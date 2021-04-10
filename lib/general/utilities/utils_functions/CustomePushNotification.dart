@@ -66,8 +66,8 @@ class CustomPushNotification {
     LoadingDialog.showNotifyDialog(
       context: context,
       title: data["aps"]["alert"]["title"],
-      confirm: ()=>acceptOrder(context,notification,tabController),
-      onCancel: ()=>closeDialog(context)
+      confirm: ()=>changeOrderState(context,notification,tabController,"2"),
+      onCancel: ()=>changeOrderState(context,notification,tabController,"3"),
     );
     var orderID = order['a']['order']['id'];
     print("orderID is $orderID");
@@ -160,14 +160,14 @@ class CustomPushNotification {
     return _onMessageStreamController;
   }
 
-  static void acceptOrder(BuildContext context,notification, TabController tabController)async{
+  static void changeOrderState(BuildContext context,notification, TabController tabController,String state)async{
     closeDialog(context);
     var data = json.decode(notification)["payload"]["rawPayload"];
 
     var order = data['custom'];
     await DriverRepository(context).changeOrderStatusFromNotify(
         orderId: order['a']['order']['id'],
-        action: "1");
+        action: state);
     onOpenMessage(notification,tabController);
     _onMessageStreamController.add("refresh");
   }
