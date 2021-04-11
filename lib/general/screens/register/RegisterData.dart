@@ -14,21 +14,23 @@ class RegisterData {
   final GenericCubit<File> userImage = GenericCubit<File>(null);
   final GlobalKey<DropdownSearchState> cityKey = new GlobalKey();
   final GlobalKey<DropdownSearchState> carMarkKey = new GlobalKey();
-  final GlobalKey<DropdownSearchState> carModelKey = new GlobalKey();
+  final GlobalKey<DropdownSearchState> yearKey = new GlobalKey();
   final GlobalKey<DropdownSearchState> nationalityKey = new GlobalKey();
   DropDownModel city = DropDownModel();
   DropDownModel nationality = DropDownModel();
-  DropDownModel carModel = DropDownModel();
   DropDownModel carMark = DropDownModel();
+  DropDownModel year = DropDownModel();
 
   void setSelectCarMark(DropDownModel model) {
     carMark = model != null ? model : null;
-    carModelKey.currentState.changeSelectedItem(null);
+    yearKey.currentState.changeSelectedItem(null);
   }
 
-  void setSelectCarModel(DropDownModel model) {
-    carModel = model != null ? model : null;
+  void setSelectCarYear(DropDownModel model) {
+    year = model;
   }
+
+
 
   void setSelectCity(DropDownModel model) {
     city = model != null ? model : null;
@@ -60,6 +62,21 @@ class RegisterData {
     if (image != null) {
       return userImage.onUpdateData(image);
     }
+  }
+
+  yearDatePicker(BuildContext context) {
+    DatePicker.showDatePicker(
+      context,
+      showTitleActions: true,
+      onConfirm: (date){},
+      minTime:DateTime(1800),
+      currentTime: DateTime.now(),
+      maxTime: DateTime.now(),
+      theme: DatePickerTheme(
+          itemStyle: GoogleFonts.roboto(fontSize: 18, color: MyColors.black)),
+      locale:
+      context.locale.languageCode == "en" ? LocaleType.en : LocaleType.ar,
+    );
   }
 
   // Future<void> fetchData(BuildContext context) async {
@@ -106,9 +123,9 @@ class RegisterData {
         userPassword: password.text,
         carImage: carImage.state.data,
         carLicence: carLicenceImage.state.data,
-        userCarModel: carModel.id.toString(),
-        userCarType: carMark.id.toString(),
+        carMakerId: carMark.id.toString(),
         userIdentity: identityNumber.text,
+        year: year.name
       ));
       btnKey.currentState.animateReverse();
     }

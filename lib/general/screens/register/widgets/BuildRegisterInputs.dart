@@ -89,14 +89,12 @@ class _BuildRegisterInputsState extends State<BuildRegisterInputs> {
             onChange: widget.registerData.setSelectCarMark,
           ),
           DropdownTextField<DropDownModel>(
-            dropKey: widget.registerData.carModelKey,
-            label: tr("carModel"),
-            finData: (filter) async => await GeneralRepository(context)
-                .getCarModel(widget.registerData.carMark.id.toString()),
+            dropKey: widget.registerData.yearKey,
+            label: tr("year"),
+            data: range(1800,DateTime.now().year).map((e) => DropDownModel(id: e,name: e.toString())).toList().reversed.toList(),
             validate: (DropDownModel value) => value.validateDropDown(),
             margin: const EdgeInsets.symmetric(vertical: 5),
-            useName: true,
-            onChange: widget.registerData.setSelectCarModel,
+            onChange: widget.registerData.setSelectCarYear,
           ),
           InkWellTextField(
             icon: Icon(Icons.image),

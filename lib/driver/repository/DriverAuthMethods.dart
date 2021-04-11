@@ -37,7 +37,7 @@ class DriverAuthMethods {
           id: user.id,
           mobile: user.mobile,
           carImage: user.carImage,
-          carModel: user.carModel,
+          year: user.year,
           city: user.city,
           idImage: user.idImage,
           idNo: user.idNo,

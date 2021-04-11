@@ -14,8 +14,8 @@ class UserModel {
   Nationality nationality;
   @JsonKey(name: "city")
   City city;
-  @JsonKey(name: "car_model")
-  CarModel carModel;
+  @JsonKey(name: "car_year")
+  int year;
   @JsonKey(name: "id_no")
   String idNo;
   @JsonKey(name: "id_image")
@@ -32,6 +32,8 @@ class UserModel {
   bool isActive;
   @JsonKey(name: "suspended")
   bool suspended;
+  @JsonKey(name: "car_maker")
+  Maker maker;
 
   UserModel(
       {this.id,
@@ -39,7 +41,6 @@ class UserModel {
       this.mobile,
       this.nationality,
       this.city,
-      this.carModel,
       this.idNo,
       this.idImage,
       this.carImage,
@@ -47,7 +48,9 @@ class UserModel {
       this.isVerified,
       this.isOnline,
       this.isActive,
-      this.suspended});
+        this.year,
+      this.suspended,
+      this.maker});
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
