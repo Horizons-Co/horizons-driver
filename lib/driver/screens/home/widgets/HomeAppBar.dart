@@ -15,6 +15,7 @@ class HomeAppBar extends PreferredSize {
       title: Image.asset(Res.icon),
       centerTitle: true,
       automaticallyImplyLeading: false,
+      brightness: Brightness.dark,
       leading: IconButton(
           icon: ImageIcon(
             AssetImage(Res.menu),
