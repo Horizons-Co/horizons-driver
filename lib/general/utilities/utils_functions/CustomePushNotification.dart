@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:base_structure/driver/repository/DriverRepository.dart';
+import 'package:base_structure/driver/screens/home/HomeImports.dart';
 import 'package:base_structure/general/blocs/user_cubit/user_cubit.dart';
 import 'package:base_structure/general/constants/GlobalState.dart';
 import 'package:base_structure/general/constants/ModaLs/LoadingDialog.dart';
@@ -27,13 +28,13 @@ class CustomPushNotification {
   static initNotification(
       {String merchantId,
       BuildContext context,
-      TabController tabController}) async {
+      HomeData homeData}) async {
     var notificationsPermissionGranted = await FlutterOneSignal.startInit(
       appId: "d66944b7-5bf6-46e1-ae97-ed55adccea38",
       inFocusDisplaying: OSInFocusDisplayOption.Notification,
       notificationReceivedHandler: (data) =>
-          onReceiveMessage(data, tabController, context),
-      notificationOpenedHandler: (data) => onOpenMessage(data, tabController),
+          onReceiveMessage(data, homeData, context),
+      notificationOpenedHandler: (data) => onOpenMessage(data, homeData.tabController),
     );
 
     print(
@@ -47,14 +48,14 @@ class CustomPushNotification {
   }
 
   static onReceiveMessage(
-      notification, TabController tabController, BuildContext context) {
+      notification, HomeData homeData, BuildContext context) {
     print('received : $notification');
     var data = json.decode(notification)["payload"]["rawPayload"];
     var order = data['custom'];
     if (order["a"]["driver"] != null) {
-      onDriverReceived(notification,tabController,context);
+      onDriverReceived(notification,homeData,context);
     } else {
-      onOrderReceived(notification,tabController,context);
+      onOrderReceived(notification,homeData.tabController,context);
     }
 
   }
@@ -77,13 +78,14 @@ class CustomPushNotification {
     _onMessageStreamController.add("notification");
   }
 
-  static onDriverReceived(notification, TabController tabController, BuildContext context){
+  static onDriverReceived(notification, HomeData homeData, BuildContext context){
     var data = json.decode(notification)["payload"]["rawPayload"];
     var order = data['custom'];
     UserModel user = UserModel.fromJson(order["a"]["driver"]);
     context.read<UserCubit>().onUpdateUserData(user);
+    homeData.changeActiveStateFromNotify(context: context, active: user.isActive);
     BotToast.showNotification(
-      onTap: ()=>onOpenMessage(notification,tabController),
+      onTap: ()=>onOpenMessage(notification,homeData.tabController),
       title: (_) => MyText(title: data["aps"]["alert"]["title"],size: 12,color: MyColors.primary,),
       subtitle: (_) => MyText(title: data["aps"]["alert"]["body"],size: 10,color: MyColors.black,),
       leading: (_)=> Image.asset(Res.logo,width: 50,height: 50),

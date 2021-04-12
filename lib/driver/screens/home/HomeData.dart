@@ -28,6 +28,19 @@ class HomeData {
     }
 
   }
+  Future<void> changeActiveStateFromNotify({bool active, BuildContext context}) async {
+    bool _changed = await DriverRepository(context).changeNotify(active);
+    if (_changed) {
+      if (active == true) {
+        onStart();
+        orderState.onUpdateData(active);
+      } else {
+        onStop();
+        orderState.onUpdateData(active);
+      }
+    }
+
+  }
 
   Future<void> updateUI(LocationDto data) async {
     await _updateNotificationText(data);

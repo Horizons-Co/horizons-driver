@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:background_locator/background_locator.dart';
+import 'package:base_structure/driver/screens/home/HomeImports.dart';
 import 'package:base_structure/general/constants/GlobalState.dart';
 import 'package:base_structure/general/constants/ModaLs/LoadingDialog.dart';
 import 'package:base_structure/general/models/dots/RegisterModel.dart';
@@ -230,7 +231,7 @@ class AuthHttpMethods {
     }
   }
 
-  Future<void> logout() async {
+  Future<void> logout(HomeData homeData) async {
     LoadingDialog.showLoadingDialog();
     BackgroundLocator.unRegisterLocationUpdate();
     await BackgroundLocator.isServiceRunning();
@@ -240,6 +241,7 @@ class AuthHttpMethods {
     final response = await DioHelper(context).post("drivers/logout", body);
     if (response != null) {
       await CustomPushNotification.setLogOut();
+      await homeData.changeActiveStateFromNotify(active: false,context: context);
       EasyLoading.dismiss().then((value) {
         Utils.clearSavedData();
         Phoenix.rebirth(context);

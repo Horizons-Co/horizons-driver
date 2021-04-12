@@ -121,7 +121,7 @@ class DioHelper {
               LoadingDialog.showToastNotification(e);
             });
           });
-        }if(e.response.data["error"]!=null){
+        }else if(e.response.data["error"]!=null){
           LoadingDialog.showToastNotification(tr(e.response.data["error"]));
         }else{
           LoadingDialog.showToastNotification(
