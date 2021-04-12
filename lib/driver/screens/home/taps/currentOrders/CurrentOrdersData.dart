@@ -20,11 +20,7 @@ class CurrentOrdersData {
 
   void streamListener(BuildContext context, mounted) {
     globalNotification.notificationSubject.stream.listen((data) {
-      if(data=="refresh"){
-        pagingController.refresh();
-      }else{
-        fetchPage(context,1);
-      }
+      pagingController.refresh();
     });
   }
 

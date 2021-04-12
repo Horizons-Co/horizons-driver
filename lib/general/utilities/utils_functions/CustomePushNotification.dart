@@ -67,7 +67,7 @@ class CustomPushNotification {
     LoadingDialog.showNotifyDialog(
       context: context,
       title: data["aps"]["alert"]["title"],
-      confirm: ()=>changeOrderState(context,notification,tabController,"2"),
+      confirm: ()=>changeOrderState(context,notification,tabController,"1"),
       onCancel: ()=>changeOrderState(context,notification,tabController,"3"),
     );
     var orderID = order['a']['order']['id'];
@@ -75,7 +75,7 @@ class CustomPushNotification {
     GlobalState.instance.set("currentOrderId", orderID);
     print('playSound');
     PlayNotificationSound.playSound();
-    _onMessageStreamController.add("notification");
+    // _onMessageStreamController.add("notification");
   }
 
   static onDriverReceived(notification, HomeData homeData, BuildContext context){
@@ -171,7 +171,7 @@ class CustomPushNotification {
         orderId: order['a']['order']['id'],
         action: state);
     onOpenMessage(notification,tabController);
-    _onMessageStreamController.add("refresh");
+    if(state=="1")_onMessageStreamController.add("refresh");
   }
 
   static void closeDialog(BuildContext context){
