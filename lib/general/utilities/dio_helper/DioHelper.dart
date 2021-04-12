@@ -100,7 +100,7 @@ class DioHelper {
     _dio.options.headers = await _getHeader();
 
     try {
-      var response = await _dio.post("$_baseUrl$url", data: FormData.fromMap(body));
+      var response = await _dio.post("$_baseUrl$url", data: body);
       print("response ${response.statusCode}");
       if (showLoader) EasyLoading.dismiss();
       response.data["msg"] == null

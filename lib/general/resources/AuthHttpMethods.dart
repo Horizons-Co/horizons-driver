@@ -98,7 +98,7 @@ class AuthHttpMethods {
       "country_id": "${registerModel.userCountry}",
       "id_no": "${registerModel.userIdentity}",
       "car_maker_id": registerModel.carMakerId,
-      "car_year": registerModel.year,
+      "car_year": int.parse(registerModel.year),
       "id_image": carLicence ?? "",
       "car_image": carImage ?? "",
       "personal_image": profileImage ?? "",
