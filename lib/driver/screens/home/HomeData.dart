@@ -10,6 +10,26 @@ class HomeData {
   LocationDto lastLocation;
   DateTime lastTimeLocation;
 
+  void fetchPage(BuildContext context) async {
+    var orders = await DriverRepository(context).getNewOrders();
+    if(orders.length>0){
+      showOrderDialog(orders.last.id,context,orders.last.no);
+    }
+  }
+
+  void showOrderDialog(String id,BuildContext context,int no){
+    LoadingDialog.showNotifyDialog(
+      context: context,
+      title: "تم إسناد الطلب رقم $no",
+      confirm: ()=>CustomPushNotification.changeNewOrderState(context,id,tabController,"4"),
+      onCancel: ()=>CustomPushNotification.changeNewOrderState(context,id,tabController,"3"),
+    );
+    GlobalState.instance.set("currentOrderId", id);
+    print('playSound');
+    PlayNotificationSound.playSound();
+  }
+
+
   void changeActiveState({bool active, BuildContext context}) async {
     var user = context.read<UserCubit>().state.model;
     if(user.isActive){

@@ -14,6 +14,8 @@ class DriverRepository {
     _driverAuthMethods = DriverAuthMethods(context: _context);
   }
 
+  Future<List<OrderItemModel>> getNewOrders() async =>
+      _orderHttpMethods.getNewOrders();
   Future<List<OrderItemModel>> getCurrentOrders(int currentPage) async =>
       _orderHttpMethods.getCurrentOrders(currentPage);
   Future<List<OrderItemModel>> getCanceledOrders(int currentPage) async =>

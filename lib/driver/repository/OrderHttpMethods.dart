@@ -10,6 +10,17 @@ class OrdersHttpMethods {
 
   OrdersHttpMethods({@required this.context});
 
+  Future<List<OrderItemModel>> getNewOrders() async {
+    final response =
+        await DioHelper(context).getGET("orders?status=6");
+    if (response != null) {
+      return List<OrderItemModel>.from(
+          response["data"].map((x) => OrderItemModel.fromJson(x)));
+    } else {
+      return [];
+    }
+  }
+
   Future<List<OrderItemModel>> getCurrentOrders(int currentPage) async {
     final response =
         await DioHelper(context).getGET("orders?status=3&page=$currentPage");

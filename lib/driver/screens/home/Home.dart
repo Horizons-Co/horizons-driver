@@ -53,7 +53,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     //   context: context,
     //   tabController: _homeData.tabController,
     // );
-
+    _homeData.fetchPage(context);
     super.initState();
   }
 

@@ -32,9 +32,8 @@ class CustomPushNotification {
     var notificationsPermissionGranted = await FlutterOneSignal.startInit(
       appId: "d66944b7-5bf6-46e1-ae97-ed55adccea38",
       inFocusDisplaying: OSInFocusDisplayOption.Notification,
-      notificationReceivedHandler: (data) =>
-          onReceiveMessage(data, homeData, context),
-      notificationOpenedHandler: (data) => onOpenMessage(data, homeData.tabController),
+      notificationReceivedHandler: (data) => onReceiveMessage(data, homeData, context),
+      notificationOpenedHandler: (data) => onOpenMessage(data, homeData,context),
     );
 
     print(
@@ -78,6 +77,7 @@ class CustomPushNotification {
     // _onMessageStreamController.add("notification");
   }
 
+
   static onDriverReceived(notification, HomeData homeData, BuildContext context){
     var data = json.decode(notification)["payload"]["rawPayload"];
     var order = data['custom'];
@@ -85,7 +85,7 @@ class CustomPushNotification {
     context.read<UserCubit>().onUpdateUserData(user);
     homeData.changeActiveStateFromNotify(context: context, active: user.isActive);
     BotToast.showNotification(
-      onTap: ()=>onOpenMessage(notification,homeData.tabController),
+      onTap: ()=>onclickMessage(notification,homeData.tabController),
       title: (_) => MyText(title: data["aps"]["alert"]["title"],size: 12,color: MyColors.primary,),
       subtitle: (_) => MyText(title: data["aps"]["alert"]["body"],size: 10,color: MyColors.black,),
       leading: (_)=> Image.asset(Res.logo,width: 50,height: 50),
@@ -104,12 +104,48 @@ class CustomPushNotification {
 
   }
 
-  static onOpenMessage(notification, TabController tabController) {
+  static onOpenMessage(notification, HomeData homeData,BuildContext context) {
     print('opened : $notification');
-    BotToast.cleanAll();
     var data = json.decode(notification)["payload"]["rawPayload"];
 
     var order = data['custom'];
+    if (order["a"]["driver"] != null) {
+      onDriverReceived(notification,homeData,context);
+    } else {
+      onOrderReceived(notification,homeData.tabController,context);
+    }
+
+    // if (order["a"]["driver"] != null) {
+    //   ExtendedNavigator.root
+    //       .pushAndRemoveUntilPath(Routes.profile, Routes.home);
+    //   return;
+    // }
+    // int orderStatus = order['a']['order']['status_id'];
+    // if (orderStatus == 3) {
+    //   ExtendedNavigator.root.popUntilPath(Routes.home);
+    //   tabController.animateTo(0);
+    // } else if (orderStatus == 21) {
+    //   ExtendedNavigator.root.popUntilPath(Routes.home);
+    //   tabController.animateTo(3);
+    // } else if (orderStatus == 4) {
+    //   ExtendedNavigator.root.popUntilPath(Routes.home);
+    //   tabController.animateTo(1);
+    // } else if (orderStatus == 5) {
+    //   ExtendedNavigator.root.popUntilPath(Routes.home);
+    //   tabController.animateTo(2);
+    // } else {
+    //   ExtendedNavigator.root.popUntilPath(Routes.home);
+    //   tabController.animateTo(0);
+    // }
+  }
+
+
+  static onclickMessage(notification, TabController tabController) {
+    print('opened : $notification');
+    var data = json.decode(notification)["payload"]["rawPayload"];
+
+    var order = data['custom'];
+
     if (order["a"]["driver"] != null) {
       ExtendedNavigator.root
           .pushAndRemoveUntilPath(Routes.profile, Routes.home);
@@ -170,7 +206,17 @@ class CustomPushNotification {
     await DriverRepository(context).changeOrderStatusFromNotify(
         orderId: order['a']['order']['id'],
         action: state);
-    onOpenMessage(notification,tabController);
+    onclickMessage(notification,tabController);
+    if(state=="4")_onMessageStreamController.add("refresh");
+  }
+
+  static void changeNewOrderState(BuildContext context,String id, TabController tabController,String state)async{
+    closeDialog(context);
+    await DriverRepository(context).changeOrderStatusFromNotify(
+        orderId: id,
+        action: state);
+    ExtendedNavigator.root.popUntilPath(Routes.home);
+    tabController.animateTo(0);
     if(state=="4")_onMessageStreamController.add("refresh");
   }
 
