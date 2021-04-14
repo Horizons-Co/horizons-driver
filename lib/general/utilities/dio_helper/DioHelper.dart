@@ -57,7 +57,7 @@ class DioHelper {
       } else if (e.response.statusCode == 401 || e.response.statusCode == 301) {
         LoadingDialog.showToastNotification(
             e.response.data["error"].toString());
-        // tokenExpired();
+         tokenExpired();
       } else {
         LoadingDialog.showToastNotification(tr("chickNet"));
       }
@@ -357,10 +357,10 @@ class DioHelper {
   }
 
   void tokenExpired() {
-    LoadingDialog.showToastNotification(tr("accountIsNotValid"));
-    // Future.delayed(Duration(seconds: 1), (() {
-    //   Utils.clearSavedData();
-    //   ExtendedNavigator.root.pushAndRemoveUntil(Routes.login, (route) => false);
-    // }));
+    // LoadingDialog.showToastNotification(tr("accountIsNotValid"));
+    Future.delayed(Duration(seconds: 1), (() {
+      Utils.clearSavedData();
+      ExtendedNavigator.root.pushAndRemoveUntil(Routes.login, (route) => false);
+    }));
   }
 }

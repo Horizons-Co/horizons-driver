@@ -67,7 +67,7 @@ class CustomPushNotification {
     LoadingDialog.showNotifyDialog(
       context: context,
       title: data["aps"]["alert"]["title"],
-      confirm: ()=>changeOrderState(context,notification,tabController,"1"),
+      confirm: ()=>changeOrderState(context,notification,tabController,"4"),
       onCancel: ()=>changeOrderState(context,notification,tabController,"3"),
     );
     var orderID = order['a']['order']['id'];
@@ -171,7 +171,7 @@ class CustomPushNotification {
         orderId: order['a']['order']['id'],
         action: state);
     onOpenMessage(notification,tabController);
-    if(state=="1")_onMessageStreamController.add("refresh");
+    if(state=="4")_onMessageStreamController.add("refresh");
   }
 
   static void closeDialog(BuildContext context){
