@@ -17,10 +17,8 @@
 		A03FBECA24372D9683D28CA7 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D520C9CD424CD5C70F9FF165 /* Pods_Runner.framework */; };
 		DF060EB0261BCD91001FF1A6 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = DF060EAF261BCD91001FF1A6 /* NotificationService.m */; };
 		DF060EB4261BCD91001FF1A6 /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = DF060EAC261BCD91001FF1A6 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		DF291B702624F943002C3A21 /* alert.wav in Resources */ = {isa = PBXBuildFile; fileRef = DF291B6F2624F943002C3A21 /* alert.wav */; };
-		DF291B712624F943002C3A21 /* alert.wav in Resources */ = {isa = PBXBuildFile; fileRef = DF291B6F2624F943002C3A21 /* alert.wav */; };
-		DF291B742624F95D002C3A21 /* alert.wav in Resources */ = {isa = PBXBuildFile; fileRef = DF291B732624F95D002C3A21 /* alert.wav */; };
-		DF291B752624F95D002C3A21 /* alert.wav in Resources */ = {isa = PBXBuildFile; fileRef = DF291B732624F95D002C3A21 /* alert.wav */; };
+		DF6B962A2628B30C00E0AA1B /* alert.wav in Resources */ = {isa = PBXBuildFile; fileRef = DF6B96292628B30C00E0AA1B /* alert.wav */; };
+		DF6B962B2628B30C00E0AA1B /* alert.wav in Resources */ = {isa = PBXBuildFile; fileRef = DF6B96292628B30C00E0AA1B /* alert.wav */; };
 		DFA8305B261E6379004CB6CF /* Runner.xcworkspace in Resources */ = {isa = PBXBuildFile; fileRef = DFA8305A261E6379004CB6CF /* Runner.xcworkspace */; };
 		DFA8305E261E63C4004CB6CF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DFA8305D261E63C4004CB6CF /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
@@ -82,9 +80,8 @@
 		DF060EAF261BCD91001FF1A6 /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
 		DF060EB1261BCD91001FF1A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF060EEA261BCEF4001FF1A6 /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
-		DF291B6F2624F943002C3A21 /* alert.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = alert.wav; path = ../../assets/alert.wav; sourceTree = "<group>"; };
-		DF291B732624F95D002C3A21 /* alert.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = alert.wav; path = ../../assets/alert.wav; sourceTree = "<group>"; };
 		DF3D8AAE261A31A1004EA9E8 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
+		DF6B96292628B30C00E0AA1B /* alert.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = alert.wav; sourceTree = "<group>"; };
 		DFA8305A261E6379004CB6CF /* Runner.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = Runner.xcworkspace; sourceTree = SOURCE_ROOT; };
 		DFA8305D261E63C4004CB6CF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E3E1633691C5F3A5C8EBD924 /* Pods-OneSignalNotificationServiceExtension.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.profile.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.profile.xcconfig"; sourceTree = "<group>"; };
@@ -140,6 +137,7 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
+				DF6B96292628B30C00E0AA1B /* alert.wav */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				DF060EAD261BCD91001FF1A6 /* OneSignalNotificationServiceExtension */,
@@ -161,7 +159,6 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
-				DF291B732624F95D002C3A21 /* alert.wav */,
 				DFA8305D261E63C4004CB6CF /* GoogleService-Info.plist */,
 				DFA8305A261E6379004CB6CF /* Runner.xcworkspace */,
 				DF3D8AAE261A31A1004EA9E8 /* Runner.entitlements */,
@@ -189,7 +186,6 @@
 		DF060EAD261BCD91001FF1A6 /* OneSignalNotificationServiceExtension */ = {
 			isa = PBXGroup;
 			children = (
-				DF291B6F2624F943002C3A21 /* alert.wav */,
 				DF060EEA261BCEF4001FF1A6 /* OneSignalNotificationServiceExtension.entitlements */,
 				DF060EAE261BCD91001FF1A6 /* NotificationService.h */,
 				DF060EAF261BCD91001FF1A6 /* NotificationService.m */,
@@ -292,8 +288,7 @@
 				DFA8305B261E6379004CB6CF /* Runner.xcworkspace in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
-				DF291B742624F95D002C3A21 /* alert.wav in Resources */,
-				DF291B702624F943002C3A21 /* alert.wav in Resources */,
+				DF6B962A2628B30C00E0AA1B /* alert.wav in Resources */,
 				DFA8305E261E63C4004CB6CF /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,8 +297,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DF291B712624F943002C3A21 /* alert.wav in Resources */,
-				DF291B752624F95D002C3A21 /* alert.wav in Resources */,
+				DF6B962B2628B30C00E0AA1B /* alert.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
