@@ -39,7 +39,7 @@ class _CurrentOrdersState extends State<CurrentOrders> {
                   child: Image.asset(Res.noOrders),
                 ),
                 MyText(
-                  title: user.isActive? tr("noOrders"):tr("noActive"),
+                  title: !user.isActive||user.suspended? tr("noActive") : tr("noOrders"),
                   size: 12,
                   color: MyColors.grey.withOpacity(.3),
                 )

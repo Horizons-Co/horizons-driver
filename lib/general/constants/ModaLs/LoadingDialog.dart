@@ -63,6 +63,7 @@ class LoadingDialog {
       Function onCancel}) {
     return showCupertinoDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return _alertDialog(title, confirm, context, "موافقة", bkText: "الغاء",onCancel: onCancel);
       },

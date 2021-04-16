@@ -83,7 +83,7 @@ class CustomPushNotification {
     var order = data['custom'];
     UserModel user = UserModel.fromJson(order["a"]["driver"]);
     context.read<UserCubit>().onUpdateUserData(user);
-    homeData.changeActiveStateFromNotify(context: context, active: user.isActive);
+    homeData.changeActiveStateFromNotify(context: context, active: (user.isActive&&!user.suspended));
     BotToast.showNotification(
       onTap: ()=>onclickMessage(notification,homeData.tabController),
       title: (_) => MyText(title: data["aps"]["alert"]["title"],size: 12,color: MyColors.primary,),

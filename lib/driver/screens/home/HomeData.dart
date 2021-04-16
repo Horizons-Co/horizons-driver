@@ -32,7 +32,7 @@ class HomeData {
 
   void changeActiveState({bool active, BuildContext context}) async {
     var user = context.read<UserCubit>().state.model;
-    if(user.isActive){
+    if(user.isActive&&!user.suspended){
       bool _changed = await DriverRepository(context).changeNotify(active);
       if (_changed) {
         if (active == true) {
