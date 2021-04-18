@@ -9,38 +9,29 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with TickerProviderStateMixin {
+class _HomeState extends State<Home> with TickerProviderStateMixin,WidgetsBindingObserver {
   final HomeData _homeData = HomeData();
 
   @override
   void initState() {
     var user = context.read<UserCubit>().state.model;
     _homeData.orderState.onUpdateData(user.isOnline);
-    // print("is online userrrrrrrrrrrrrrrr ${user.isOnline}");
-    // print(
-    //     "is online orderStateeeeeeeeeeeeee ${_homeData.orderState.state.data}");
     _homeData.tabController = TabController(length: 4, vsync: this);
-
-    if (IsolateNameServer.lookupPortByName(
-            LocationServiceRepository.isolateName) !=
-        null) {
-      IsolateNameServer.removePortNameMapping(
-          LocationServiceRepository.isolateName);
+    if (IsolateNameServer.lookupPortByName(LocationServiceRepository.isolateName) != null) {
+      IsolateNameServer.removePortNameMapping(LocationServiceRepository.isolateName);
     }
-
-    IsolateNameServer.registerPortWithName(
-        _homeData.port.sendPort, LocationServiceRepository.isolateName);
+    WidgetsBinding.instance.addObserver(this);
+    IsolateNameServer.registerPortWithName(_homeData.port.sendPort, LocationServiceRepository.isolateName);
 
     _homeData.port.listen(
       (dynamic data) async {
-        // print("dddddddddddddddddddddddddddddd => $data");
         await _homeData.updateUI(data);
-      },
+      }
     );
     _homeData.initPlatformState();
 
     if (_homeData.orderState.state.data == true) {
-      _homeData.onStart();
+      _homeData.onStart(context);
     }
     _homeData.tabController.index = widget.index;
     CustomPushNotification.initNotification(
@@ -54,8 +45,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     //   tabController: _homeData.tabController,
     // );
     _homeData.fetchPage(context);
+    _homeData.observeNotificationStatus(context);
     super.initState();
   }
+
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if(state == AppLifecycleState.resumed){
+      _homeData.observeLocationStatus(context);
+      _homeData.observeNotificationStatus(context);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -81,5 +81,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             ],
           ),
         ));
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 }

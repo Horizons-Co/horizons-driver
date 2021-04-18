@@ -76,6 +76,8 @@ dependencies:
   flutter_one_signal: ^0.2.1
   whatsapp_unilink: ^1.0.0+1
   quiver: ^2.1.5
+  app_settings: ^4.0.4
+  flutter_image_compress: any
 
 
 

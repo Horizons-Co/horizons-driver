@@ -1,6 +1,7 @@
 import 'dart:isolate';
 import 'dart:ui';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:background_locator/background_locator.dart';
 import 'package:background_locator/location_dto.dart';
 import 'package:background_locator/settings/android_settings.dart';
@@ -26,6 +27,8 @@ import 'package:base_structure/general/utilities/utils_functions/playSound.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_permissions/location_permissions.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+
 
 part 'Home.dart';
 part 'HomeData.dart';

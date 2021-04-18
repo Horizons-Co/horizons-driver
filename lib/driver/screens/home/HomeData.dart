@@ -9,6 +9,8 @@ class HomeData {
   ReceivePort port = ReceivePort();
   LocationDto lastLocation;
   DateTime lastTimeLocation;
+  bool notifyDialog=false;
+  bool locDialog=false;
 
   void fetchPage(BuildContext context) async {
     var orders = await DriverRepository(context).getNewOrders();
@@ -36,7 +38,7 @@ class HomeData {
       bool _changed = await DriverRepository(context).changeNotify(active);
       if (_changed) {
         if (active == true) {
-          onStart();
+          onStart(context);
           orderState.onUpdateData(active);
         } else {
           onStop();
@@ -48,11 +50,12 @@ class HomeData {
     }
 
   }
+
   Future<void> changeActiveStateFromNotify({bool active, BuildContext context}) async {
     bool _changed = await DriverRepository(context).changeNotify(active);
     if (_changed) {
       if (active == true) {
-        onStart();
+        onStart(context);
         orderState.onUpdateData(active);
       } else {
         onStop();
@@ -86,13 +89,13 @@ class HomeData {
     print('Running ${isRunning.toString()}');
   }
 
-  void onStart() async {
-    var result = await _checkLocationPermission();
+  void onStart(BuildContext context) async {
+    var result = await checkLocationPermission();
     if (result) {
       await startLocator();
       await BackgroundLocator.isServiceRunning();
     } else {
-      // show error
+      observeLocationStatus(context);
     }
   }
 
@@ -104,7 +107,7 @@ class HomeData {
     isRunning.onUpdateData(_isRunning);
   }
 
-  Future<bool> _checkLocationPermission() async {
+  static Future<bool> checkLocationPermission() async {
     final access = await LocationPermissions().checkPermissionStatus();
     switch (access) {
       case PermissionStatus.unknown:
@@ -161,4 +164,45 @@ class HomeData {
           wakeLockTime: 10),
     );
   }
+
+
+  observeLocationStatus(BuildContext context){
+    checkLocationPermission().then((value) {
+      if(!value&&!locDialog){
+        LocationPermissions().requestPermissions().then((result){
+          if(result!=PermissionStatus.granted){
+            locDialog=true;
+            LoadingDialog.showSettingDialog(
+              context: context,
+              title: "  من فضلك قم بتفعيل الموقع",
+              confirm: (){
+                Navigator.of(context).pop();
+                locDialog=false;
+                AppSettings.openLocationSettings();
+              },
+            );
+          }
+        });
+      }
+    });
+  }
+
+  observeNotificationStatus(BuildContext context){
+    OneSignal.shared.promptUserForPushNotificationPermission().then((value){
+      print("notify +++++++++++++++++++++ $value");
+      if(!value&&!notifyDialog){
+        notifyDialog=true;
+        LoadingDialog.showSettingDialog(
+          context: context,
+          title: "  من فضلك قم بتفعيل الاشعارات",
+          confirm: (){
+            Navigator.of(context).pop();
+            notifyDialog=false;
+            AppSettings.openNotificationSettings();
+          },
+        );
+      }
+    });
+  }
+
 }

@@ -42,26 +42,35 @@ class RegisterData {
 
   Future<void> getCarLicenceImage(BuildContext context) async {
     FocusScope.of(context).requestFocus(new FocusNode());
+    LoadingDialog.showLoadingView();
     File image = await Utils.getImageFile();
     if (image != null) {
-      return carLicenceImage.onUpdateData(image);
+      var file = await compressAndGetFile(image);
+      return carLicenceImage.onUpdateData(file);
     }
+    EasyLoading.dismiss();
   }
 
   Future<void> getCarImage(BuildContext context) async {
     FocusScope.of(context).requestFocus(new FocusNode());
+    LoadingDialog.showLoadingView();
     File image = await Utils.getImageFile();
     if (image != null) {
-      return carImage.onUpdateData(image);
+      var file = await compressAndGetFile(image);
+      return carImage.onUpdateData(file);
     }
+    EasyLoading.dismiss();
   }
 
   Future<void> getUserImage(BuildContext context) async {
     FocusScope.of(context).requestFocus(new FocusNode());
+    LoadingDialog.showLoadingView();
     File image = await Utils.getImageFile();
     if (image != null) {
-      return userImage.onUpdateData(image);
+      var file = await compressAndGetFile(image);
+      return userImage.onUpdateData(file);
     }
+    EasyLoading.dismiss();
   }
 
   yearDatePicker(BuildContext context) {
@@ -79,22 +88,19 @@ class RegisterData {
     );
   }
 
-  // Future<void> fetchData(BuildContext context) async {
-  //   List<Country> countries = await GeneralRepository(context).getCountries();
-  //   getCountries.onUpdateData(countries);
-  //   List<City> cities = await GeneralRepository(context).getCities();
-  //   getCities.onUpdateData(cities);
-  //   List<CarMarks> carMarks = await GeneralRepository(context).getCarMArks();
-  //   getCarMarks.onUpdateData(carMarks);
-  //   pageIsLoaded.onUpdateData(true);
-  // }
+  Future<File> compressAndGetFile(File file) async {
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path, "$dir/${file.path.split("/").last}",
+      quality: 80,
+      rotate: 360,
+    );
 
-  // Future<void> getCarModel({BuildContext context, String carMarkId}) async {
-  //   FocusScope.of(context).requestFocus(new FocusNode());
-  //   List<CarModel> carModels =
-  //       await GeneralRepository(context).getCarModel(carMarkId);
-  //   getCarModels.onUpdateData(carModels);
-  // }
+    print(file.lengthSync());
+    print(result.lengthSync());
+
+    return result;
+  }
 
   onChangePhone(String value){
     if (phone.text.startsWith("0")) {

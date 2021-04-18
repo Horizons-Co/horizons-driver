@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:isolate';
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:background_locator/location_dto.dart';
+import 'package:base_structure/general/utilities/routers/Router.gr.dart';
 import 'package:dio/dio.dart';
 
 class LocationServiceRepository {
@@ -21,26 +23,6 @@ class LocationServiceRepository {
     userId = params["userID"];
     token = params["token"];
     final location = LocationDto;
-    // try {
-    //   final res = await Dio().post("https://tracking.quick.sa/api/v1/locations",
-    //       data: {
-    //         "drv": userId,
-    //         "lat": location.latitude,
-    //         "lng": location.longitude,
-    //         "bea": location.heading,
-    //         "acc": location.accuracy,
-    //       },
-    //       options: Options(headers: {
-    //         "Accept": "application/json",
-    //         "Content-Type": "application/json",
-    //         "Secret":
-    //             "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYW5hcyIsImlhdCI6MTU5NTE4NTQ3OH0.rj0DsI7rS_xoVVX5z-V-qaaLmzB_MJkbfdVcLejh_jlnoSpZRvXqnBBMNJVWqwUU9TYUb1Y-uAIh-KgyUATv3A",
-    //         "Authorization": "Bearer $token",
-    //         "Locale": "ar"
-    //       }));
-    // } on DioError catch (e) {
-    //   print("my error is ${e.response.data}");
-    // }
     final SendPort send = IsolateNameServer.lookupPortByName(isolateName);
     send?.send(location);
   }
@@ -48,6 +30,7 @@ class LocationServiceRepository {
   Future<void> dispose() async {
     final SendPort send = IsolateNameServer.lookupPortByName(isolateName);
     send?.send(null);
+
   }
 
   Future<void> callback(LocationDto locationDto) async {
@@ -72,7 +55,6 @@ class LocationServiceRepository {
     } on DioError catch (e) {
       print("my error is ${e.response.data}");
     }
-
     send?.send(locationDto);
   }
 }

@@ -56,6 +56,18 @@ class LoadingDialog {
     );
   }
 
+  static showSettingDialog(
+      {@required BuildContext context,
+      @required String title,
+      @required Function confirm}) {
+    return showCupertinoDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return _alertDialog(title, confirm, context, "الاعدادت",bkText: "الغاء");
+      },
+    );
+  }
+
   static showNotifyDialog(
       {@required BuildContext context,
       @required String title,

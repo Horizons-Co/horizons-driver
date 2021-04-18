@@ -143,7 +143,7 @@ class DriverDrawer extends StatelessWidget {
             icon: Res.logout,
             onTap: () => _drawerData.showLogoutAlert(
                 acceptTitle: tr("logout"),
-                onAccept: () {
+                onAccept: () async {
                   GeneralRepository(context).logout(_homeData);
                 },
                 context: context,

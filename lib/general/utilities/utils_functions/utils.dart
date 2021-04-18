@@ -220,7 +220,7 @@ class Utils {
 
   static Future<File> getImageFile() async {
     FilePickerResult result = await FilePicker.platform
-        .pickFiles(allowMultiple: false, type: FileType.image);
+        .pickFiles(allowMultiple: false, type: FileType.image,allowCompression: true,);
 
     if (result != null) {
       List<File> files = result.paths.map((path) => File(path)).toList();

@@ -26,4 +26,5 @@ class LocationCallbackHandler {
   static Future<void> notificationCallback() async {
     print('***notificationCallback');
   }
+
 }
