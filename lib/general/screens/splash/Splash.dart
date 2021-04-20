@@ -8,8 +8,8 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   @override
   void initState() {
-    Timer(Duration(seconds: 5), () => Utils.manipulateSplashData(context));
-    // Utils.manipulateSplashData(context);
+    OneSignal.shared.promptUserForPushNotificationPermission();
+    Future.delayed(Duration(seconds: 5), () => Utils.manipulateSplashData(context));
     super.initState();
   }
 

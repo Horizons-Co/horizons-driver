@@ -26,13 +26,11 @@ class Utils {
         clearSavedData();
 
         changeLanguage("ar", context);
-        ExtendedNavigator.of(context)
-            .pushAndRemoveUntil(Routes.login, (route) => false);
+        ExtendedNavigator.of(context).push(Routes.login);
       }
     } else {
       changeLanguage("ar", context);
-      ExtendedNavigator.of(context)
-          .pushAndRemoveUntil(Routes.login, (route) => false);
+      ExtendedNavigator.of(context).push(Routes.login);
     }
   }
 

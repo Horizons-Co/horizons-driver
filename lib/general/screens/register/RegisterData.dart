@@ -92,7 +92,7 @@ class RegisterData {
     String dir = (await getApplicationDocumentsDirectory()).path;
     var result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path, "$dir/${file.path.split("/").last}",
-      quality: 80,
+      quality: 60,
       rotate: 360,
     );
 

@@ -53,34 +53,38 @@ class _HomeState extends State<Home> with TickerProviderStateMixin,WidgetsBindin
     if(state == AppLifecycleState.resumed){
       _homeData.observeLocationStatus(context);
       _homeData.observeNotificationStatus(context);
+      _homeData.fetchPage(context);
     }
   }
 
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-        length: 4,
-        initialIndex: 0,
-        child: Scaffold(
-          backgroundColor: MyColors.headerColor,
-          key: _homeData.scaffold,
-          drawer: DriverDrawer(_homeData),
-          appBar: HomeAppBar(
-            context: context,
-            homeData: _homeData,
-          ),
-          body: TabBarView(
-            controller: _homeData.tabController,
-            physics: NeverScrollableScrollPhysics(),
-            children: [
-              CurrentOrders(_homeData),
-              ReceivedOrders(),
-              DeliveredOrders(),
-              CanceledOrders()
-            ],
-          ),
-        ));
+    return WillPopScope(
+      child: DefaultTabController(
+          length: 4,
+          initialIndex: 0,
+          child: Scaffold(
+            backgroundColor: MyColors.headerColor,
+            key: _homeData.scaffold,
+            drawer: DriverDrawer(_homeData),
+            appBar: HomeAppBar(
+              context: context,
+              homeData: _homeData,
+            ),
+            body: TabBarView(
+              controller: _homeData.tabController,
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                CurrentOrders(_homeData),
+                ReceivedOrders(),
+                DeliveredOrders(),
+                CanceledOrders()
+              ],
+            ),
+          )),
+      onWillPop: ()async=>false,
+    );
   }
 
   @override

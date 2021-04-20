@@ -53,7 +53,7 @@ class AuthHttpMethods {
         GlobalState.instance.set("token", _data["data"]["access_token"]);
         await Utils.saveUserData(user);
         Utils.setCurrentUserData(user, context);
-        ExtendedNavigator.root.pushAndRemoveUntil(Routes.home, (route) => false,
+        ExtendedNavigator.root.push(Routes.home,
             arguments: HomeArguments(index: 0));
       }
 
