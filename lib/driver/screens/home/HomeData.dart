@@ -46,7 +46,7 @@ class HomeData {
         }
       }
     }else{
-      LoadingDialog.showToastNotification("لايمكنك استقبال طلبات حتي يتم تفعيلك من قبل الادارة .");
+      LoadingDialog.showToastNotification(tr("noOrdersUntilActive"));
     }
 
   }
@@ -174,7 +174,7 @@ class HomeData {
             locDialog=true;
             LoadingDialog.showSettingDialog(
               context: context,
-              title: "  من فضلك قم بتفعيل الموقع",
+              title: tr("pleaseActiveLoc"),
               confirm: (){
                 Navigator.of(context).pop();
                 locDialog=false;
@@ -189,12 +189,11 @@ class HomeData {
 
   observeNotificationStatus(BuildContext context){
     OneSignal.shared.promptUserForPushNotificationPermission().then((value){
-      print("notify +++++++++++++++++++++ $value");
       if(!value&&!notifyDialog){
         notifyDialog=true;
         LoadingDialog.showSettingDialog(
           context: context,
-          title: "  من فضلك قم بتفعيل الاشعارات",
+          title: tr("pleaseActiveNotify"),
           confirm: (){
             Navigator.of(context).pop();
             notifyDialog=false;

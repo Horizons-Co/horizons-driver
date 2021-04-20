@@ -79,7 +79,7 @@ class DeliveryInfo extends StatelessWidget {
                       final link = WhatsAppUnilink(
                         phoneNumber: "+966$phone",
                         text:
-                            "معك مندوب شركة آفاق معي لك شحنة من متجر ${orderItemModel.merchant.name}",
+                            "${tr("whatsStatement")} ${orderItemModel.merchant.name}",
                       );
                       await launch('$link');
                       // Utils.launchURL(

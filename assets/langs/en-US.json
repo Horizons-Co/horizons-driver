@@ -82,7 +82,16 @@
   "viaPhone": "Phone",
   "noActive": "You cannot receive requests until you are activated by the administration",
   "Forbidden": "Please check your information",
-  "year": "manufacturing year"
+  "year": "manufacturing year",
+  "noOrdersUntilActive": "You cannot receive requests until you are activated by the administration.",
+  "pleaseActiveLoc": "Please activate the location",
+  "pleaseActiveNotify": "Please enable notifications",
+  "whatsStatement": "With you a representative of Afaq company with me for you a shipment from a store",
+  "confirm": "Confirm",
+  "settings": "Settings",
+  "cancel": "Cancel",
+  "accept": "Accept",
+  "loginToFollow": "Sign in to continue"
 
 
 

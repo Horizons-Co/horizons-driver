@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:base_structure/general/utilities/routers/Router.gr.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -51,7 +52,7 @@ class LoadingDialog {
     return showCupertinoDialog(
       context: context,
       builder: (BuildContext context) {
-        return _alertDialog(title, confirm, context, "تأكيد");
+        return _alertDialog(title, confirm, context, tr("confirm"));
       },
     );
   }
@@ -63,7 +64,7 @@ class LoadingDialog {
     return showCupertinoDialog(
       context: context,
       builder: (BuildContext context) {
-        return _alertDialog(title, confirm, context, "الاعدادت",bkText: "الغاء");
+        return _alertDialog(title, confirm, context, tr("settings"),bkText: tr("cancel"));
       },
     );
   }
@@ -77,7 +78,7 @@ class LoadingDialog {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return _alertDialog(title, confirm, context, "موافقة", bkText: "الغاء",onCancel: onCancel);
+        return _alertDialog(title, confirm, context, tr("accept"), bkText: tr("cancel"),onCancel: onCancel);
       },
     );
   }
@@ -87,10 +88,10 @@ class LoadingDialog {
       context: context,
       builder: (BuildContext context) {
         return _alertDialog(
-            "قم بتسجيل الدخول للمتابعة",
+            tr("loginToFollow"),
             () => ExtendedNavigator.of(context).popUntilPath(Routes.login),
             context,
-            "دخول");
+            tr("login"));
       },
     );
   }
@@ -109,7 +110,7 @@ class LoadingDialog {
       actions: [
         CupertinoDialogAction(
           child: MyText(
-            title: bkText ?? "رجوع",
+            title: bkText ?? tr("login"),
             size: 14,
             color: MyColors.headerColor,
           ),
