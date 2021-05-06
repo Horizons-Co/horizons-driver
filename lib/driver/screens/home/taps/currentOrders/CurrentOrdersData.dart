@@ -2,7 +2,8 @@ part of 'CurrentOrdersImports.dart';
 
 class CurrentOrdersData {
 
-  final CustomPushNotification globalNotification = new CustomPushNotification();
+  // final CustomPushNotification globalNotification = new CustomPushNotification();
+  final CustomOneSignal globalNotification = new CustomOneSignal();
 
   final PagingController<int, OrderItemModel> pagingController =
       PagingController(firstPageKey: 1);

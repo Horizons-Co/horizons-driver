@@ -23,8 +23,10 @@ class HomeData {
     LoadingDialog.showNotifyDialog(
       context: context,
       title: "تم إسناد الطلب رقم $no",
-      confirm: ()=>CustomPushNotification.changeNewOrderState(context,id,tabController,"4"),
-      onCancel: ()=>CustomPushNotification.changeNewOrderState(context,id,tabController,"3"),
+      confirm: ()=>CustomOneSignal.changeNewOrderState(context,id,tabController,"4"),
+      onCancel: ()=>CustomOneSignal.changeNewOrderState(context,id,tabController,"3"),
+      // confirm: ()=>CustomPushNotification.changeNewOrderState(context,id,tabController,"4"),
+      // onCancel: ()=>CustomPushNotification.changeNewOrderState(context,id,tabController,"3"),
     );
     GlobalState.instance.set("currentOrderId", id);
     print('playSound');

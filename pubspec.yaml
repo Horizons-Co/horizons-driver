@@ -71,9 +71,9 @@ dependencies:
   infinite_scroll_pagination: ^2.3.0
   background_locator: ^1.4.0+1
   location_permissions:
-  onesignal_flutter: ^2.6.2
+  onesignal_flutter: ^2.6.3
   audioplayers: ^0.17.3
-  flutter_one_signal: ^0.2.1
+#  flutter_one_signal: ^0.2.1
   whatsapp_unilink: ^1.0.0+1
   quiver: ^2.1.5
   app_settings: ^4.0.4

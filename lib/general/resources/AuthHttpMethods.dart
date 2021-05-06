@@ -240,7 +240,8 @@ class AuthHttpMethods {
     };
     final response = await DioHelper(context).post("drivers/logout", body);
     if (response != null) {
-      await CustomPushNotification.setLogOut();
+      // await CustomPushNotification.setLogOut();
+      await CustomOneSignal.setLogOut();
       await homeData.changeActiveStateFromNotify(active: false,context: context);
       EasyLoading.dismiss().then((value) {
         Utils.clearSavedData();

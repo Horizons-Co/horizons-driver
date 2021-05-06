@@ -1,8 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:base_structure/driver/repository/DriverRepository.dart';
+import 'package:base_structure/driver/screens/home/HomeImports.dart';
 import 'package:base_structure/general/blocs/user_cubit/user_cubit.dart';
 import 'package:base_structure/general/constants/GlobalState.dart';
+import 'package:base_structure/general/constants/ModaLs/LoadingDialog.dart';
 import 'package:base_structure/general/constants/MyColors.dart';
 import 'package:base_structure/general/models/user_model.dart';
 import 'package:base_structure/general/resources/GeneralRepository.dart';
@@ -18,7 +22,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomOneSignal {
 
-  static Future<void> initNotification({String merchantId, BuildContext context,TabController tabController}) async {
+  static StreamController<String> _onMessageStreamController =
+  StreamController.broadcast();
+
+  static Future<void> initNotification({String merchantId, BuildContext context,HomeData homeData}) async {
     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
 
@@ -33,10 +40,10 @@ class CustomOneSignal {
 
     OneSignal.shared
         .setNotificationReceivedHandler((OSNotification notification)=>
-        onReceiveMessage(notification,tabController,context));
+        onReceiveMessage(notification,homeData,context));
 
     OneSignal.shared
-        .setNotificationOpenedHandler((OSNotificationOpenedResult result) => onOpenMessage(result.notification,tabController));
+        .setNotificationOpenedHandler((OSNotificationOpenedResult result) => onOpenMessage(result.notification,homeData,context));
 
     OneSignal.shared
         .setInAppMessageClickedHandler((OSInAppMessageAction action) {
@@ -65,15 +72,53 @@ class CustomOneSignal {
 
     await OneSignal.shared.requiresUserPrivacyConsent();
 
-    handleAndroid(merchantId, context);
+    var status = await OneSignal.shared.getPermissionSubscriptionState();
+    print("player id android : " + status.subscriptionStatus.userId);
+    String userId = status.subscriptionStatus.userId;
+
+    handleAndroid(merchantId, userId ,context);
   }
 
 
-  static onReceiveMessage(notification,TabController tabController,BuildContext context){
+
+  static onReceiveMessage(notification, HomeData homeData, BuildContext context) {
     print('received : $notification');
+    var order = json.decode(notification.payload.rawPayload['custom']);
+    if (order["a"]["driver"] != null) {
+      onDriverReceived(notification,homeData,context);
+    } else {
+      onOrderReceived(notification,homeData.tabController,context);
+    }
+
+  }
+
+  static onOrderReceived(notification, TabController tabController, BuildContext context){
     var data = json.decode(notification.payload.rawPayload);
+    var order = json.decode(notification.payload.rawPayload['custom']);
+    print("order is ${order['a']['order']['id']}");
+    LoadingDialog.showNotifyDialog(
+      context: context,
+      title: data["aps"]["alert"]["title"],
+      confirm: ()=>changeOrderState(context,notification,tabController,"4"),
+      onCancel: ()=>changeOrderState(context,notification,tabController,"3"),
+    );
+    var orderID = order['a']['order']['id'];
+    print("orderID is $orderID");
+    GlobalState.instance.set("currentOrderId", orderID);
+    print('playSound');
+    PlayNotificationSound.playSound();
+    // _onMessageStreamController.add("notification");
+  }
+
+
+  static onDriverReceived(notification, HomeData homeData, BuildContext context){
+    var data = json.decode(notification.payload.rawPayload);
+    var order = json.decode(notification.payload.rawPayload['custom']);
+    UserModel user = UserModel.fromJson(order["a"]["driver"]);
+    context.read<UserCubit>().onUpdateUserData(user);
+    homeData.changeActiveStateFromNotify(context: context, active: (user.isActive&&!user.suspended));
     BotToast.showNotification(
-      onTap: ()=>onOpenMessage(notification,tabController),
+      onTap: ()=>onclickMessage(notification,homeData.tabController),
       title: (_) => MyText(title: data["aps"]["alert"]["title"],size: 12,color: MyColors.primary,),
       subtitle: (_) => MyText(title: data["aps"]["alert"]["body"],size: 10,color: MyColors.black,),
       leading: (_)=> Image.asset(Res.logo,width: 50,height: 50),
@@ -89,29 +134,30 @@ class CustomOneSignal {
       animationReverseDuration:
       Duration(milliseconds: 500),
     );
-    var order = json.decode(notification.payload.rawPayload['custom']);
-    print("order is ${order['a']['order']['id']}");
-    if(order["a"]["driver"]!=null){
-      UserModel user = UserModel.fromJson(order["a"]["driver"]);
-      context.read<UserCubit>().onUpdateUserData(user);
-    }else{
-      var orderID = order['a']['order']['id'];
-      print("orderID is $orderID");
-      GlobalState.instance.set("currentOrderId", orderID);
-    }
 
-    print('playSound');
-    PlayNotificationSound.playSound();
   }
 
-  static onOpenMessage(notification,TabController tabController){
+  static onOpenMessage(notification, HomeData homeData,BuildContext context) {
     print('opened : $notification');
-    BotToast.cleanAll();
     var data = json.decode(notification.payload.rawPayload);
-
     var order = json.decode(notification.payload.rawPayload['custom']);
-    if(order["a"]["driver"]!=null){
-      ExtendedNavigator.root.pushAndRemoveUntilPath(Routes.profile,Routes.home);
+    if (order["a"]["driver"] != null) {
+      onDriverReceived(notification,homeData,context);
+    } else {
+      onOrderReceived(notification,homeData.tabController,context);
+    }
+  }
+
+
+  static onclickMessage(notification, TabController tabController) {
+    print('opened : $notification');
+    var data = json.decode(notification)["payload"]["rawPayload"];
+
+    var order = data['custom'];
+
+    if (order["a"]["driver"] != null) {
+      ExtendedNavigator.root
+          .pushAndRemoveUntilPath(Routes.profile, Routes.home);
       return;
     }
     int orderStatus = order['a']['order']['status_id'];
@@ -131,22 +177,17 @@ class CustomOneSignal {
       ExtendedNavigator.root.popUntilPath(Routes.home);
       tabController.animateTo(0);
     }
-
   }
 
-  static void handleAndroid(String merchantId, BuildContext context) async {
-    var status = await OneSignal.shared.getPermissionSubscriptionState();
-    print("player id android : " + status.subscriptionStatus.userId);
-    String userId = status.subscriptionStatus.userId;
-    GlobalState.instance
-        .set("oneSignalUserId", userId);
+  static void handleAndroid(
+      String merchantId, String userId, BuildContext context) async {
+    print("player id android : " + userId);
+    GlobalState.instance.set("oneSignalUserId", userId);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("oneSignalUserId", userId);
     if (userId != "null")
       sendDeviceToken(
-          merchantId: merchantId,
-          oneSignalToken: userId,
-          context: context);
+          merchantId: merchantId, oneSignalToken: userId, context: context);
     else
       print("null player id cannot send data");
   }
@@ -158,8 +199,40 @@ class CustomOneSignal {
         merchantId: merchantId, oneSignalToken: oneSignalToken);
   }
 
-  static Future<void> setLogOut()async{
-    await  OneSignal.shared.setSubscription(false);;
+  static Future<void> setLogOut() async {
+    await OneSignal.shared.setSubscription(false);
   }
+
+  StreamController<String> get notificationSubject {
+    return _onMessageStreamController;
+  }
+
+  static void changeOrderState(BuildContext context,notification, TabController tabController,String state)async{
+    closeDialog(context);
+    var data = json.decode(notification)["payload"]["rawPayload"];
+
+    var order = data['custom'];
+    await DriverRepository(context).changeOrderStatusFromNotify(
+        orderId: order['a']['order']['id'],
+        action: state);
+    onclickMessage(notification,tabController);
+    if(state=="4")_onMessageStreamController.add("refresh");
+  }
+
+  static void changeNewOrderState(BuildContext context,String id, TabController tabController,String state)async{
+    closeDialog(context);
+    await DriverRepository(context).changeOrderStatusFromNotify(
+        orderId: id,
+        action: state);
+    ExtendedNavigator.root.popUntilPath(Routes.home);
+    tabController.animateTo(0);
+    if(state=="4")_onMessageStreamController.add("refresh");
+  }
+
+  static void closeDialog(BuildContext context){
+    Navigator.pop(context);
+    PlayNotificationSound.stopSound();
+  }
+
 
 }
