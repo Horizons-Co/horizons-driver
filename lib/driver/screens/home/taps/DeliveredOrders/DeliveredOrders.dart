@@ -19,6 +19,7 @@ class _DeliveredOrdersState extends State<DeliveredOrders> {
   Widget build(BuildContext context) {
     var user = context.watch<UserCubit>().state.model;
     return PagedListView<int, OrderItemModel>(
+      physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       padding: const EdgeInsets.symmetric(vertical: 10),
       pagingController: _deliveredOrdersData.pagingController,
       builderDelegate: PagedChildBuilderDelegate<OrderItemModel>(

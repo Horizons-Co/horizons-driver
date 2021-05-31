@@ -42,9 +42,6 @@ class _ProfileState extends State<Profile> {
                   alien: TextAlign.center,
                   color: MyColors.black,
                 ),
-                SizedBox(
-                  height: 30,
-                ),
                 BuildProfileInputs(_profileData),
               ],
             ),

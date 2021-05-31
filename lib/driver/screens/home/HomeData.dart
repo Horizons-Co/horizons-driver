@@ -9,14 +9,38 @@ class HomeData {
   ReceivePort port = ReceivePort();
   LocationDto lastLocation;
   DateTime lastTimeLocation;
+  bool notifyDialog=false;
+  bool locDialog=false;
+
+  void fetchPage(BuildContext context) async {
+    var orders = await DriverRepository(context).getNewOrders();
+    if(orders.length>0){
+      showOrderDialog(orders.last.id,context,orders.last.no);
+    }
+  }
+
+  void showOrderDialog(String id,BuildContext context,int no){
+    LoadingDialog.showNotifyDialog(
+      context: context,
+      title: "تم إسناد الطلب رقم $no",
+      confirm: ()=>CustomOneSignal.changeNewOrderState(context,id,tabController,"4"),
+      onCancel: ()=>CustomOneSignal.changeNewOrderState(context,id,tabController,"3"),
+      // confirm: ()=>CustomPushNotification.changeNewOrderState(context,id,tabController,"4"),
+      // onCancel: ()=>CustomPushNotification.changeNewOrderState(context,id,tabController,"3"),
+    );
+    GlobalState.instance.set("currentOrderId", id);
+    print('playSound');
+    PlayNotificationSound.playSound();
+  }
+
 
   void changeActiveState({bool active, BuildContext context}) async {
     var user = context.read<UserCubit>().state.model;
-    if(user.isActive){
+    if(user.isActive&&!user.suspended){
       bool _changed = await DriverRepository(context).changeNotify(active);
       if (_changed) {
         if (active == true) {
-          onStart();
+          onStart(context);
           orderState.onUpdateData(active);
         } else {
           onStop();
@@ -24,7 +48,21 @@ class HomeData {
         }
       }
     }else{
-      LoadingDialog.showToastNotification("لايمكنك استقبال طلبات حتي يتم تفعيلك من قبل الادارة .");
+      LoadingDialog.showToastNotification(tr("noOrdersUntilActive"));
+    }
+
+  }
+
+  Future<void> changeActiveStateFromNotify({bool active, BuildContext context}) async {
+    bool _changed = await DriverRepository(context).changeNotify(active);
+    if (_changed) {
+      if (active == true) {
+        onStart(context);
+        orderState.onUpdateData(active);
+      } else {
+        onStop();
+        orderState.onUpdateData(active);
+      }
     }
 
   }
@@ -53,13 +91,13 @@ class HomeData {
     print('Running ${isRunning.toString()}');
   }
 
-  void onStart() async {
-    var result = await _checkLocationPermission();
+  void onStart(BuildContext context) async {
+    var result = await checkLocationPermission();
     if (result) {
       await startLocator();
       await BackgroundLocator.isServiceRunning();
     } else {
-      // show error
+      observeLocationStatus(context);
     }
   }
 
@@ -71,7 +109,7 @@ class HomeData {
     isRunning.onUpdateData(_isRunning);
   }
 
-  Future<bool> _checkLocationPermission() async {
+  static Future<bool> checkLocationPermission() async {
     final access = await LocationPermissions().checkPermissionStatus();
     switch (access) {
       case PermissionStatus.unknown:
@@ -128,4 +166,44 @@ class HomeData {
           wakeLockTime: 10),
     );
   }
+
+
+  observeLocationStatus(BuildContext context){
+    checkLocationPermission().then((value) {
+      if(!value&&!locDialog){
+        LocationPermissions().requestPermissions().then((result){
+          if(result!=PermissionStatus.granted){
+            locDialog=true;
+            LoadingDialog.showSettingDialog(
+              context: context,
+              title: tr("pleaseActiveLoc"),
+              confirm: (){
+                Navigator.of(context).pop();
+                locDialog=false;
+                AppSettings.openLocationSettings();
+              },
+            );
+          }
+        });
+      }
+    });
+  }
+
+  observeNotificationStatus(BuildContext context){
+    OneSignal.shared.promptUserForPushNotificationPermission().then((value){
+      if(!value&&!notifyDialog){
+        notifyDialog=true;
+        LoadingDialog.showSettingDialog(
+          context: context,
+          title: tr("pleaseActiveNotify"),
+          confirm: (){
+            Navigator.of(context).pop();
+            notifyDialog=false;
+            AppSettings.openNotificationSettings();
+          },
+        );
+      }
+    });
+  }
+
 }

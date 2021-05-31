@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.41.2"
+  app_settings:
+    dependency: "direct main"
+    description:
+      name: app_settings
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.4"
   archive:
     dependency: transitive
     description:
@@ -433,6 +440,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  flutter_image_compress:
+    dependency: "direct main"
+    description:
+      name: flutter_image_compress
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.0"
   flutter_keyboard_visibility:
     dependency: transitive
     description:
@@ -487,13 +501,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_one_signal:
-    dependency: "direct main"
-    description:
-      name: flutter_one_signal
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.1"
   flutter_page_indicator:
     dependency: transitive
     description:
@@ -946,7 +953,7 @@ packages:
     source: hosted
     version: "0.1.8"
   quiver:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: quiver
       url: "https://pub.dartlang.org"
@@ -1258,6 +1265,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.7"
+  whatsapp_unilink:
+    dependency: "direct main"
+    description:
+      name: whatsapp_unilink
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0+1"
   win32:
     dependency: transitive
     description:

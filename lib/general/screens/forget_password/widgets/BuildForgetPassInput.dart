@@ -19,6 +19,7 @@ class BuildForgetPassInput extends StatelessWidget {
         controller: forgetPasswordData.phone,
         type: TextInputType.phone,
         validate: (value) => value.validatePhone(),
+        onChange:(val) => forgetPasswordData.onChangePhone(val),
         submit: (val) => forgetPasswordData.sendCode(context),
       ),
     );

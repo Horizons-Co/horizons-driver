@@ -7,6 +7,12 @@ class ForgetPasswordData {
       new GlobalKey<CustomButtonState>();
   TextEditingController phone = TextEditingController();
 
+  onChangePhone(String value){
+    if (phone.text.startsWith("0")) {
+      return LoadingDialog.showSimpleToast(tr("phoneValidation0"));
+    }
+  }
+
   Future<void> sendCode(BuildContext context) async {
     FocusScope.of(context).requestFocus(new FocusNode());
     if (formKey.currentState.validate()) {
