@@ -91,7 +91,8 @@
   "settings": "الاعدادت",
   "cancel": "الغاء",
   "accept": "موافقة",
-  "loginToFollow": "قم بتسجيل الدخول للمتابعة"
+  "loginToFollow": "قم بتسجيل الدخول للمتابعة",
+  "acceptToUseBackgroundService": "السماح للتطبيق بالتشغيل في الخلفيه"
 }
 
 

@@ -8,6 +8,19 @@ class Utils {
     String token = prefs.getString("deviceId");
     final String oneSignalUserId = prefs.getString("oneSignalUserId");
     GlobalState.instance.set("oneSignalUserId", oneSignalUserId);
+    final bool _acceptBackground = prefs.getBool("acceptBackground") ?? false;
+    if (!_acceptBackground) {
+      await LoadingDialog.showNotifyDialog(
+          context: context,
+          title: tr("acceptToUseBackgroundService"),
+          confirm: () {
+            prefs.setBool("acceptBackground", true);
+            Navigator.pop(context);
+          },
+          onCancel: () {
+            SystemNavigator.pop();
+          });
+    }
 
     if (strUser != null) {
       GlobalState.instance.set("token", token);
@@ -217,8 +230,11 @@ class Utils {
   }
 
   static Future<File> getImageFile() async {
-    FilePickerResult result = await FilePicker.platform
-        .pickFiles(allowMultiple: false, type: FileType.image,allowCompression: true,);
+    FilePickerResult result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.image,
+      allowCompression: true,
+    );
 
     if (result != null) {
       List<File> files = result.paths.map((path) => File(path)).toList();
