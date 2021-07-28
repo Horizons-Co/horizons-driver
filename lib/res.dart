@@ -29,4 +29,5 @@ class Res {
   static const String translation = "assets/images/translation.png";
   static const String wallet = "assets/images/wallet.png";
   static const String whats = "assets/images/whats.png";
+  static const String map = "assets/images/map.png";
 }

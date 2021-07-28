@@ -8,19 +8,6 @@ class Utils {
     String token = prefs.getString("deviceId");
     final String oneSignalUserId = prefs.getString("oneSignalUserId");
     GlobalState.instance.set("oneSignalUserId", oneSignalUserId);
-    final bool _acceptBackground = prefs.getBool("acceptBackground") ?? false;
-    if (!_acceptBackground) {
-      await LoadingDialog.showNotifyDialog(
-          context: context,
-          title: tr("acceptToUseBackgroundService"),
-          confirm: () {
-            prefs.setBool("acceptBackground", true);
-            Navigator.pop(context);
-          },
-          onCancel: () {
-            SystemNavigator.pop();
-          });
-    }
 
     if (strUser != null) {
       GlobalState.instance.set("token", token);
@@ -43,7 +30,7 @@ class Utils {
       }
     } else {
       changeLanguage("ar", context);
-      ExtendedNavigator.of(context).push(Routes.login);
+      ExtendedNavigator.of(context).push(Routes.locationPermission);
     }
   }
 

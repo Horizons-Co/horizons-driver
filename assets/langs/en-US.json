@@ -92,7 +92,7 @@
   "cancel": "Cancel",
   "accept": "Accept",
   "loginToFollow": "Sign in to continue",
-  "acceptToUseBackgroundService": "Allow App to use background service"
+  "acceptToUseBackgroundService": "This app collects location data to enable tracking orders location to let know it's place even when the app is closed or not in use"
 
 
 

@@ -9,22 +9,24 @@ class HomeData {
   ReceivePort port = ReceivePort();
   LocationDto lastLocation;
   DateTime lastTimeLocation;
-  bool notifyDialog=false;
-  bool locDialog=false;
+  bool notifyDialog = false;
+  bool locDialog = false;
 
   void fetchPage(BuildContext context) async {
     var orders = await DriverRepository(context).getNewOrders();
-    if(orders.length>0){
-      showOrderDialog(orders.last.id,context,orders.last.no);
+    if (orders.length > 0) {
+      showOrderDialog(orders.last.id, context, orders.last.no);
     }
   }
 
-  void showOrderDialog(String id,BuildContext context,int no){
+  void showOrderDialog(String id, BuildContext context, int no) {
     LoadingDialog.showNotifyDialog(
       context: context,
       title: "تم إسناد الطلب رقم $no",
-      confirm: ()=>CustomOneSignal.changeNewOrderState(context,id,tabController,"4"),
-      onCancel: ()=>CustomOneSignal.changeNewOrderState(context,id,tabController,"3"),
+      confirm: () =>
+          CustomOneSignal.changeNewOrderState(context, id, tabController, "4"),
+      onCancel: () =>
+          CustomOneSignal.changeNewOrderState(context, id, tabController, "3"),
       // confirm: ()=>CustomPushNotification.changeNewOrderState(context,id,tabController,"4"),
       // onCancel: ()=>CustomPushNotification.changeNewOrderState(context,id,tabController,"3"),
     );
@@ -33,27 +35,57 @@ class HomeData {
     PlayNotificationSound.playSound();
   }
 
-
   void changeActiveState({bool active, BuildContext context}) async {
-    var user = context.read<UserCubit>().state.model;
-    if(user.isActive&&!user.suspended){
-      bool _changed = await DriverRepository(context).changeNotify(active);
-      if (_changed) {
-        if (active == true) {
-          onStart(context);
-          orderState.onUpdateData(active);
-        } else {
-          onStop();
-          orderState.onUpdateData(active);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final bool _acceptBackground = prefs.getBool("acceptBackground") ?? false;
+    if (!_acceptBackground) {
+      await LoadingDialog.showNotifyDialog(
+          context: context,
+          title: tr("acceptToUseBackgroundService"),
+          confirm: () async {
+            prefs.setBool("acceptBackground", true);
+            Navigator.pop(context);
+            var user = context.read<UserCubit>().state.model;
+            if (user.isActive && !user.suspended) {
+              bool _changed =
+                  await DriverRepository(context).changeNotify(active);
+              if (_changed) {
+                if (active == true) {
+                  onStart(context);
+                  orderState.onUpdateData(active);
+                } else {
+                  onStop();
+                  orderState.onUpdateData(active);
+                }
+              }
+            } else {
+              LoadingDialog.showToastNotification(tr("noOrdersUntilActive"));
+            }
+          },
+          onCancel: () {
+            Navigator.pop(context);
+          });
+    } else if (_acceptBackground) {
+      var user = context.read<UserCubit>().state.model;
+      if (user.isActive && !user.suspended) {
+        bool _changed = await DriverRepository(context).changeNotify(active);
+        if (_changed) {
+          if (active == true) {
+            onStart(context);
+            orderState.onUpdateData(active);
+          } else {
+            onStop();
+            orderState.onUpdateData(active);
+          }
         }
+      } else {
+        LoadingDialog.showToastNotification(tr("noOrdersUntilActive"));
       }
-    }else{
-      LoadingDialog.showToastNotification(tr("noOrdersUntilActive"));
     }
-
   }
 
-  Future<void> changeActiveStateFromNotify({bool active, BuildContext context}) async {
+  Future<void> changeActiveStateFromNotify(
+      {bool active, BuildContext context}) async {
     bool _changed = await DriverRepository(context).changeNotify(active);
     if (_changed) {
       if (active == true) {
@@ -64,7 +96,6 @@ class HomeData {
         orderState.onUpdateData(active);
       }
     }
-
   }
 
   Future<void> updateUI(LocationDto data) async {
@@ -133,7 +164,7 @@ class HomeData {
     }
   }
 
-  Future<void> startLocator()async {
+  Future<void> startLocator() async {
     Map<String, dynamic> data = {
       "userID": GlobalState.instance.get("userId"),
       "token": GlobalState.instance.get("token")
@@ -167,19 +198,18 @@ class HomeData {
     );
   }
 
-
-  observeLocationStatus(BuildContext context){
+  observeLocationStatus(BuildContext context) {
     checkLocationPermission().then((value) {
-      if(!value&&!locDialog){
-        LocationPermissions().requestPermissions().then((result){
-          if(result!=PermissionStatus.granted){
-            locDialog=true;
+      if (!value && !locDialog) {
+        LocationPermissions().requestPermissions().then((result) {
+          if (result != PermissionStatus.granted) {
+            locDialog = true;
             LoadingDialog.showSettingDialog(
               context: context,
               title: tr("pleaseActiveLoc"),
-              confirm: (){
+              confirm: () {
                 Navigator.of(context).pop();
-                locDialog=false;
+                locDialog = false;
                 AppSettings.openLocationSettings();
               },
             );
@@ -189,21 +219,20 @@ class HomeData {
     });
   }
 
-  observeNotificationStatus(BuildContext context){
-    OneSignal.shared.promptUserForPushNotificationPermission().then((value){
-      if(!value&&!notifyDialog){
-        notifyDialog=true;
+  observeNotificationStatus(BuildContext context) {
+    OneSignal.shared.promptUserForPushNotificationPermission().then((value) {
+      if (!value && !notifyDialog) {
+        notifyDialog = true;
         LoadingDialog.showSettingDialog(
           context: context,
           title: tr("pleaseActiveNotify"),
-          confirm: (){
+          confirm: () {
             Navigator.of(context).pop();
-            notifyDialog=false;
+            notifyDialog = false;
             AppSettings.openNotificationSettings();
           },
         );
       }
     });
   }
-
 }

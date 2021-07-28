@@ -22,14 +22,13 @@ import 'package:base_structure/general/constants/GlobalState.dart';
 import 'package:base_structure/general/constants/ModaLs/LoadingDialog.dart';
 import 'package:base_structure/general/constants/MyColors.dart';
 import 'package:base_structure/general/utilities/utils_functions/CustomOneSignal.dart';
-import 'package:base_structure/general/utilities/utils_functions/CustomePushNotification.dart';
 import 'package:base_structure/general/utilities/utils_functions/playSound.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_permissions/location_permissions.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'Home.dart';
 part 'HomeData.dart';

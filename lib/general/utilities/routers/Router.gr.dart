@@ -16,6 +16,7 @@ import '../../screens/active_account/ActiveAccountImports.dart';
 import '../../screens/contact_us/ContactUsImports.dart';
 import '../../screens/forget_password/ForgetPasswordImports.dart';
 import '../../screens/language/LanguageImports.dart';
+import '../../screens/location_premission/LocationPermissionImports.dart';
 import '../../screens/login/LoginImports.dart';
 import '../../screens/register/RegisterImports.dart';
 import '../../screens/reset_password/ResetPasswordImports.dart';
@@ -32,6 +33,7 @@ class Routes {
   static const String home = '/Home';
   static const String profile = '/Profile';
   static const String language = '/Language';
+  static const String locationPermission = '/location-permission';
   static const all = <String>{
     splash,
     login,
@@ -43,6 +45,7 @@ class Routes {
     home,
     profile,
     language,
+    locationPermission,
   };
 }
 
@@ -60,6 +63,7 @@ class AppRouter extends RouterBase {
     RouteDef(Routes.home, page: Home),
     RouteDef(Routes.profile, page: Profile),
     RouteDef(Routes.language, page: Language),
+    RouteDef(Routes.locationPermission, page: LocationPermission),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -142,6 +146,14 @@ class AppRouter extends RouterBase {
     Language: (data) {
       return PageRouteBuilder<dynamic>(
         pageBuilder: (context, animation, secondaryAnimation) => Language(),
+        settings: data,
+        transitionsBuilder: TransitionsBuilders.slideRight,
+      );
+    },
+    LocationPermission: (data) {
+      return PageRouteBuilder<dynamic>(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            LocationPermission(),
         settings: data,
         transitionsBuilder: TransitionsBuilders.slideRight,
       );

@@ -1,35 +1,41 @@
 {
   "project_info": {
-    "project_number": "653209200371",
-    "firebase_url": "https://quick-go-295816.firebaseio.com",
-    "project_id": "quick-go-295816",
-    "storage_bucket": "quick-go-295816.appspot.com"
+    "project_number": "881971660447",
+    "project_id": "horizons-app-14337",
+    "storage_bucket": "horizons-app-14337.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:653209200371:android:60bf8463403dc59d49b986",
+        "mobilesdk_app_id": "1:881971660447:android:be8bfa7ebed287298044aa",
         "android_client_info": {
-          "package_name": "com.driver.Horizons"
+          "package_name": "com.horizonsCaptain.sa"
         }
       },
       "oauth_client": [
         {
-          "client_id": "653209200371-b7hcjh419m03q0tqn1p5mgje6g1d1e8r.apps.googleusercontent.com",
+          "client_id": "881971660447-5fa8ef2jrrr4d7j453gtr6nuogv0oivd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDh2XSl6dr0Sw1wMSq1pgNVE_rBUxhB11A"
+          "current_key": "AIzaSyC57VvwPjZ2QC3DdSYP9tLSqixpBGhFzE8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "653209200371-b7hcjh419m03q0tqn1p5mgje6g1d1e8r.apps.googleusercontent.com",
+              "client_id": "881971660447-5fa8ef2jrrr4d7j453gtr6nuogv0oivd.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "881971660447-ahv6flv77j4seb3106rtfmjg10r04lpr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.horizonsProvider.sa"
+              }
             }
           ]
         }
@@ -37,28 +43,35 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:653209200371:android:72f569bc213c07af49b986",
+        "mobilesdk_app_id": "1:881971660447:android:b82e93faf8c9d7428044aa",
         "android_client_info": {
-          "package_name": "com.quick.quickgo"
+          "package_name": "com.horizonsProvider.sa"
         }
       },
       "oauth_client": [
         {
-          "client_id": "653209200371-b7hcjh419m03q0tqn1p5mgje6g1d1e8r.apps.googleusercontent.com",
+          "client_id": "881971660447-5fa8ef2jrrr4d7j453gtr6nuogv0oivd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDh2XSl6dr0Sw1wMSq1pgNVE_rBUxhB11A"
+          "current_key": "AIzaSyC57VvwPjZ2QC3DdSYP9tLSqixpBGhFzE8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "653209200371-b7hcjh419m03q0tqn1p5mgje6g1d1e8r.apps.googleusercontent.com",
+              "client_id": "881971660447-5fa8ef2jrrr4d7j453gtr6nuogv0oivd.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "881971660447-ahv6flv77j4seb3106rtfmjg10r04lpr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.horizonsProvider.sa"
+              }
             }
           ]
         }

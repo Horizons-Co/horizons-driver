@@ -6,6 +6,7 @@ import 'package:base_structure/general/screens/active_account/ActiveAccountImpor
 import 'package:base_structure/general/screens/contact_us/ContactUsImports.dart';
 import 'package:base_structure/general/screens/forget_password/ForgetPasswordImports.dart';
 import 'package:base_structure/general/screens/language/LanguageImports.dart';
+import 'package:base_structure/general/screens/location_premission/LocationPermissionImports.dart';
 import 'package:base_structure/general/screens/login/LoginImports.dart';
 import 'package:base_structure/general/screens/register/RegisterImports.dart';
 import 'package:base_structure/general/screens/reset_password/ResetPasswordImports.dart';
@@ -15,15 +16,28 @@ import 'package:base_structure/general/screens/splash/SplashImports.dart';
   routes: <AutoRoute>[
     //general routes
     CustomRoute(page: Splash, initial: true),
-    CustomRoute(page: Login, transitionsBuilder: TransitionsBuilders.slideRight),
+    CustomRoute(
+        page: Login, transitionsBuilder: TransitionsBuilders.slideRight),
     CustomRoute(page: Register, fullscreenDialog: true),
-    CustomRoute(page: ForgetPassword, transitionsBuilder: TransitionsBuilders.slideRight),
-    CustomRoute(page: ResetPassword, transitionsBuilder: TransitionsBuilders.slideRight),
-    CustomRoute(page: ContactUs, transitionsBuilder: TransitionsBuilders.slideRight),
-    CustomRoute(page: ActiveAccount, transitionsBuilder: TransitionsBuilders.slideRight),
+    CustomRoute(
+        page: ForgetPassword,
+        transitionsBuilder: TransitionsBuilders.slideRight),
+    CustomRoute(
+        page: ResetPassword,
+        transitionsBuilder: TransitionsBuilders.slideRight),
+    CustomRoute(
+        page: ContactUs, transitionsBuilder: TransitionsBuilders.slideRight),
+    CustomRoute(
+        page: ActiveAccount,
+        transitionsBuilder: TransitionsBuilders.slideRight),
     CustomRoute(page: Home, transitionsBuilder: TransitionsBuilders.slideRight),
-    CustomRoute(page: Profile, transitionsBuilder: TransitionsBuilders.slideRight),
-    CustomRoute(page: Language, transitionsBuilder: TransitionsBuilders.slideRight),
+    CustomRoute(
+        page: Profile, transitionsBuilder: TransitionsBuilders.slideRight),
+    CustomRoute(
+        page: Language, transitionsBuilder: TransitionsBuilders.slideRight),
+    CustomRoute(
+        page: LocationPermission,
+        transitionsBuilder: TransitionsBuilders.slideRight),
   ],
 )
 class $AppRouter {}

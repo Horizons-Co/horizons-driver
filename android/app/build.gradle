@@ -75,8 +75,10 @@ buildscript {
     dependencies {
         // ...
         // OneSignal-Gradle-Plugin
-        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.10.2, 0.99.99]'
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.9, 0.99.99]'
     }
 }
 
+apply plugin: 'com.google.gms.google-services'
+googleServices.disableVersionCheck = true
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
