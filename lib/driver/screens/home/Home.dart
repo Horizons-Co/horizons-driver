@@ -9,25 +9,27 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with TickerProviderStateMixin,WidgetsBindingObserver {
+class _HomeState extends State<Home>
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   final HomeData _homeData = HomeData();
 
   @override
   void initState() {
     var user = context.read<UserCubit>().state.model;
-    _homeData.orderState.onUpdateData(user.isOnline);
     _homeData.tabController = TabController(length: 4, vsync: this);
-    if (IsolateNameServer.lookupPortByName(LocationServiceRepository.isolateName) != null) {
-      IsolateNameServer.removePortNameMapping(LocationServiceRepository.isolateName);
+    if (IsolateNameServer.lookupPortByName(
+            LocationServiceRepository.isolateName) !=
+        null) {
+      IsolateNameServer.removePortNameMapping(
+          LocationServiceRepository.isolateName);
     }
     WidgetsBinding.instance.addObserver(this);
-    IsolateNameServer.registerPortWithName(_homeData.port.sendPort, LocationServiceRepository.isolateName);
+    IsolateNameServer.registerPortWithName(
+        _homeData.port.sendPort, LocationServiceRepository.isolateName);
 
-    _homeData.port.listen(
-      (dynamic data) async {
-        await _homeData.updateUI(data);
-      }
-    );
+    _homeData.port.listen((dynamic data) async {
+      await _homeData.updateUI(data);
+    });
     _homeData.initPlatformState();
 
     if (_homeData.orderState.state.data == true) {
@@ -50,13 +52,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin,WidgetsBindin
   }
 
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if(state == AppLifecycleState.resumed){
+    if (state == AppLifecycleState.resumed) {
       _homeData.observeLocationStatus(context);
       _homeData.observeNotificationStatus(context);
       _homeData.fetchPage(context);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +84,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin,WidgetsBindin
               ],
             ),
           )),
-      onWillPop: ()async=>false,
+      onWillPop: () async => false,
     );
   }
 

@@ -64,7 +64,8 @@ class LoadingDialog {
     return showCupertinoDialog(
       context: context,
       builder: (BuildContext context) {
-        return _alertDialog(title, confirm, context, tr("settings"),bkText: tr("cancel"));
+        return _alertDialog(title, confirm, context, tr("settings"),
+            bkText: tr("cancel"));
       },
     );
   }
@@ -74,11 +75,12 @@ class LoadingDialog {
       @required String title,
       @required Function confirm,
       Function onCancel}) {
-    return showCupertinoDialog(
+    return showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return _alertDialog(title, confirm, context, tr("accept"), bkText: tr("cancel"),onCancel: onCancel);
+        return _alertDialog(title, confirm, context, tr("accept"),
+            bkText: tr("cancel"), onCancel: onCancel);
       },
     );
   }
@@ -99,7 +101,7 @@ class LoadingDialog {
   static Widget _alertDialog(
       String title, Function confirm, BuildContext context, String okText,
       {String bkText, Function onCancel}) {
-    return CupertinoAlertDialog(
+    return AlertDialog(
       title: MyText(
         title: title,
         size: 16,
@@ -108,7 +110,7 @@ class LoadingDialog {
       ),
       // content: MyText(title: title,size: 12,color: MyColors.blackOpacity,),
       actions: [
-        CupertinoDialogAction(
+        TextButton(
           child: MyText(
             title: bkText ?? tr("login"),
             size: 14,
@@ -116,7 +118,7 @@ class LoadingDialog {
           ),
           onPressed: onCancel ?? () => Navigator.pop(context),
         ),
-        CupertinoDialogAction(
+        TextButton(
           child: MyText(
             title: okText,
             size: 14,

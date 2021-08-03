@@ -14,6 +14,10 @@ class HomeData {
 
   void fetchPage(BuildContext context) async {
     var orders = await DriverRepository(context).getNewOrders();
+    final user = context.read<UserCubit>().state.model;
+    if (user.isOnline) {
+      changeActiveState(context: context, active: user.isOnline);
+    }
     if (orders.length > 0) {
       showOrderDialog(orders.last.id, context, orders.last.no);
     }
@@ -41,7 +45,8 @@ class HomeData {
     if (!_acceptBackground) {
       await LoadingDialog.showNotifyDialog(
           context: context,
-          title: tr("acceptToUseBackgroundService"),
+          title:
+              "This app collects location data to enable tracking orders location to let know it's place even when the app is closed or not in use",
           confirm: () async {
             prefs.setBool("acceptBackground", true);
             Navigator.pop(context);
