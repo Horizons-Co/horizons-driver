@@ -26,7 +26,7 @@ class Utils {
         clearSavedData();
 
         changeLanguage("ar", context);
-        ExtendedNavigator.of(context).push(Routes.login);
+        ExtendedNavigator.of(context).push(Routes.locationPermission);
       }
     } else {
       changeLanguage("ar", context);

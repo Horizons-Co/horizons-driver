@@ -15,8 +15,13 @@ class HomeData {
   void fetchPage(BuildContext context) async {
     var orders = await DriverRepository(context).getNewOrders();
     final user = context.read<UserCubit>().state.model;
+
     if (user.isOnline) {
-      changeActiveState(context: context, active: user.isOnline);
+      handler.PermissionStatus requestLocation =
+          await handler.Permission.locationAlways.request();
+      if (requestLocation.isGranted) {
+        changeActiveState(context: context, active: user.isOnline);
+      }
     }
     if (orders.length > 0) {
       showOrderDialog(orders.last.id, context, orders.last.no);
@@ -40,37 +45,9 @@ class HomeData {
   }
 
   void changeActiveState({bool active, BuildContext context}) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool _acceptBackground = prefs.getBool("acceptBackground") ?? false;
-    if (!_acceptBackground) {
-      await LoadingDialog.showNotifyDialog(
-          context: context,
-          title:
-              "This app collects location data to enable tracking orders location to let know it's place even when the app is closed or not in use",
-          confirm: () async {
-            prefs.setBool("acceptBackground", true);
-            Navigator.pop(context);
-            var user = context.read<UserCubit>().state.model;
-            if (user.isActive && !user.suspended) {
-              bool _changed =
-                  await DriverRepository(context).changeNotify(active);
-              if (_changed) {
-                if (active == true) {
-                  onStart(context);
-                  orderState.onUpdateData(active);
-                } else {
-                  onStop();
-                  orderState.onUpdateData(active);
-                }
-              }
-            } else {
-              LoadingDialog.showToastNotification(tr("noOrdersUntilActive"));
-            }
-          },
-          onCancel: () {
-            Navigator.pop(context);
-          });
-    } else if (_acceptBackground) {
+    handler.PermissionStatus requestLocation =
+        await handler.Permission.locationAlways.request();
+    if (requestLocation.isGranted) {
       var user = context.read<UserCubit>().state.model;
       if (user.isActive && !user.suspended) {
         bool _changed = await DriverRepository(context).changeNotify(active);
