@@ -12,11 +12,11 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: MyColors.primary,
-        body: Padding(
+        body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: ListView(
-            physics:
-                BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          physics:
+          BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          child: Column(
             children: [
               AppBar(
                 automaticallyImplyLeading: false,

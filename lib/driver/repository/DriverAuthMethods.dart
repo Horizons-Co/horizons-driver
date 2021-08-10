@@ -12,7 +12,6 @@ class DriverAuthMethods {
   DriverAuthMethods({@required this.context});
 
   Future<bool> getUserData() async {
-    Map<String, dynamic> body = {};
     var _data = await DioHelper(context).get("drivers/me", {});
     print("data is $_data");
     if (_data != null) {
@@ -20,7 +19,6 @@ class DriverAuthMethods {
       GlobalState.instance.set("userId", user.id);
       await Utils.saveUserData(user);
       Utils.setCurrentUserData(user, context);
-
       return true;
     } else {
       return false;
@@ -37,12 +35,13 @@ class DriverAuthMethods {
           id: user.id,
           mobile: user.mobile,
           carImage: user.carImage,
-          carModel: user.carModel,
+          year: user.year,
           city: user.city,
           idImage: user.idImage,
           idNo: user.idNo,
           isOnline: user.isOnline,
           isVerified: active,
+          isActive: user.isActive,
           nationality: user.nationality,
           personalImage: user.personalImage,
           suspended: user.suspended);

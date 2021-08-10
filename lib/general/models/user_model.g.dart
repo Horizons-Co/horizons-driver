@@ -17,16 +17,18 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     city: json['city'] == null
         ? null
         : City.fromJson(json['city'] as Map<String, dynamic>),
-    carModel: json['car_model'] == null
-        ? null
-        : CarModel.fromJson(json['car_model'] as Map<String, dynamic>),
     idNo: json['id_no'] as String,
     idImage: json['id_image'] as String,
     carImage: json['car_image'] as String,
     personalImage: json['personal_image'] as String,
     isVerified: json['is_verified'] as bool,
     isOnline: json['is_online'] as bool,
+    isActive: json['is_active'] as bool,
+    year: json['car_year'] as int,
     suspended: json['suspended'] as bool,
+    maker: json['car_maker'] == null
+        ? null
+        : Maker.fromJson(json['car_maker'] as Map<String, dynamic>),
   );
 }
 
@@ -36,14 +38,16 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'mobile': instance.mobile,
       'nationality': instance.nationality,
       'city': instance.city,
-      'car_model': instance.carModel,
+      'car_year': instance.year,
       'id_no': instance.idNo,
       'id_image': instance.idImage,
       'car_image': instance.carImage,
       'personal_image': instance.personalImage,
       'is_verified': instance.isVerified,
       'is_online': instance.isOnline,
+      'is_active': instance.isActive,
       'suspended': instance.suspended,
+      'car_maker': instance.maker,
     };
 
 Nationality _$NationalityFromJson(Map<String, dynamic> json) {

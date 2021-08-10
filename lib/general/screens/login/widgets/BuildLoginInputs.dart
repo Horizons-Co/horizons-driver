@@ -30,6 +30,7 @@ class _BuildLoginInputsState extends State<BuildLoginInputs> {
             maxLength: 9,
             margin: const EdgeInsets.only(top: 30),
             validate: (value) => value.validatePhone(),
+            onChange: widget.loginData.onChangePhone,
           ),
           BlocBuilder<GenericCubit<bool>, GenericState<bool>>(
               cubit: widget.loginData.showPassCubit,

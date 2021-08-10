@@ -57,7 +57,7 @@ class DioHelper {
       } else if (e.response.statusCode == 401 || e.response.statusCode == 301) {
         LoadingDialog.showToastNotification(
             e.response.data["error"].toString());
-        // tokenExpired();
+         tokenExpired();
       } else {
         LoadingDialog.showToastNotification(tr("chickNet"));
       }
@@ -100,8 +100,7 @@ class DioHelper {
     _dio.options.headers = await _getHeader();
 
     try {
-      var response = await _dio.post("$_baseUrl$url",
-          data: FormData.fromMap(body), options: _buildCacheOptions(body));
+      var response = await _dio.post("$_baseUrl$url", data: body);
       print("response ${response.statusCode}");
       if (showLoader) EasyLoading.dismiss();
       response.data["msg"] == null
@@ -112,9 +111,22 @@ class DioHelper {
       return data;
     } on DioError catch (e) {
       if (showLoader) EasyLoading.dismiss();
-      if (e.response.statusCode == 422) {
-        LoadingDialog.showToastNotification(
-            e.response.data["message"].toString());
+      if (e.response.statusCode == 422||e.response.statusCode ==403) {
+        if(e.response.data["errors"]!=null){
+          Map<String,dynamic> errors = e.response.data["errors"];
+          print("______________$errors");
+          errors.forEach((key, value){
+            List<String> lst = List<String>.from(value.map((e) => e));
+            lst.forEach((e) {
+              LoadingDialog.showToastNotification(e);
+            });
+          });
+        }else if(e.response.data["error"]!=null){
+          LoadingDialog.showToastNotification(tr(e.response.data["error"]));
+        }else{
+          LoadingDialog.showToastNotification(
+              e.response.data["message"].toString());
+        }
       } else if (e.response.statusCode == 401 || e.response.statusCode == 301) {
         tokenExpired();
       } else {
@@ -345,10 +357,10 @@ class DioHelper {
   }
 
   void tokenExpired() {
-    LoadingDialog.showToastNotification(tr("accountIsNotValid"));
-    // Future.delayed(Duration(seconds: 1), (() {
-    //   Utils.clearSavedData();
-    //   ExtendedNavigator.root.pushAndRemoveUntil(Routes.login, (route) => false);
-    // }));
+    // LoadingDialog.showToastNotification(tr("accountIsNotValid"));
+    Future.delayed(Duration(seconds: 1), (() {
+      Utils.clearSavedData();
+      ExtendedNavigator.root.pushAndRemoveUntil(Routes.login, (route) => false);
+    }));
   }
 }

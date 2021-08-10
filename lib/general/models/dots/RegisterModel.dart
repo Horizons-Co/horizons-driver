@@ -8,8 +8,8 @@ class RegisterModel {
       userCountry,
       userNationality,
       userIdentity,
-      userCarType,
-      userCarModel,
+      carMakerId,
+      year,
       userId;
   final File carLicence, carImage, userImage;
 
@@ -22,9 +22,9 @@ class RegisterModel {
       this.userImage,
       this.carImage,
       this.carLicence,
-      this.userCarModel,
-      this.userCarType,
+      this.carMakerId,
       this.userIdentity,
       this.userCountry,
+      this.year,
       this.userId});
 }

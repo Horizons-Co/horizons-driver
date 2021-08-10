@@ -16,9 +16,9 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: MyColors.grey.withOpacity(.1),
+      backgroundColor: MyColors.white,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor:  MyColors.grey.withOpacity(.1),
           automaticallyImplyLeading: false,
           elevation: 0,
           leading: IconButton(
@@ -29,23 +29,22 @@ class _ProfileState extends State<Profile> {
             onPressed: () => ExtendedNavigator.root.pop(),
           ),
         ),
-        body: Padding(
+        body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: ListView(
-            physics:
-                BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-            children: [
-              MyText(
-                title: tr("myInfo"),
-                size: 14,
-                alien: TextAlign.center,
-                color: MyColors.black,
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              BuildProfileInputs(_profileData),
-            ],
+          color:  MyColors.grey.withOpacity(.1),
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+            child: Column(
+              children: [
+                MyText(
+                  title: tr("myInfo"),
+                  size: 14,
+                  alien: TextAlign.center,
+                  color: MyColors.black,
+                ),
+                BuildProfileInputs(_profileData),
+              ],
+            ),
           ),
         ));
   }

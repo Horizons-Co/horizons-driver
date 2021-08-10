@@ -14,21 +14,23 @@ class RegisterData {
   final GenericCubit<File> userImage = GenericCubit<File>(null);
   final GlobalKey<DropdownSearchState> cityKey = new GlobalKey();
   final GlobalKey<DropdownSearchState> carMarkKey = new GlobalKey();
-  final GlobalKey<DropdownSearchState> carModelKey = new GlobalKey();
+  final GlobalKey<DropdownSearchState> yearKey = new GlobalKey();
   final GlobalKey<DropdownSearchState> nationalityKey = new GlobalKey();
   DropDownModel city = DropDownModel();
   DropDownModel nationality = DropDownModel();
-  DropDownModel carModel = DropDownModel();
   DropDownModel carMark = DropDownModel();
+  DropDownModel year = DropDownModel();
 
   void setSelectCarMark(DropDownModel model) {
     carMark = model != null ? model : null;
-    carModelKey.currentState.changeSelectedItem(null);
+    yearKey.currentState.changeSelectedItem(null);
   }
 
-  void setSelectCarModel(DropDownModel model) {
-    carModel = model != null ? model : null;
+  void setSelectCarYear(DropDownModel model) {
+    year = model;
   }
+
+
 
   void setSelectCity(DropDownModel model) {
     city = model != null ? model : null;
@@ -40,44 +42,71 @@ class RegisterData {
 
   Future<void> getCarLicenceImage(BuildContext context) async {
     FocusScope.of(context).requestFocus(new FocusNode());
-    File image = await Utils.getImage(imageSource: ImageSource.gallery);
+    LoadingDialog.showLoadingView();
+    File image = await Utils.getImageFile();
     if (image != null) {
-      return carLicenceImage.onUpdateData(image);
+      var file = await compressAndGetFile(image);
+      return carLicenceImage.onUpdateData(file);
     }
+    EasyLoading.dismiss();
   }
 
   Future<void> getCarImage(BuildContext context) async {
     FocusScope.of(context).requestFocus(new FocusNode());
-    File image = await Utils.getImage(imageSource: ImageSource.gallery);
+    LoadingDialog.showLoadingView();
+    File image = await Utils.getImageFile();
     if (image != null) {
-      return carImage.onUpdateData(image);
+      var file = await compressAndGetFile(image);
+      return carImage.onUpdateData(file);
     }
+    EasyLoading.dismiss();
   }
 
   Future<void> getUserImage(BuildContext context) async {
     FocusScope.of(context).requestFocus(new FocusNode());
-    File image = await Utils.getImage(imageSource: ImageSource.gallery);
+    LoadingDialog.showLoadingView();
+    File image = await Utils.getImageFile();
     if (image != null) {
-      return userImage.onUpdateData(image);
+      var file = await compressAndGetFile(image);
+      return userImage.onUpdateData(file);
     }
+    EasyLoading.dismiss();
   }
 
-  // Future<void> fetchData(BuildContext context) async {
-  //   List<Country> countries = await GeneralRepository(context).getCountries();
-  //   getCountries.onUpdateData(countries);
-  //   List<City> cities = await GeneralRepository(context).getCities();
-  //   getCities.onUpdateData(cities);
-  //   List<CarMarks> carMarks = await GeneralRepository(context).getCarMArks();
-  //   getCarMarks.onUpdateData(carMarks);
-  //   pageIsLoaded.onUpdateData(true);
-  // }
+  yearDatePicker(BuildContext context) {
+    DatePicker.showDatePicker(
+      context,
+      showTitleActions: true,
+      onConfirm: (date){},
+      minTime:DateTime(1800),
+      currentTime: DateTime.now(),
+      maxTime: DateTime.now(),
+      theme: DatePickerTheme(
+          itemStyle: GoogleFonts.roboto(fontSize: 18, color: MyColors.black)),
+      locale:
+      context.locale.languageCode == "en" ? LocaleType.en : LocaleType.ar,
+    );
+  }
 
-  // Future<void> getCarModel({BuildContext context, String carMarkId}) async {
-  //   FocusScope.of(context).requestFocus(new FocusNode());
-  //   List<CarModel> carModels =
-  //       await GeneralRepository(context).getCarModel(carMarkId);
-  //   getCarModels.onUpdateData(carModels);
-  // }
+  Future<File> compressAndGetFile(File file) async {
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path, "$dir/${file.path.split("/").last}",
+      quality: 60,
+      rotate: 360,
+    );
+
+    print(file.lengthSync());
+    print(result.lengthSync());
+
+    return result;
+  }
+
+  onChangePhone(String value){
+    if (phone.text.startsWith("0")) {
+      return LoadingDialog.showSimpleToast(tr("phoneValidation0"));
+    }
+  }
 
 
   Future<void> register(BuildContext context) async {
@@ -85,6 +114,8 @@ class RegisterData {
     if (formKey.currentState.validate()) {
       if (!phone.text.startsWith("5")) {
         return LoadingDialog.showSimpleToast(tr("phoneStartWith05"));
+      } else if (phone.text.startsWith("0")) {
+        return LoadingDialog.showSimpleToast(tr("phoneValidation"));
       } else if (identityNumber.text.length != 10) {
         return LoadingDialog.showSimpleToast(tr("identityNumberMustBe10"));
       }
@@ -98,9 +129,9 @@ class RegisterData {
         userPassword: password.text,
         carImage: carImage.state.data,
         carLicence: carLicenceImage.state.data,
-        userCarModel: carModel.id.toString(),
-        userCarType: carMark.id.toString(),
+        carMakerId: carMark.id.toString(),
         userIdentity: identityNumber.text,
+        year: year.name
       ));
       btnKey.currentState.animateReverse();
     }

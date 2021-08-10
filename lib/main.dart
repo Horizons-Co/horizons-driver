@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+
 import 'general/blocs/bloc_observer/BlocObserver.dart';
 import 'general/screens/splash/SplashImports.dart';
 import 'general/utilities/main_data/MainDataImports.dart';

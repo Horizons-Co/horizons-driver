@@ -14,6 +14,8 @@ class DriverRepository {
     _driverAuthMethods = DriverAuthMethods(context: _context);
   }
 
+  Future<List<OrderItemModel>> getNewOrders() async =>
+      _orderHttpMethods.getNewOrders();
   Future<List<OrderItemModel>> getCurrentOrders(int currentPage) async =>
       _orderHttpMethods.getCurrentOrders(currentPage);
   Future<List<OrderItemModel>> getCanceledOrders(int currentPage) async =>
@@ -24,6 +26,8 @@ class DriverRepository {
       _orderHttpMethods.getDeliveredOrders(currentPage);
   Future<bool> changeOrderStatus({String orderId, String action}) async =>
       _orderHttpMethods.changeOrderStatus(orderId: orderId, action: action);
+  Future<bool> changeOrderStatusFromNotify({String orderId, String action}) async =>
+      _orderHttpMethods.changeOrderStatusFromNotify(orderId: orderId, action: action);
 
 //  auth
 

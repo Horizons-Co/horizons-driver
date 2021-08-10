@@ -71,6 +71,7 @@
   "passValidation": "Enter at least 6 letters or numbers",
   "mailValidation": "Enter a valid email",
   "phoneValidation": "Phone must be 9 numbers and start with 5",
+  "phoneValidation0": "Phone must start with 5",
   "confirmValidation": "Enter a confirmation password match",
   "nationality": "Nationality",
   "chickNet": "check your internet",
@@ -78,7 +79,22 @@
   "wrongActiveCode": "Wrong active code",
   "callVia": "Call Via",
   "whatsApp": "WhatsApp",
-  "viaPhone": "Phone"
+  "viaPhone": "Phone",
+  "noActive": "You cannot receive requests until you are activated by the administration",
+  "Forbidden": "Please check your information",
+  "year": "manufacturing year",
+  "noOrdersUntilActive": "You cannot receive requests until you are activated by the administration.",
+  "pleaseActiveLoc": "Please activate the location",
+  "pleaseActiveNotify": "Please enable notifications",
+  "whatsStatement": "With you a representative of Afaq company with me for you a shipment from a store",
+  "confirm": "Confirm",
+  "settings": "Settings",
+  "cancel": "Cancel",
+  "accept": "Accept",
+  "loginToFollow": "Sign in to continue",
+  "acceptToUseBackgroundService": "This app collects location data to enable tracking orders location to let know it's place even when the app is closed or not in use"
+
+
 
 }
 

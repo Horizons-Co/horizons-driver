@@ -15,6 +15,7 @@ class HomeAppBar extends PreferredSize {
       title: Image.asset(Res.icon),
       centerTitle: true,
       automaticallyImplyLeading: false,
+      brightness: Brightness.dark,
       leading: IconButton(
           icon: ImageIcon(
             AssetImage(Res.menu),
@@ -53,10 +54,8 @@ class HomeAppBar extends PreferredSize {
                       activeTrackColor: Colors.green,
                       activeColor: MyColors.white,
                       value: state.data ?? false,
-                      onChanged: (bool value) {
-                        homeData.changeActiveState(
-                            context: context, active: value);
-                      })
+                      onChanged: (bool value)=>homeData.changeActiveState(context: context, active: value)
+                  )
                 ],
               );
             })

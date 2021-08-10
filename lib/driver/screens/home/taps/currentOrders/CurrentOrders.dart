@@ -9,17 +9,22 @@ class CurrentOrders extends StatefulWidget {
 }
 
 class _CurrentOrdersState extends State<CurrentOrders> {
+
   final CurrentOrdersData currentOrdersData = CurrentOrdersData();
+
   @override
   void initState() {
     currentOrdersData.pagingController.addPageRequestListener((pageKey) {
       currentOrdersData.fetchPage(context, pageKey);
     });
+    currentOrdersData.streamListener(context, mounted);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var user = context.watch<UserCubit>().state.model;
     return BlocBuilder<GenericCubit<bool>, GenericState<bool>>(
         cubit: widget._homeData.orderState,
         builder: (_, state) {
@@ -34,7 +39,7 @@ class _CurrentOrdersState extends State<CurrentOrders> {
                   child: Image.asset(Res.noOrders),
                 ),
                 MyText(
-                  title: tr("noOrders"),
+                  title: !user.isActive||user.suspended? tr("noActive") : tr("noOrders"),
                   size: 12,
                   color: MyColors.grey.withOpacity(.3),
                 )
@@ -43,6 +48,7 @@ class _CurrentOrdersState extends State<CurrentOrders> {
           } else {
             return PagedListView<int, OrderItemModel>(
               pagingController: currentOrdersData.pagingController,
+              physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
               padding: const EdgeInsets.symmetric(vertical: 10),
               builderDelegate: PagedChildBuilderDelegate<OrderItemModel>(
                   noItemsFoundIndicatorBuilder: (_) => Center(

@@ -1,3 +1,4 @@
+import 'package:base_structure/driver/screens/home/HomeImports.dart';
 import 'package:base_structure/general/models/dots/RegisterModel.dart';
 import 'package:base_structure/general/models/dots/drop_down_model.dart';
 import 'package:base_structure/general/models/user_model.dart';
@@ -35,7 +36,7 @@ class GeneralRepository {
           {String mobile, String code, String pass}) async =>
       _authHttpMethods.resetUserPassword(mobile, code, pass);
 
-  Future<void> logout() => _authHttpMethods.logout();
+  Future<void> logout(HomeData homeData) => _authHttpMethods.logout(homeData);
 
 //  general
   Future<List<DropDownModel>> getCountries() async =>
@@ -46,6 +47,8 @@ class GeneralRepository {
 
   Future<List<DropDownModel>> getCarMArks() async =>
       _generalHttpMethods.getCarMArks();
+
+  Future<String> getContactUs()=> _generalHttpMethods.getContactUs();
 
   Future<List<DropDownModel>> getCarModel(String carMark) async =>
       _generalHttpMethods.getCarModel(carMark);

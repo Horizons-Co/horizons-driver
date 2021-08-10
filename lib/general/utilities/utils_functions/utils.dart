@@ -24,14 +24,13 @@ class Utils {
       } else {
         BackgroundLocator.unRegisterLocationUpdate();
         clearSavedData();
+
         changeLanguage("ar", context);
-        ExtendedNavigator.of(context)
-            .pushAndRemoveUntil(Routes.login, (route) => false);
+        ExtendedNavigator.of(context).push(Routes.locationPermission);
       }
     } else {
       changeLanguage("ar", context);
-      ExtendedNavigator.of(context)
-          .pushAndRemoveUntil(Routes.login, (route) => false);
+      ExtendedNavigator.of(context).push(Routes.locationPermission);
     }
   }
 
@@ -84,6 +83,7 @@ class Utils {
 
   static void clearSavedData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    GlobalState.instance.set("token", "");
     prefs.clear();
   }
 
@@ -142,11 +142,7 @@ class Utils {
     if (!url.toString().startsWith("https")) {
       url = "https://" + url;
     }
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      LoadingDialog.showToastNotification("${tr("checkLink")}");
-    }
+    await launch(url);
   }
 
   static void launchWhatsApp(phone) async {
@@ -217,6 +213,21 @@ class Utils {
       return files;
     } else {
       return [];
+    }
+  }
+
+  static Future<File> getImageFile() async {
+    FilePickerResult result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.image,
+      allowCompression: true,
+    );
+
+    if (result != null) {
+      List<File> files = result.paths.map((path) => File(path)).toList();
+      return files.first;
+    } else {
+      return null;
     }
   }
 

@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:background_locator/background_locator.dart';
+import 'package:base_structure/driver/screens/home/HomeImports.dart';
 import 'package:base_structure/general/constants/GlobalState.dart';
 import 'package:base_structure/general/constants/ModaLs/LoadingDialog.dart';
 import 'package:base_structure/general/models/dots/RegisterModel.dart';
@@ -8,6 +10,7 @@ import 'package:base_structure/general/models/user_model.dart';
 import 'package:base_structure/general/utilities/dio_helper/DioImports.dart';
 import 'package:base_structure/general/utilities/routers/Router.gr.dart';
 import 'package:base_structure/general/utilities/utils_functions/CustomOneSignal.dart';
+import 'package:base_structure/general/utilities/utils_functions/CustomePushNotification.dart';
 import 'package:base_structure/general/utilities/utils_functions/UtilsImports.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -30,7 +33,7 @@ class AuthHttpMethods {
       "mobile": "$phone",
       "password": "$pass",
     };
-    var _data = await DioHelper(context).get("drivers/login", body);
+    var _data = await DioHelper(context).post("drivers/login", body,showLoader: false);
     if (_data != null) {
       if (_data['data']['is_verified'] == false ||
           _data['data']["user"]['is_verified'] == false) {
@@ -50,8 +53,7 @@ class AuthHttpMethods {
         GlobalState.instance.set("token", _data["data"]["access_token"]);
         await Utils.saveUserData(user);
         Utils.setCurrentUserData(user, context);
-        CustomOneSignal.initPlatformState(user.id, context);
-        ExtendedNavigator.root.pushAndRemoveUntil(Routes.home, (route) => false,
+        ExtendedNavigator.root.push(Routes.home,
             arguments: HomeArguments(index: 0));
       }
 
@@ -96,7 +98,8 @@ class AuthHttpMethods {
       "city_id": "${registerModel.userCity}",
       "country_id": "${registerModel.userCountry}",
       "id_no": "${registerModel.userIdentity}",
-      "car_model_id": registerModel.userCarModel,
+      "car_maker_id": registerModel.carMakerId,
+      "car_year": int.parse(registerModel.year),
       "id_image": carLicence ?? "",
       "car_image": carImage ?? "",
       "personal_image": profileImage ?? "",
@@ -131,7 +134,7 @@ class AuthHttpMethods {
     Map<String, dynamic> body = {
       "mobile": "$phone",
     };
-    var _data = await DioHelper(context).get("drivers/forget-password", body);
+    var _data = await DioHelper(context).post("drivers/forget-password", body,showLoader: false);
     if (_data != null) {
       ExtendedNavigator.root.push(Routes.resetPassword,
           arguments: ResetPasswordArguments(userId: "sss", phone: phone));
@@ -147,9 +150,10 @@ class AuthHttpMethods {
       "pin_code": "$pinCode",
       "mobile": userModel.mobile
     };
-    var _data = await DioHelper(context).get(
+    var _data = await DioHelper(context).post(
       "drivers/mobile/verify",
       body,
+      showLoader: false
     );
     if (_data != null) {
       if (_data["data"]["status"]) {
@@ -185,7 +189,7 @@ class AuthHttpMethods {
       "password": "$pass",
     };
     var _data =
-        await DioHelper(context).get("drivers/forget-password/confirm", body);
+        await DioHelper(context).post("drivers/forget-password/confirm", body,showLoader: false);
     print("data is $_data");
     if (_data != null) {
       if (_data["data"]["status"] == true) {
@@ -227,14 +231,18 @@ class AuthHttpMethods {
     }
   }
 
-  Future<void> logout() async {
+  Future<void> logout(HomeData homeData) async {
     LoadingDialog.showLoadingDialog();
+    BackgroundLocator.unRegisterLocationUpdate();
+    await BackgroundLocator.isServiceRunning();
     Map<String, dynamic> body = {
       "device_token": GlobalState.instance.get("oneSignalUserId")
     };
     final response = await DioHelper(context).post("drivers/logout", body);
     if (response != null) {
+      // await CustomPushNotification.setLogOut();
       await CustomOneSignal.setLogOut();
+      await homeData.changeActiveStateFromNotify(active: false,context: context);
       EasyLoading.dismiss().then((value) {
         Utils.clearSavedData();
         Phoenix.rebirth(context);

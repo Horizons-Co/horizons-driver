@@ -69,6 +69,7 @@
   "accountIsNotValid": "الحساب غير موجود لدينا",
   "fillField": "من فضلك ادخل هذا الحقل",
   "passValidation": "ادخل علي الاقل ٦ حروف او ارقام",
+  "phoneValidation0": "رقم الجوال يجب ان يبدا ب 5",
   "mailValidation": "ادخل البريد الالكتروني صحيحا",
   "phoneValidation": "رقم الجوال يجب ان يكون 9 ارقام و يبدا ب 5",
   "confirmValidation": "ادخل تاكيد رمز المرور متطابقا",
@@ -78,7 +79,20 @@
   "wrongActiveCode": "كود تفعيل خاطئ",
   "callVia": "محادثة عن طريق",
   "whatsApp": "WhatsApp",
-  "viaPhone": "اتصال"
+  "viaPhone": "اتصال",
+  "noActive": "لايمكنك استقبال طلبات حتي يتم تفعيلك من قبل الادارة",
+  "Forbidden": "من فضلك تآكد من البيانات",
+  "year": "سنة الصنع",
+  "noOrdersUntilActive": "لايمكنك استقبال طلبات حتي يتم تفعيلك من قبل الادارة .",
+  "pleaseActiveLoc": "  من فضلك قم بتفعيل الموقع",
+  "pleaseActiveNotify": "  من فضلك قم بتفعيل الاشعارات",
+  "whatsStatement": "معك مندوب شركة آفاق معي لك شحنة من متجر",
+  "confirm": "تأكيد",
+  "settings": "الاعدادت",
+  "cancel": "الغاء",
+  "accept": "موافقة",
+  "loginToFollow": "قم بتسجيل الدخول للمتابعة",
+  "acceptToUseBackgroundService": "السماح للتطبيق باستخدام معلومات الموقع لمتابعة الطلبات وتتبعها اذا كان التطبيق مغلق او في وضع الإستخدام"
 }
 
 

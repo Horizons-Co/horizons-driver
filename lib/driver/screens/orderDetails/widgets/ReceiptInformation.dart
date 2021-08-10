@@ -26,8 +26,8 @@ class ReceiptInfo extends StatelessWidget {
                   : "${orderItemModel.logs[0].date} ${orderItemModel.logs[0].time.substring(0, orderItemModel.logs[0].time.length - 3)}",
               timeTitle: "${tr("receiveTime")}:",
               addressValue: orderItemModel.pickupPoint.id == 1
-                  ? orderItemModel.branch.district.name
-                  : orderItemModel.client.district.name,
+                  ? orderItemModel.branch.district?.name ?? ""
+                  : orderItemModel.client.district?.name ?? "",
               onTap: () {
                 if (orderItemModel.pickupPoint.id == 1) {
                   Utils.openMap(json.encode({
@@ -94,12 +94,18 @@ class ReceiptInfo extends StatelessWidget {
               InkWell(
                 onTap: () => orderDetailsData.callWhatsAppOrPhone(
                     context: context,
-                    whatsApp: () {
+                    whatsApp: () async {
                       String phone =
                           orderItemModel.merchant.mobile.replaceFirst("0", "");
-                      Utils.launchURL(
-                          url:
-                              "https://api.whatsapp.com/send?phone=+966$phone");
+                      final link = WhatsAppUnilink(
+                        phoneNumber: "+966$phone",
+                        text:
+                            "${tr("whatsStatement")} ${orderItemModel.merchant.name}",
+                      );
+                      await launch('$link');
+                      // Utils.launchURL(
+                      //     url:
+                      //         "https://wa.me/+966$phone?text=معك مندوب شركة آفاق معي لك شحنة من متجر ${orderItemModel.merchant.name}");
                     },
                     phone: () {
                       Utils.callPhone(
