@@ -51,6 +51,8 @@
 	<string>This app needs access to photo library to add user photo and service images.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>recognize speech</string>
+	<key>NSAppleMusicUsageDescription</key>
+    <string>Play sound when get new order</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
