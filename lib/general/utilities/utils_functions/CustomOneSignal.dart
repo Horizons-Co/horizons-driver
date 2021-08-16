@@ -30,7 +30,7 @@ class CustomOneSignal {
 
 
     var settings = {
-      OSiOSSettings.autoPrompt: true,
+      OSiOSSettings.autoPrompt: false,
       OSiOSSettings.inAppLaunchUrl: true
     };
     // NOTE: Replace with your own app ID from https://www.onesignal.com
