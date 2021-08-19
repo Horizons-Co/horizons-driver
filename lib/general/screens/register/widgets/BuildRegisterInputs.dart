@@ -64,7 +64,7 @@ class _BuildRegisterInputsState extends State<BuildRegisterInputs> {
             label: tr("nationality"),
             finData: (filter) async =>
                 await GeneralRepository(context).getCountries(),
-            validate: (DropDownModel value) => value.validateDropDown(),
+            // validate: (DropDownModel value) => value.validateDropDown(),
             margin: const EdgeInsets.symmetric(vertical: 5),
             useName: true,
             onChange: widget.registerData.setSelectNationality,
@@ -91,7 +91,11 @@ class _BuildRegisterInputsState extends State<BuildRegisterInputs> {
           DropdownTextField<DropDownModel>(
             dropKey: widget.registerData.yearKey,
             label: tr("year"),
-            data: range(1800,DateTime.now().year+1).map((e) => DropDownModel(id: e,name: e.toString())).toList().reversed.toList(),
+            data: range(1800, DateTime.now().year + 1)
+                .map((e) => DropDownModel(id: e, name: e.toString()))
+                .toList()
+                .reversed
+                .toList(),
             validate: (DropDownModel value) => value.validateDropDown(),
             margin: const EdgeInsets.symmetric(vertical: 5),
             onChange: widget.registerData.setSelectCarYear,

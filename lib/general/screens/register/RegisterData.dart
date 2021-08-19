@@ -30,8 +30,6 @@ class RegisterData {
     year = model;
   }
 
-
-
   void setSelectCity(DropDownModel model) {
     city = model != null ? model : null;
   }
@@ -77,21 +75,22 @@ class RegisterData {
     DatePicker.showDatePicker(
       context,
       showTitleActions: true,
-      onConfirm: (date){},
-      minTime:DateTime(1800),
+      onConfirm: (date) {},
+      minTime: DateTime(1800),
       currentTime: DateTime.now(),
       maxTime: DateTime.now(),
       theme: DatePickerTheme(
           itemStyle: GoogleFonts.roboto(fontSize: 18, color: MyColors.black)),
       locale:
-      context.locale.languageCode == "en" ? LocaleType.en : LocaleType.ar,
+          context.locale.languageCode == "en" ? LocaleType.en : LocaleType.ar,
     );
   }
 
   Future<File> compressAndGetFile(File file) async {
     String dir = (await getApplicationDocumentsDirectory()).path;
     var result = await FlutterImageCompress.compressAndGetFile(
-      file.absolute.path, "$dir/${file.path.split("/").last}",
+      file.absolute.path,
+      "$dir/${file.path.split("/").last}",
       quality: 60,
       rotate: 360,
     );
@@ -102,12 +101,11 @@ class RegisterData {
     return result;
   }
 
-  onChangePhone(String value){
+  onChangePhone(String value) {
     if (phone.text.startsWith("0")) {
       return LoadingDialog.showSimpleToast(tr("phoneValidation0"));
     }
   }
-
 
   Future<void> register(BuildContext context) async {
     FocusScope.of(context).requestFocus(new FocusNode());
@@ -121,18 +119,17 @@ class RegisterData {
       }
       btnKey.currentState.animateForward();
       await GeneralRepository(context).userRegister(RegisterModel(
-        userImage: userImage.state.data,
-        userCountry: nationality.id.toString(),
-        userPhone: "0${phone.text}",
-        userName: name.text,
-        userCity: city.id.toString(),
-        userPassword: password.text,
-        carImage: carImage.state.data,
-        carLicence: carLicenceImage.state.data,
-        carMakerId: carMark.id.toString(),
-        userIdentity: identityNumber.text,
-        year: year.name
-      ));
+          userImage: userImage.state.data,
+          userCountry: nationality.id == null ? "1" : nationality.id.toString(),
+          userPhone: "0${phone.text}",
+          userName: name.text,
+          userCity: city.id.toString(),
+          userPassword: password.text,
+          carImage: carImage.state.data,
+          carLicence: carLicenceImage.state.data,
+          carMakerId: carMark.id.toString(),
+          userIdentity: identityNumber.text,
+          year: year.name));
       btnKey.currentState.animateReverse();
     }
   }
