@@ -13,8 +13,7 @@ Widget orderItem({OrderItemModel orderItemModel, BuildContext context}) {
         PlayNotificationSound.stopSound();
       }
       if (orderItemModel.status.id != 5)
-        Navigator.push(context,
-            MaterialPageRoute(builder: (_) => OrderDetails(orderItemModel)));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => OrderDetails(orderItemModel)));
     },
     child: Container(
       margin: const EdgeInsets.only(left: 10, right: 10, top: 15),
@@ -25,15 +24,14 @@ Widget orderItem({OrderItemModel orderItemModel, BuildContext context}) {
             padding: const EdgeInsets.all(5),
             alignment: Alignment.center,
             child: MyText(
-              title: orderItemModel.merchant.name,
+              title: orderItemModel.merchant?.name ?? "",
               color: MyColors.white,
               size: 12,
             ),
             decoration: BoxDecoration(
                 color: MyColors.primary,
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(10),
-                    topLeft: Radius.circular(10))),
+                borderRadius:
+                    BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10))),
           ),
           Container(
             height: 90,
@@ -41,8 +39,7 @@ Widget orderItem({OrderItemModel orderItemModel, BuildContext context}) {
             decoration: BoxDecoration(
                 color: MyColors.white,
                 borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10))),
+                    bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

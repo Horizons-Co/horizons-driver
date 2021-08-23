@@ -16,43 +16,33 @@ import 'package:base_structure/general/widgets/MyText.dart';
 import 'package:base_structure/res.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomOneSignal {
+  static StreamController<String> _onMessageStreamController = StreamController.broadcast();
 
-  static StreamController<String> _onMessageStreamController =
-  StreamController.broadcast();
-
-  static Future<void> initNotification({String merchantId, BuildContext context,HomeData homeData}) async {
+  static Future<void> initNotification(
+      {String merchantId, BuildContext context, HomeData homeData}) async {
     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
-
-    var settings = {
-      OSiOSSettings.autoPrompt: false,
-      OSiOSSettings.inAppLaunchUrl: true
-    };
+    var settings = {OSiOSSettings.autoPrompt: false, OSiOSSettings.inAppLaunchUrl: true};
     // NOTE: Replace with your own app ID from https://www.onesignal.com
-    await OneSignal.shared
-        .init("d66944b7-5bf6-46e1-ae97-ed55adccea38", iOSSettings: settings);
+    await OneSignal.shared.init("d66944b7-5bf6-46e1-ae97-ed55adccea38", iOSSettings: settings);
     OneSignal.shared.setRequiresUserPrivacyConsent(false);
 
-    OneSignal.shared
-        .setNotificationReceivedHandler((OSNotification notification)=>
-        onReceiveMessage(notification,homeData,context));
+    OneSignal.shared.setNotificationReceivedHandler(
+        (OSNotification notification) => onReceiveMessage(notification, homeData, context));
 
-    OneSignal.shared
-        .setNotificationOpenedHandler((OSNotificationOpenedResult result) => onOpenMessage(result.notification,homeData,context));
+    OneSignal.shared.setNotificationOpenedHandler(
+        (OSNotificationOpenedResult result) => onOpenMessage(result.notification, homeData, context));
 
-    OneSignal.shared
-        .setInAppMessageClickedHandler((OSInAppMessageAction action) {
-      print(
-          "In App Message Clicked: \n${action.jsonRepresentation().replaceAll("\\n", "\n")}");
+    OneSignal.shared.setInAppMessageClickedHandler((OSInAppMessageAction action) {
+      print("In App Message Clicked: \n${action.jsonRepresentation().replaceAll("\\n", "\n")}");
     });
 
-    OneSignal.shared
-        .setSubscriptionObserver((OSSubscriptionStateChanges changes) {
+    OneSignal.shared.setSubscriptionObserver((OSSubscriptionStateChanges changes) {
       print("SUBSCRIPTION STATE CHANGED: ${changes.jsonRepresentation()}");
     });
 
@@ -60,15 +50,12 @@ class CustomOneSignal {
       print("PERMISSION STATE CHANGED: ${changes.jsonRepresentation()}");
     });
 
-    OneSignal.shared.setEmailSubscriptionObserver(
-        (OSEmailSubscriptionStateChanges changes) {
+    OneSignal.shared.setEmailSubscriptionObserver((OSEmailSubscriptionStateChanges changes) {
       print("EMAIL SUBSCRIPTION STATE CHANGED ${changes.jsonRepresentation()}");
     });
 
-
     await OneSignal.shared.setSubscription(true);
-    OneSignal.shared
-        .setInFocusDisplayType(OSNotificationDisplayType.notification);
+    OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
 
     await OneSignal.shared.requiresUserPrivacyConsent();
 
@@ -76,88 +63,90 @@ class CustomOneSignal {
     print("player id android : " + status.subscriptionStatus.userId);
     String userId = status.subscriptionStatus.userId;
 
-    handleAndroid(merchantId, userId ,context);
+    handleAndroid(merchantId, userId, context);
   }
-
-
 
   static onReceiveMessage(notification, HomeData homeData, BuildContext context) {
     print('received : $notification');
     var order = json.decode(notification.payload.rawPayload['custom']);
     if (order["a"]["driver"] != null) {
-      onDriverReceived(notification,homeData,context);
+      onDriverReceived(notification, homeData, context);
     } else {
-      onOrderReceived(notification,homeData.tabController,context);
+      onOrderReceived(notification, homeData.tabController, context);
     }
-
   }
 
-  static onOrderReceived(notification, TabController tabController, BuildContext context){
-    var data = json.decode(notification.payload.rawPayload);
+  static onOrderReceived(notification, TabController tabController, BuildContext context) {
+    var data = notification.payload.rawPayload;
     var order = json.decode(notification.payload.rawPayload['custom']);
-    print("order is ${order['a']['order']['id']}");
-    LoadingDialog.showNotifyDialog(
-      context: context,
-      title: data["aps"]["alert"]["title"],
-      confirm: ()=>changeOrderState(context,notification,tabController,"4"),
-      onCancel: ()=>changeOrderState(context,notification,tabController,"3"),
-    );
+    print("order is $data");
     var orderID = order['a']['order']['id'];
     print("orderID is $orderID");
     GlobalState.instance.set("currentOrderId", orderID);
+    print("context is ${data["alert"]}");
+    LoadingDialog.showNotifyDialog(
+      context: context,
+      title: data["title"],
+      confirm: () => changeOrderState(context, notification, tabController, "4"),
+      onCancel: () => changeOrderState(context, notification, tabController, "3"),
+    );
+
     print('playSound');
     PlayNotificationSound.playSound();
     // _onMessageStreamController.add("notification");
   }
 
-
-  static onDriverReceived(notification, HomeData homeData, BuildContext context){
-    var data = json.decode(notification.payload.rawPayload);
+  static onDriverReceived(notification, HomeData homeData, BuildContext context) {
+    var data = notification.payload.rawPayload;
     var order = json.decode(notification.payload.rawPayload['custom']);
     UserModel user = UserModel.fromJson(order["a"]["driver"]);
     context.read<UserCubit>().onUpdateUserData(user);
-    homeData.changeActiveStateFromNotify(context: context, active: (user.isActive&&!user.suspended));
+    homeData.changeActiveStateFromNotify(context: context, active: (user.isActive && !user.suspended));
+    print("hommmmm $data");
     BotToast.showNotification(
-      onTap: ()=>onclickMessage(notification,homeData.tabController),
-      title: (_) => MyText(title: data["aps"]["alert"]["title"],size: 12,color: MyColors.primary,),
-      subtitle: (_) => MyText(title: data["aps"]["alert"]["body"],size: 10,color: MyColors.black,),
-      leading: (_)=> Image.asset(Res.logo,width: 50,height: 50),
+      onTap: () => onclickMessage(notification, homeData.tabController),
+      title: (_) => MyText(
+        title: data["title"],
+        size: 12,
+        color: MyColors.primary,
+      ),
+      subtitle: (_) => MyText(
+        title: data["alert"],
+        size: 10,
+        color: MyColors.black,
+      ),
+      leading: (_) => Image.asset(Res.logo, width: 50, height: 50),
       trailing: (cancel) => IconButton(
         icon: Icon(Icons.cancel),
         onPressed: cancel,
       ),
-      contentPadding: EdgeInsets.symmetric(horizontal: 5,vertical: 10),
+      contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       enableSlideOff: true,
       duration: Duration(seconds: 4),
-      animationDuration:
-      Duration(milliseconds: 500),
-      animationReverseDuration:
-      Duration(milliseconds: 500),
+      animationDuration: Duration(milliseconds: 500),
+      animationReverseDuration: Duration(milliseconds: 500),
     );
-
   }
 
-  static onOpenMessage(notification, HomeData homeData,BuildContext context) {
+  static onOpenMessage(notification, HomeData homeData, BuildContext context) {
     print('opened : $notification');
-    var data = json.decode(notification.payload.rawPayload);
+    // var data = json.decode(notification.payload.rawPayload);
     var order = json.decode(notification.payload.rawPayload['custom']);
     if (order["a"]["driver"] != null) {
-      onDriverReceived(notification,homeData,context);
+      onDriverReceived(notification, homeData, context);
     } else {
-      onOrderReceived(notification,homeData.tabController,context);
+      onOrderReceived(notification, homeData.tabController, context);
     }
   }
 
-
   static onclickMessage(notification, TabController tabController) {
     print('opened : $notification');
-    var data = json.decode(notification)["payload"]["rawPayload"];
+    // var data = json.decode(notification)["payload"]["rawPayload"];
 
-    var order = data['custom'];
+    var order = json.decode(notification.payload.rawPayload['custom']);
 
     if (order["a"]["driver"] != null) {
-      ExtendedNavigator.root
-          .pushAndRemoveUntilPath(Routes.profile, Routes.home);
+      ExtendedNavigator.root.pushAndRemoveUntilPath(Routes.profile, Routes.home);
       return;
     }
     int orderStatus = order['a']['order']['status_id'];
@@ -179,24 +168,20 @@ class CustomOneSignal {
     }
   }
 
-  static void handleAndroid(
-      String merchantId, String userId, BuildContext context) async {
+  static void handleAndroid(String merchantId, String userId, BuildContext context) async {
     print("player id android : " + userId);
     GlobalState.instance.set("oneSignalUserId", userId);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("oneSignalUserId", userId);
     if (userId != "null")
-      sendDeviceToken(
-          merchantId: merchantId, oneSignalToken: userId, context: context);
+      sendDeviceToken(merchantId: merchantId, oneSignalToken: userId, context: context);
     else
       print("null player id cannot send data");
   }
 
-  static void sendDeviceToken(
-      {String merchantId, BuildContext context, String oneSignalToken}) async {
+  static void sendDeviceToken({String merchantId, BuildContext context, String oneSignalToken}) async {
     print("start send user token one signal");
-    GeneralRepository(context).sendDeviceToken(
-        merchantId: merchantId, oneSignalToken: oneSignalToken);
+    GeneralRepository(context).sendDeviceToken(merchantId: merchantId, oneSignalToken: oneSignalToken);
   }
 
   static Future<void> setLogOut() async {
@@ -207,32 +192,30 @@ class CustomOneSignal {
     return _onMessageStreamController;
   }
 
-  static void changeOrderState(BuildContext context,notification, TabController tabController,String state)async{
+  static void changeOrderState(BuildContext context, OSNotification notification,
+      TabController tabController, String state) async {
     closeDialog(context);
-    var data = json.decode(notification)["payload"]["rawPayload"];
-
-    var order = data['custom'];
-    await DriverRepository(context).changeOrderStatusFromNotify(
-        orderId: order['a']['order']['id'],
-        action: state);
-    onclickMessage(notification,tabController);
-    if(state=="4")_onMessageStreamController.add("refresh");
+    // var data = json.decode(notification)["payload"]["rawPayload"];
+    print("notification is ${notification.payload.rawPayload["custom"]}");
+    var order = json.decode(notification.payload.rawPayload['custom']);
+    // var order = notification.payload.rawPayload["custom"];
+    await DriverRepository(context)
+        .changeOrderStatusFromNotify(orderId: order['a']['order']['id'], action: state);
+    onclickMessage(notification, tabController);
+    if (state == "4") _onMessageStreamController.add("refresh");
   }
 
-  static void changeNewOrderState(BuildContext context,String id, TabController tabController,String state)async{
+  static void changeNewOrderState(
+      BuildContext context, String id, TabController tabController, String state) async {
     closeDialog(context);
-    await DriverRepository(context).changeOrderStatusFromNotify(
-        orderId: id,
-        action: state);
+    await DriverRepository(context).changeOrderStatusFromNotify(orderId: id, action: state);
     ExtendedNavigator.root.popUntilPath(Routes.home);
     tabController.animateTo(0);
-    if(state=="4")_onMessageStreamController.add("refresh");
+    if (state == "4") _onMessageStreamController.add("refresh");
   }
 
-  static void closeDialog(BuildContext context){
+  static void closeDialog(BuildContext context) {
     Navigator.pop(context);
     PlayNotificationSound.stopSound();
   }
-
-
 }
