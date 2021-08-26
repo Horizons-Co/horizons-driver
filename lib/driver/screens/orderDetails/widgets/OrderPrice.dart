@@ -5,6 +5,7 @@ class OrderPrice extends StatelessWidget {
   const OrderPrice(this.orderItemModel);
   @override
   Widget build(BuildContext context) {
+    print("order details is ${orderItemModel.isMultiple}");
     return Container(
       width: MediaQuery.of(context).size.width,
       margin: const EdgeInsets.symmetric(vertical: 10),
@@ -40,43 +41,39 @@ class OrderPrice extends StatelessWidget {
               title: tr("orderPrice"),
               value: "${orderItemModel.price} ${orderItemModel.currency}",
               bold: false),
-          infoItems(
-              title: tr("delivery"),
-              value: "${orderItemModel.deliveryFees}",
-              bold: false),
-          infoItems(
-              title: tr("tax"),
-              value: "${orderItemModel.vat.amount}",
-              bold: false),
+          infoItems(title: tr("delivery"), value: "${orderItemModel.deliveryFees}", bold: false),
+          infoItems(title: tr("tax"), value: "${orderItemModel.vat.amount}", bold: false),
           Divider(
             color: MyColors.grey,
           ),
-          infoItems(
-              title: tr("total"), value: "${orderItemModel.total}", bold: true),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(
-              color: Colors.yellow.withOpacity(.3),
-              border: Border.all(color: MyColors.primary.withOpacity(.6)),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MyText(
-                  title: "${tr("note")}: ",
-                  size: 12,
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                ),
-                MyText(
-                  title: "قم بتحصيل المبلغ كامل من العميل",
-                  size: 10,
-                  color: Colors.red,
-                ),
-              ],
+          infoItems(title: tr("total"), value: "${orderItemModel.total}", bold: true),
+          Visibility(
+            visible: orderItemModel.feesPaymentMethod.id == 2,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                color: Colors.yellow.withOpacity(.3),
+                border: Border.all(color: MyColors.primary.withOpacity(.6)),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MyText(
+                    title: "${tr("gainMoney")}: ",
+                    size: 12,
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  MyText(
+                    title: orderItemModel.collectionMethod?.name ?? "",
+                    size: 10,
+                    color: Colors.red,
+                  ),
+                ],
+              ),
             ),
           )
         ],

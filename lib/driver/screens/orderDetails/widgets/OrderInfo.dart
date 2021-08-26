@@ -7,6 +7,24 @@ class OrderInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Visibility(
+          visible: orderItemModel.isMultiple,
+          child: Row(
+            children: [
+              MyText(
+                color: MyColors.black,
+                size: 12,
+                title: "${tr("order")} : ",
+              ),
+              MyText(
+                color: MyColors.black,
+                title: tr("multipleOrder"),
+                size: 13,
+                fontWeight: FontWeight.w900,
+              ),
+            ],
+          ),
+        ),
         Row(
           children: [
             MyText(
@@ -22,6 +40,7 @@ class OrderInfo extends StatelessWidget {
             ),
           ],
         ),
+
         Row(
           children: [
             MyText(

@@ -42,7 +42,10 @@ OrderItemModel _$OrderItemModelFromJson(Map<String, dynamic> json) {
     total: json['total'] as String,
     currency: json['currency'] as String,
     formattedPrice: json['formatted_price'] as String,
-    collectionMethod: json['collection_method'],
+    collectionMethod: json['collection_method'] == null
+        ? null
+        : CollectionMethod.fromJson(
+            json['collection_method'] as Map<String, dynamic>),
     deliveryFees: json['delivery_fees'] as String,
     vat: json['vat'] == null
         ? null
@@ -89,6 +92,19 @@ Map<String, dynamic> _$OrderItemModelToJson(OrderItemModel instance) =>
       'updated_at': instance.updatedAt,
       'timeline': instance.timeline,
       'logs': instance.logs,
+    };
+
+CollectionMethod _$CollectionMethodFromJson(Map<String, dynamic> json) {
+  return CollectionMethod(
+    id: json['id'] as int,
+    name: json['name'] as String,
+  );
+}
+
+Map<String, dynamic> _$CollectionMethodToJson(CollectionMethod instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
     };
 
 Client _$ClientFromJson(Map<String, dynamic> json) {

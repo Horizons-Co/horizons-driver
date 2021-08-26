@@ -21,24 +21,37 @@ class OrderDetails extends StatelessWidget {
       ),
       body: Container(
         color: MyColors.grey.withOpacity(.1),
-        child: SingleChildScrollView(
+        child: ListView(
           physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-          child: Column(
-            children: [
-              OrderInfo(orderItemModel),
-              // AnimationContainer(
-              //     duration: Duration(seconds: 1),
-              //     vertical: false,
-              //     distance: 200,
-              //     index: 1,
-              //     child: OrderStatus(orderItemModel)),
-              ReceiptInfo(orderItemModel, _orderDetailsData),
-              DeliveryInfo(orderItemModel, _orderDetailsData),
-              OrderPrice(orderItemModel),
-              OrderButton(_orderDetailsData, orderItemModel)
-            ],
-          ),
+          children: [
+            Visibility(
+              visible: orderItemModel.isMultiple == false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  OrderInfo(orderItemModel),
+                  // AnimationContainer(
+                  //     duration: Duration(seconds: 1),
+                  //     vertical: false,
+                  //     distance: 200,
+                  //     index: 1,
+                  //     child: OrderStatus(orderItemModel)),
+                  ReceiptInfo(orderItemModel, _orderDetailsData),
+                  DeliveryInfo(orderItemModel, _orderDetailsData),
+                  OrderPrice(orderItemModel),
+                ],
+              ),
+              replacement: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  OrderInfo(orderItemModel),
+                  MultiOrderDetails(orderItemModel),
+                ],
+              ),
+            ),
+            OrderButton(_orderDetailsData, orderItemModel)
+          ],
         ),
       ),
     );

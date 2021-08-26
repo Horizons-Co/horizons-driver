@@ -14,6 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 
 part 'DeliveryInformation.dart';
+part 'MultiOrderDetails.dart';
 part 'OrderButton.dart';
 part 'OrderInfo.dart';
 part 'OrderPrice.dart';
