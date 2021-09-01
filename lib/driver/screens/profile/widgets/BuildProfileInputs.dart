@@ -42,10 +42,7 @@ class _BuildProfileInputsState extends State<BuildProfileInputs> {
             title: tr("carMark"),
             value: user.maker?.name,
           ),
-          BuildProfileTitle(
-            title: tr("year"),
-            value: user.year.toString()
-          ),
+          BuildProfileTitle(title: tr("year"), value: "${user.year ?? ""}"),
           BuildProfileImage(
             title: tr("carImage"),
             image: user.carImage ?? "",
