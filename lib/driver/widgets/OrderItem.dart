@@ -7,12 +7,13 @@ import 'package:base_structure/general/widgets/MyText.dart';
 import 'package:flutter/material.dart';
 
 Widget orderItem({OrderItemModel orderItemModel, BuildContext context}) {
+  print("asdasd ${orderItemModel.status.id != 5 || orderItemModel.status.id != 21}");
   return InkWell(
     onTap: () {
       if (orderItemModel.id == GlobalState.instance.get("currentOrderId")) {
         PlayNotificationSound.stopSound();
       }
-      if (orderItemModel.status.id != 5)
+      if (orderItemModel.status.id != 5 && orderItemModel.status.id != 21)
         Navigator.push(context, MaterialPageRoute(builder: (_) => OrderDetails(orderItemModel)));
     },
     child: Container(

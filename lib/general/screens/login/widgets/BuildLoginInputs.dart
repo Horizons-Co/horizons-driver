@@ -11,6 +11,7 @@ class BuildLoginInputs extends StatefulWidget {
 class _BuildLoginInputsState extends State<BuildLoginInputs> {
   @override
   Widget build(BuildContext context) {
+    final String lang = context.read<LangCubit>().state.lang;
     return Form(
       key: widget.loginData.formKey,
       child: Column(
@@ -20,7 +21,7 @@ class _BuildLoginInputsState extends State<BuildLoginInputs> {
             suffixIcon: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: MyText(
-                title: "+966",
+                title: lang == "ar" ? "966+" : "+996",
               ),
             ),
             label: "55xxxxxxxxx",

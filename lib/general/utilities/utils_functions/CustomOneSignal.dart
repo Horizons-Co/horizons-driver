@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:base_structure/driver/repository/DriverRepository.dart';
@@ -68,7 +69,9 @@ class CustomOneSignal {
 
   static onReceiveMessage(notification, HomeData homeData, BuildContext context) {
     print('received : $notification');
-    var order = json.decode(notification.payload.rawPayload['custom']);
+    var order = Platform.isAndroid
+        ? json.decode("${notification.payload.rawPayload['custom']}")
+        : notification.payload.rawPayload['custom'];
     if (order["a"]["driver"] != null) {
       onDriverReceived(notification, homeData, context);
     } else {
@@ -78,7 +81,9 @@ class CustomOneSignal {
 
   static onOrderReceived(notification, TabController tabController, BuildContext context) {
     var data = notification.payload.rawPayload;
-    var order = json.decode(notification.payload.rawPayload['custom']);
+    var order = Platform.isAndroid
+        ? json.decode("${notification.payload.rawPayload['custom']}")
+        : data['custom'];
     print("order is $data");
     var orderID = order['a']['order']['id'];
     print("orderID is $orderID");
@@ -98,10 +103,13 @@ class CustomOneSignal {
 
   static onDriverReceived(notification, HomeData homeData, BuildContext context) {
     var data = notification.payload.rawPayload;
-    var order = json.decode(notification.payload.rawPayload['custom']);
+    var order = Platform.isAndroid
+        ? json.decode("${notification.payload.rawPayload['custom']}")
+        : data['custom'];
     UserModel user = UserModel.fromJson(order["a"]["driver"]);
     context.read<UserCubit>().onUpdateUserData(user);
-    homeData.changeActiveStateFromNotify(context: context, active: (user.isActive && !user.suspended));
+    homeData.changeActiveStateFromNotify(
+        context: context, active: (user.isActive && !user.suspended && user.isOnline));
     print("hommmmm $data");
     BotToast.showNotification(
       onTap: () => onclickMessage(notification, homeData.tabController),
@@ -131,7 +139,9 @@ class CustomOneSignal {
   static onOpenMessage(notification, HomeData homeData, BuildContext context) {
     print('opened : $notification');
     // var data = json.decode(notification.payload.rawPayload);
-    var order = json.decode(notification.payload.rawPayload['custom']);
+    var order = Platform.isAndroid
+        ? json.decode("${notification.payload.rawPayload['custom']}")
+        : notification.payload.rawPayload['custom'];
     if (order["a"]["driver"] != null) {
       onDriverReceived(notification, homeData, context);
     } else {
@@ -143,7 +153,9 @@ class CustomOneSignal {
     print('opened : $notification');
     // var data = json.decode(notification)["payload"]["rawPayload"];
 
-    var order = json.decode(notification.payload.rawPayload['custom']);
+    var order = Platform.isAndroid
+        ? json.decode("${notification.payload.rawPayload['custom']}")
+        : notification.payload.rawPayload['custom'];
 
     if (order["a"]["driver"] != null) {
       ExtendedNavigator.root.pushAndRemoveUntilPath(Routes.profile, Routes.home);
@@ -197,7 +209,9 @@ class CustomOneSignal {
     closeDialog(context);
     // var data = json.decode(notification)["payload"]["rawPayload"];
     print("notification is ${notification.payload.rawPayload["custom"]}");
-    var order = json.decode(notification.payload.rawPayload['custom']);
+    var order = Platform.isAndroid
+        ? json.decode("${notification.payload.rawPayload['custom']}")
+        : notification.payload.rawPayload['custom'];
     // var order = notification.payload.rawPayload["custom"];
     await DriverRepository(context)
         .changeOrderStatusFromNotify(orderId: order['a']['order']['id'], action: state);

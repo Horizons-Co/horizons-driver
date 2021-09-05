@@ -18,9 +18,8 @@ class Utils {
         // GlobalState.instance.set("userId", data.id);
         changeLanguage(lang ?? "ar", context);
         // setCurrentUserData(data, context);
-        ExtendedNavigator.of(context).pushAndRemoveUntil(
-            Routes.home, (route) => false,
-            arguments: HomeArguments(index: 0));
+        ExtendedNavigator.of(context)
+            .pushAndRemoveUntil(Routes.home, (route) => false, arguments: HomeArguments(index: 0));
       } else {
         BackgroundLocator.unRegisterLocationUpdate();
         clearSavedData();
@@ -195,8 +194,7 @@ class Utils {
   }
 
   static Future<File> getImage({ImageSource imageSource}) async {
-    PickedFile image = await ImagePicker()
-        .getImage(source: imageSource ?? ImageSource.gallery);
+    PickedFile image = await ImagePicker().getImage(source: imageSource ?? ImageSource.gallery);
     if (image != null) {
       return File(image.path);
     } else {
@@ -205,8 +203,8 @@ class Utils {
   }
 
   static Future<List<File>> getImages() async {
-    FilePickerResult result = await FilePicker.platform
-        .pickFiles(allowMultiple: true, type: FileType.image);
+    FilePickerResult result =
+        await FilePicker.platform.pickFiles(allowMultiple: true, type: FileType.image);
 
     if (result != null) {
       List<File> files = result.paths.map((path) => File(path)).toList();
@@ -232,8 +230,7 @@ class Utils {
   }
 
   static Future<File> getVideo() async {
-    PickedFile image =
-        await ImagePicker().getVideo(source: ImageSource.gallery);
+    PickedFile image = await ImagePicker().getVideo(source: ImageSource.gallery);
     if (image != null) {
       return File(image.path);
     } else {
@@ -258,8 +255,7 @@ class Utils {
       return false;
     } else if (permission == PermissionStatus.DENIED) {
       permission = await location.requestPermission();
-      if (permission == PermissionStatus.DENIED ||
-          permission == PermissionStatus.DENIED_FOREVER) {
+      if (permission == PermissionStatus.DENIED || permission == PermissionStatus.DENIED_FOREVER) {
         return false;
       }
     }
@@ -284,20 +280,24 @@ class Utils {
       url =
           "https://www.google.com/maps/search/?api=1&query=${address["lat"].toString()},${address["lng"].toString()}";
       print("url is $url");
-      if (await canLaunch(url)) {
-        print("sss");
-        await launch(url);
-      } else {
-        throw 'Could not launch $url';
-      }
+      await launch(url);
+
+      // if (await canLaunch(url)) {
+      //   print("sss");
+      //   await launch(url);
+      // } else {
+      //   throw 'Could not launch $url';
+      // }
     } else {
       urlAppleMaps =
           'https://maps.apple.com/?q=${address["lat"].toString()},${address["lng"].toString()}';
-      if (await canLaunch(urlAppleMaps)) {
-        await launch(urlAppleMaps);
-      } else {
-        throw 'Could not launch $urlAppleMaps';
-      }
+      await launch(urlAppleMaps);
+
+      // if (await canLaunch(urlAppleMaps)) {
+      //   await launch(urlAppleMaps);
+      // } else {
+      //   throw 'Could not launch $urlAppleMaps';
+      // }
     }
   }
 

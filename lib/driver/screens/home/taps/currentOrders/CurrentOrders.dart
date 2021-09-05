@@ -9,7 +9,6 @@ class CurrentOrders extends StatefulWidget {
 }
 
 class _CurrentOrdersState extends State<CurrentOrders> {
-
   final CurrentOrdersData currentOrdersData = CurrentOrdersData();
 
   @override
@@ -39,27 +38,32 @@ class _CurrentOrdersState extends State<CurrentOrders> {
                   child: Image.asset(Res.noOrders),
                 ),
                 MyText(
-                  title: !user.isActive||user.suspended? tr("noActive") : tr("noOrders"),
+                  title: !user.isActive || user.suspended ? tr("noActive") : tr("noOrders"),
                   size: 12,
                   color: MyColors.grey.withOpacity(.3),
                 )
               ],
             );
           } else {
-            return PagedListView<int, OrderItemModel>(
-              pagingController: currentOrdersData.pagingController,
-              physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              builderDelegate: PagedChildBuilderDelegate<OrderItemModel>(
-                  noItemsFoundIndicatorBuilder: (_) => Center(
-                        child: MyText(
-                          title: tr("noOrders"),
-                          size: 12,
-                          color: MyColors.primary,
+            return RefreshIndicator(
+              onRefresh: () async {
+                currentOrdersData.pagingController.refresh();
+              },
+              child: PagedListView<int, OrderItemModel>(
+                pagingController: currentOrdersData.pagingController,
+                // physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                builderDelegate: PagedChildBuilderDelegate<OrderItemModel>(
+                    noItemsFoundIndicatorBuilder: (_) => Center(
+                          child: MyText(
+                            title: tr("noOrders"),
+                            size: 12,
+                            color: MyColors.primary,
+                          ),
                         ),
-                      ),
-                  itemBuilder: (context, item, index) =>
-                      orderItem(orderItemModel: item, context: context)),
+                    itemBuilder: (context, item, index) =>
+                        orderItem(orderItemModel: item, context: context)),
+              ),
             );
           }
         });

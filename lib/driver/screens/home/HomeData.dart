@@ -18,6 +18,7 @@ class HomeData {
     print("user is online ${user.isOnline}");
     if (user.isOnline) {
       handler.PermissionStatus requestLocation = await handler.Permission.locationAlways.request();
+      print("requestLocation online ${requestLocation.isGranted}");
       if (requestLocation.isGranted) {
         changeActiveState(context: context, active: user.isOnline);
       }
@@ -44,14 +45,20 @@ class HomeData {
   void changeActiveState({bool active, BuildContext context}) async {
     handler.PermissionStatus requestLocation = await handler.Permission.locationAlways.request();
     if (requestLocation.isGranted) {
-      var user = context.read<UserCubit>().state.model;
+      final user = context.read<UserCubit>().state.model;
       if (user.isActive && !user.suspended) {
         bool _changed = await DriverRepository(context).changeNotify(active);
         if (_changed) {
           if (active == true) {
+            final UserModel userModel = user;
+            userModel.isOnline = true;
+            context.read<UserCubit>().onUpdateUserData(userModel);
             onStart(context);
             orderState.onUpdateData(active);
           } else {
+            final UserModel userModel = user;
+            userModel.isOnline = true;
+            context.read<UserCubit>().onUpdateUserData(userModel);
             onStop();
             orderState.onUpdateData(active);
           }
