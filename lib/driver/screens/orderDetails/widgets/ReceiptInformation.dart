@@ -30,15 +30,19 @@ class ReceiptInfo extends StatelessWidget {
                   : orderItemModel.client.district?.name ?? "",
               onTap: () {
                 if (orderItemModel.pickupPoint.id == 1) {
-                  Utils.openMap(json.encode({
-                    "lat": orderItemModel.branch.lat,
-                    "lng": orderItemModel.branch.lng,
-                  }));
+                  Utils.openMap(
+                      json.encode({
+                        "lat": orderItemModel.branch.lat,
+                        "lng": orderItemModel.branch.lng,
+                      }),
+                      context);
                 } else {
-                  Utils.openMap(json.encode({
-                    "lat": orderItemModel.client.lat,
-                    "lng": orderItemModel.client.lag,
-                  }));
+                  Utils.openMap(
+                      json.encode({
+                        "lat": orderItemModel.client.lat,
+                        "lng": orderItemModel.client.lag,
+                      }),
+                      context);
                 }
               },
               addressTitle: "${tr("receiveAddress")}:"),
@@ -95,12 +99,10 @@ class ReceiptInfo extends StatelessWidget {
                 onTap: () => orderDetailsData.callWhatsAppOrPhone(
                     context: context,
                     whatsApp: () async {
-                      String phone =
-                          orderItemModel.merchant.mobile.replaceFirst("0", "");
+                      String phone = orderItemModel.merchant.mobile.replaceFirst("0", "");
                       final link = WhatsAppUnilink(
                         phoneNumber: "+966$phone",
-                        text:
-                            "${tr("whatsStatement")} ${orderItemModel.merchant.name}",
+                        text: "${tr("whatsStatement")} ${orderItemModel.merchant.name}",
                       );
                       await launch('$link');
                       // Utils.launchURL(
@@ -108,8 +110,7 @@ class ReceiptInfo extends StatelessWidget {
                       //         "https://wa.me/+966$phone?text=معك مندوب شركة آفاق معي لك شحنة من متجر ${orderItemModel.merchant.name}");
                     },
                     phone: () {
-                      Utils.callPhone(
-                          phone: orderItemModel.merchant.mobile ?? "");
+                      Utils.callPhone(phone: orderItemModel.merchant.mobile ?? "");
                     }),
                 child: Image.asset(
                   Res.whats,

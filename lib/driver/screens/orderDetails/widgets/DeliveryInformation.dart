@@ -74,12 +74,10 @@ class DeliveryInfo extends StatelessWidget {
                 onTap: () => orderDetailsData.callWhatsAppOrPhone(
                     context: context,
                     whatsApp: () async {
-                      String phone =
-                          orderItemModel.client.mobile.replaceFirst("0", "");
+                      String phone = orderItemModel.client.mobile.replaceFirst("0", "");
                       final link = WhatsAppUnilink(
                         phoneNumber: "+966$phone",
-                        text:
-                            "${tr("whatsStatement")} ${orderItemModel.merchant.name}",
+                        text: "${tr("whatsStatement")} ${orderItemModel.merchant.name}",
                       );
                       await launch('$link');
                       // Utils.launchURL(
@@ -87,8 +85,7 @@ class DeliveryInfo extends StatelessWidget {
                       //         "https://wa.me/+966$phone?text=معك مندوب شركة آفاق معي لك شحنة من متجر ${orderItemModel.merchant.name}");
                     },
                     phone: () {
-                      Utils.callPhone(
-                          phone: orderItemModel.client.mobile ?? "");
+                      Utils.callPhone(phone: orderItemModel.client.mobile ?? "");
                     }),
                 child: Image.asset(
                   Res.whats,
@@ -112,15 +109,19 @@ class DeliveryInfo extends StatelessWidget {
                   : orderItemModel.client.district?.name ?? "",
               onTap: () {
                 if (orderItemModel.pickupPoint.id == 2) {
-                  Utils.openMap(json.encode({
-                    "lat": orderItemModel.branch.lat,
-                    "lng": orderItemModel.branch.lng,
-                  }));
+                  Utils.openMap(
+                      json.encode({
+                        "lat": orderItemModel.branch.lat,
+                        "lng": orderItemModel.branch.lng,
+                      }),
+                      context);
                 } else {
-                  Utils.openMap(json.encode({
-                    "lat": orderItemModel.client.lat,
-                    "lng": orderItemModel.client.lag,
-                  }));
+                  Utils.openMap(
+                      json.encode({
+                        "lat": orderItemModel.client.lat,
+                        "lng": orderItemModel.client.lag,
+                      }),
+                      context);
                 }
               },
               addressTitle: "${tr("receivingAddress")}:"),

@@ -79,7 +79,7 @@ dependencies:
   app_settings: ^4.0.4
   flutter_image_compress: any
   permission_handler:
-
+  map_launcher:
 
 
 
