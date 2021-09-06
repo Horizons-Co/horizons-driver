@@ -272,33 +272,66 @@ class Utils {
     return current;
   }
 
-  static void openMap(String location) async {
+  static void openMap(String location, BuildContext context) async {
     Map<String, dynamic> address = json.decode(location);
     String url;
     String urlAppleMaps;
-    if (Platform.isAndroid) {
-      url =
-          "https://www.google.com/maps/search/?api=1&query=${address["lat"].toString()},${address["lng"].toString()}";
-      print("url is $url");
-      await launch(url);
+    final coords =
+        Coords(double.parse(address["lat"].toString()), double.parse(address["lng"].toString()));
+    final title = "Destination";
+    final availableMaps = await MapLauncher.installedMaps;
 
-      // if (await canLaunch(url)) {
-      //   print("sss");
-      //   await launch(url);
-      // } else {
-      //   throw 'Could not launch $url';
-      // }
-    } else {
-      urlAppleMaps =
-          'https://maps.apple.com/?q=${address["lat"].toString()},${address["lng"].toString()}';
-      await launch(urlAppleMaps);
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              child: Wrap(
+                children: <Widget>[
+                  for (var map in availableMaps)
+                    ListTile(
+                      onTap: () => map.showMarker(
+                        coords: coords,
+                        title: title,
+                      ),
+                      title: Text(map.mapName),
+                      leading: Image.asset(
+                        map.icon,
+                        height: 30.0,
+                        width: 30.0,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+    // if (Platform.isAndroid) {
+    //   url =
+    //       "https://www.google.com/maps/search/?api=1&query=${address["lat"].toString()},${address["lng"].toString()}";
+    //   print("url is $url");
+    //   await launch(url);
+    //
+    //   // if (await canLaunch(url)) {
+    //   //   print("sss");
+    //   //   await launch(url);
+    //   // } else {
+    //   //   throw 'Could not launch $url';
+    //   // }
+    // } else {
+    //   urlAppleMaps =
+    //       'https://maps.apple.com/?q=${address["lat"].toString()},${address["lng"].toString()}';
+    //   await launch(urlAppleMaps);
 
-      // if (await canLaunch(urlAppleMaps)) {
-      //   await launch(urlAppleMaps);
-      // } else {
-      //   throw 'Could not launch $urlAppleMaps';
-      // }
-    }
+    // if (await canLaunch(urlAppleMaps)) {
+    //   await launch(urlAppleMaps);
+    // } else {
+    //   throw 'Could not launch $urlAppleMaps';
+    // }
+    // }
   }
 
   static String convertDigitsToLatin(String s) {
