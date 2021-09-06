@@ -32,11 +32,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindi
       _homeData.onStart(context);
     }
     _homeData.tabController.index = widget.index;
-    // CustomPushNotification.initNotification(
-    //   merchantId: user.id,
-    //   context: context,
-    //   homeData: _homeData,
-    // );
     CustomOneSignal.initNotification(
       merchantId: user.id,
       context: context,
