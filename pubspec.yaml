@@ -80,6 +80,7 @@ dependencies:
   flutter_image_compress: any
   permission_handler:
   map_launcher:
+  flutter_svg:
 
 
 
