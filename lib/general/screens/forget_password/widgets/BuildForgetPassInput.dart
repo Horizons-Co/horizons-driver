@@ -5,13 +5,14 @@ class BuildForgetPassInput extends StatelessWidget {
   BuildForgetPassInput(this.forgetPasswordData);
   @override
   Widget build(BuildContext context) {
+    final String lang = context.read<LangCubit>().state.lang;
     return Form(
       key: forgetPasswordData.formKey,
       child: IconTextFiled(
         suffixIcon: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: MyText(
-            title: "+966",
+            title: lang == "ar" ? "966+" : "+996",
           ),
         ),
         label: "55xxxxxxxxx",
@@ -19,7 +20,7 @@ class BuildForgetPassInput extends StatelessWidget {
         controller: forgetPasswordData.phone,
         type: TextInputType.phone,
         validate: (value) => value.validatePhone(),
-        onChange:(val) => forgetPasswordData.onChangePhone(val),
+        onChange: (val) => forgetPasswordData.onChangePhone(val),
         submit: (val) => forgetPasswordData.sendCode(context),
       ),
     );

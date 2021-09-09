@@ -12,6 +12,7 @@ class BuildRegisterInputs extends StatefulWidget {
 class _BuildRegisterInputsState extends State<BuildRegisterInputs> {
   @override
   Widget build(BuildContext context) {
+    final String lang = context.read<LangCubit>().state.lang;
     return Form(
       key: widget.registerData.formKey,
       child: Column(
@@ -29,7 +30,7 @@ class _BuildRegisterInputsState extends State<BuildRegisterInputs> {
             suffixIcon: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: MyText(
-                title: "+966",
+                title: lang == "ar" ? "966+" : "+996",
               ),
             ),
             label: "55xxxxxxxxx",
