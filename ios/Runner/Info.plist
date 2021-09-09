@@ -29,6 +29,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Play sound when get new order</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>This app requires calender access to function properly</string>
 	<key>NSCameraUsageDescription</key>
@@ -51,8 +53,6 @@
 	<string>This app needs access to photo library to add user photo and service images.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>recognize speech</string>
-	<key>NSAppleMusicUsageDescription</key>
-    <string>Play sound when get new order</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

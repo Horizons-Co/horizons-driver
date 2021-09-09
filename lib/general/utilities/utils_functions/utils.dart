@@ -296,7 +296,7 @@ class Utils {
                         title: title,
                       ),
                       title: Text(map.mapName),
-                      leading: Image.asset(
+                      leading: SvgPicture.asset(
                         map.icon,
                         height: 30.0,
                         width: 30.0,
