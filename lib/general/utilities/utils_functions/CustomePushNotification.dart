@@ -85,7 +85,7 @@ class CustomOneSignal {
     var order = data['custom'];
     UserModel user = UserModel.fromJson(order["a"]["driver"]);
     context.read<UserCubit>().onUpdateUserData(user);
-    homeData.changeActiveStateFromNotify(context: context, active: (user.isActive&&!user.suspended));
+    homeData.changeActiveStateFromNotify(context: context, active: (user.isActive&&!user.suspended&&user.isOnline));
     String title = data["aps"]["alert"]["title"];
     String body = data["aps"]["alert"]["body"];
     BotToast.showNotification(
