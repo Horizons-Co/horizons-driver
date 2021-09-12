@@ -10,6 +10,7 @@ import 'package:base_structure/general/constants/MyColors.dart';
 import 'package:base_structure/general/models/dots/drop_down_model.dart';
 import 'package:base_structure/general/resources/GeneralRepository.dart';
 import 'package:base_structure/general/screens/register/RegisterImports.dart';
+import 'package:base_structure/general/utilities/utils_functions/UtilsImports.dart';
 import 'package:base_structure/general/utilities/validator/Validator.dart';
 import 'package:base_structure/general/widgets/LoadingButton.dart';
 import 'package:base_structure/general/widgets/MyText.dart';
