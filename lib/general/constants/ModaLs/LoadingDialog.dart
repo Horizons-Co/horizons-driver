@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:slide_to_act/slide_to_act.dart';
 
 import '../../widgets/MyText.dart';
 import '../MyColors.dart';
@@ -84,7 +85,8 @@ class LoadingDialog {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return _alertTimerDialog(title, confirm, context, tr("accept"), timer,
+        return _alertTimerDialog(
+            title, confirm, context, tr("pullToAccept"), timer,
             bkText: tr("cancel"), onCancel: onCancel);
       },
     );
@@ -148,7 +150,7 @@ class LoadingDialog {
     });
     return AlertDialog(
       title: MyText(
-        title: title,
+        title: tr("newOrder"),
         size: 16,
         color: MyColors.black,
         alien: TextAlign.center,
@@ -173,25 +175,58 @@ class LoadingDialog {
         },
       ),
       actions: [
-        TextButton(
-          child: MyText(
-            title: bkText ?? tr("login"),
-            size: 14,
-            color: MyColors.headerColor,
+        Container(
+          height: 50,
+          width: MediaQuery.of(context).size.width,
+          child: Builder(
+            builder: (context) {
+              final GlobalKey<SlideActionState> _key = GlobalKey();
+              return SlideAction(
+                key: _key,
+                innerColor: Colors.transparent,
+                outerColor: Colors.blueAccent,
+                reversed: true,
+                submittedIcon: Icon(
+                  Icons.done,
+                  color: MyColors.white,
+                ),
+                sliderButtonIcon: Icon(Icons.arrow_back, color: MyColors.white),
+                borderRadius: 16,
+                animationDuration: Duration(seconds: 1),
+                height: 50,
+                child: MyText(
+                  title: okText,
+                  size: 14,
+                  color: MyColors.white,
+                ),
+                onSubmit: () {
+                  _timer.cancel();
+                  confirm();
+                },
+              );
+            },
           ),
-          onPressed: () {
-            _timer.cancel();
-            onCancel();
-          },
         ),
-        TextButton(
-          child: MyText(
-            title: okText,
-            size: 14,
-            color: MyColors.headerColor,
-          ),
-          onPressed: confirm,
-        ),
+
+        // TextButton(
+        //   child: MyText(
+        //     title: bkText ?? tr("login"),
+        //     size: 14,
+        //     color: MyColors.headerColor,
+        //   ),
+        //   onPressed: () {
+        //     _timer.cancel();
+        //     onCancel();
+        //   },
+        // ),
+        // TextButton(
+        //   child: MyText(
+        //     title: okText,
+        //     size: 14,
+        //     color: MyColors.headerColor,
+        //   ),
+        //   onPressed: confirm,
+        // ),
       ],
     );
   }

@@ -81,6 +81,7 @@ dependencies:
   permission_handler:
   map_launcher:
   flutter_svg:
+  slide_to_act:
 
 
 

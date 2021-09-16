@@ -109,10 +109,15 @@ class CustomOneSignal {
         timer: homeData.timer,
         context: context,
         title: data["title"],
-        confirm: () =>
-            changeOrderState(context, notification, tabController, "4"),
-        onCancel: () =>
-            changeOrderState(context, notification, tabController, "3"),
+        confirm: () {
+          print("cccccccccccccccc");
+          closeDialog(context);
+          changeOrderState(context, notification, tabController, "4");
+        },
+        onCancel: () {
+          closeDialog(context);
+          changeOrderState(context, notification, tabController, "3");
+        },
       );
       print('playSound');
       PlayNotificationSound.playSound();
@@ -237,7 +242,7 @@ class CustomOneSignal {
       OSNotification notification,
       TabController tabController,
       String state) async {
-    closeDialog(context);
+    // closeDialog(context);
     // var data = json.decode(notification)["payload"]["rawPayload"];
     print("notification is ${notification.payload.rawPayload["custom"]}");
     var order = Platform.isAndroid

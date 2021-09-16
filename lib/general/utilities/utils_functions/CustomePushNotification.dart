@@ -70,10 +70,15 @@
 //         timer: homeData.timer,
 //         context: context,
 //         title: data["title"],
-//         confirm: () =>
-//             changeOrderState(context, notification, tabController, "4"),
-//         onCancel: () =>
-//             changeOrderState(context, notification, tabController, "3"),
+//         confirm: () {
+//           print("cccccccccccccccc");
+//           closeDialog(context);
+//           changeOrderState(context, notification, tabController, "4");
+//         },
+//         onCancel: () {
+//           closeDialog(context);
+//           changeOrderState(context, notification, tabController, "3");
+//         },
 //       );
 //       print('playSound');
 //       PlayNotificationSound.playSound();
@@ -203,7 +208,6 @@
 //
 //   static void changeNewOrderState(BuildContext context, String id,
 //       TabController tabController, String state) async {
-////     closeDialog(context);
 //     await DriverRepository(context)
 //         .changeOrderStatusFromNotify(orderId: id, action: state);
 //     ExtendedNavigator.root.popUntilPath(Routes.home);

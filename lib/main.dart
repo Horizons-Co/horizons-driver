@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
-        title: "driver",
+        title: "Horizon Driver",
         theme: MainData.defaultThem,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,

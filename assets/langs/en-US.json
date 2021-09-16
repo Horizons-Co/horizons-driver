@@ -97,8 +97,9 @@
   "order": "طلب",
   "multipleOrder": "Multiple order",
   "orderWillBeCanceled": "Order will be canceled after ",
-  "second": "second"
-
+  "second": "second",
+  "pullToAccept": "Pull to accept",
+  "newOrder": "New order"
 
 
 }
