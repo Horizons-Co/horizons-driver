@@ -55,12 +55,12 @@
 //     if (order["a"]["driver"] != null) {
 //       onDriverReceived(notification, homeData, context);
 //     } else {
-//       onOrderReceived(notification, homeData.tabController, context);
+//       onOrderReceived(notification, homeData.tabController, context,homeData);
 //     }
 //   }
 //
 //   static onOrderReceived(
-//       notification, TabController tabController, BuildContext context) {
+//       notification, TabController tabController, BuildContext context, HomeData homeData) {
 //     var data = json.decode(notification)["payload"]["rawPayload"];
 //     var order = data['custom'];
 //     print("order is ${order['a']['order']['id']}");
@@ -69,7 +69,15 @@
 //       LoadingDialog.showNotifyDialog(
 //         timer: homeData.timer,
 //         context: context,
-//         title: data["title"],
+//         deliveryLat: order["a"]["order"]["to"]["lat"],
+//         deliveryLng: order["a"]["order"]["to"]["lng"],
+//         deliveryTo: order["a"]["order"]["to"]["district"],
+//         receiveFrom: order["a"]["order"]["from"]["district"],
+//         receiveLat: order["a"]["order"]["from"]["lng"],
+//         receiveLng: order["a"]["order"]["from"]["lng"],
+//         tax: order["a"]["order"]["delivery_fees_with_tax"],
+//         total: order["a"]["order"]["total"],
+//         title: order["title"],
 //         confirm: () {
 //           print("cccccccccccccccc");
 //           closeDialog(context);
@@ -132,7 +140,7 @@
 //     if (order["a"]["driver"] != null) {
 //       onDriverReceived(notification, homeData, context);
 //     } else {
-//       onOrderReceived(notification, homeData.tabController, context);
+//       onOrderReceived(notification, homeData.tabController, context,homeData);
 //     }
 //   }
 //

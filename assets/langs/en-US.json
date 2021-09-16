@@ -99,8 +99,11 @@
   "orderWillBeCanceled": "Order will be canceled after ",
   "second": "second",
   "pullToAccept": "Pull to accept",
-  "newOrder": "New order"
-
+  "newOrder": "New order",
+  "receivingFrom": "Receiving from",
+  "deliveryTo": "Delivery to",
+  "orderValue": "Order price",
+  "deliveryFees": "Delivery fees"
 
 }
 

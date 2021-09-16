@@ -99,7 +99,13 @@
   "orderWillBeCanceled": "سيتم إلغاء الطلب بعد ",
   "second": "ثانية",
   "pullToAccept": "اسحب للقبول",
-  "newOrder": "طلب جديد"
+  "newOrder": "طلب جديد",
+  "receivingFrom": "الإستلام من",
+  "deliveryTo": "التوصيل الي",
+  "orderValue": "قيمة الطلب",
+  "deliveryFees": "رسوم التوصيل"
+
+
 }
 
 

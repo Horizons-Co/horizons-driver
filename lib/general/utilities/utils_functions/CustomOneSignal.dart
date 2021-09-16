@@ -102,13 +102,21 @@ class CustomOneSignal {
     var orderID = order['a']['order']['id'];
     print("orderID is $orderID");
     GlobalState.instance.set("currentOrderId", orderID);
-    print("context is ${data["alert"]}");
+    print("context is ${order["a"]["order"]["to"]}");
     if (order['a']['order']["status_id"] == 6) {
       homeData.timer.onUpdateData(20);
       LoadingDialog.showNotifyDialog(
         timer: homeData.timer,
         context: context,
-        title: data["title"],
+        deliveryLat: order["a"]["order"]["to"]["lat"],
+        deliveryLng: order["a"]["order"]["to"]["lng"],
+        deliveryTo: order["a"]["order"]["to"]["district"],
+        receiveFrom: order["a"]["order"]["from"]["district"],
+        receiveLat: order["a"]["order"]["from"]["lng"],
+        receiveLng: order["a"]["order"]["from"]["lng"],
+        tax: order["a"]["order"]["delivery_fees_with_tax"],
+        total: order["a"]["order"]["total"],
+        title: order["title"],
         confirm: () {
           print("cccccccccccccccc");
           closeDialog(context);

@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:base_structure/general/blocs/generic_cubit/generic_cubit.dart';
 import 'package:base_structure/general/utilities/routers/Router.gr.dart';
+import 'package:base_structure/general/utilities/utils_functions/UtilsImports.dart';
+import 'package:base_structure/res.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -75,19 +78,37 @@ class LoadingDialog {
     );
   }
 
-  static showNotifyDialog(
-      {@required BuildContext context,
-      @required String title,
-      @required Function confirm,
-      @required GenericCubit<int> timer,
-      Function onCancel}) {
+  static showNotifyDialog({
+    @required BuildContext context,
+    @required String title,
+    @required Function confirm,
+    @required GenericCubit<int> timer,
+    Function onCancel,
+    String receiveFrom,
+    String deliveryTo,
+    String total,
+    String tax,
+    String receiveLat,
+    String receiveLng,
+    String deliveryLat,
+    String deliveryLng,
+  }) {
     return showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return _alertTimerDialog(
             title, confirm, context, tr("pullToAccept"), timer,
-            bkText: tr("cancel"), onCancel: onCancel);
+            bkText: tr("cancel"),
+            onCancel: onCancel,
+            deliveryLat: deliveryLat,
+            deliveryLng: deliveryLng,
+            deliveryTo: deliveryTo,
+            receiveFrom: receiveFrom,
+            receiveLat: receiveLat,
+            receiveLng: receiveLng,
+            tax: tax,
+            total: total);
       },
     );
   }
@@ -137,9 +158,23 @@ class LoadingDialog {
     );
   }
 
-  static Widget _alertTimerDialog(String title, Function confirm,
-      BuildContext context, String okText, GenericCubit<int> timer,
-      {String bkText, Function onCancel}) {
+  static Widget _alertTimerDialog(
+    String title,
+    Function confirm,
+    BuildContext context,
+    String okText,
+    GenericCubit<int> timer, {
+    String bkText,
+    Function onCancel,
+    String receiveFrom,
+    String deliveryTo,
+    String total,
+    String tax,
+    String receiveLat,
+    String receiveLng,
+    String deliveryLat,
+    String deliveryLng,
+  }) {
     Timer _timer = Timer.periodic(Duration(seconds: 1), (myTimer) {
       if (timer.state.data == 0) {
         myTimer.cancel();
@@ -149,30 +184,161 @@ class LoadingDialog {
       }
     });
     return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
       title: MyText(
         title: tr("newOrder"),
         size: 16,
         color: MyColors.black,
         alien: TextAlign.center,
       ),
-      content: BlocBuilder<GenericCubit<int>, GenericState<int>>(
-        cubit: timer,
-        builder: (context, state) {
-          return Container(
-            width: 100,
-            height: 100,
-            padding: const EdgeInsets.all(8),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          BlocBuilder<GenericCubit<int>, GenericState<int>>(
+            cubit: timer,
+            builder: (context, state) {
+              return Container(
+                margin: const EdgeInsets.only(bottom: 10),
+                width: 100,
+                height: 100,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xffE1402E), width: 10),
+                    shape: BoxShape.circle),
+                alignment: Alignment.center,
+                child: MyText(
+                  title: state.data.toString() + " : 00",
+                  size: 12,
+                  color: MyColors.blackOpacity,
+                ),
+              );
+            },
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
-                border: Border.all(color: MyColors.primary, width: 5),
-                shape: BoxShape.circle),
-            alignment: Alignment.center,
-            child: MyText(
-              title: state.data.toString() + " : 00",
-              size: 12,
-              color: MyColors.blackOpacity,
+                borderRadius: BorderRadius.circular(5),
+                color: MyColors.grey.withOpacity(.1)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MyText(
+                      title: "${tr("receivingFrom")}:",
+                      size: 12,
+                      color: MyColors.grey,
+                    ),
+                    MyText(
+                      title: receiveFrom ?? "",
+                      size: 12,
+                      color: MyColors.black,
+                    ),
+                  ],
+                ),
+                InkWell(
+                  onTap: () {
+                    Utils.openMap(
+                        json.encode({
+                          "lat": receiveLat,
+                          "lng": receiveLng,
+                        }),
+                        context);
+                  },
+                  child: Image.asset(
+                    Res.location,
+                    width: 32,
+                    height: 32,
+                  ),
+                )
+              ],
             ),
-          );
-        },
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: MyColors.grey.withOpacity(.1)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MyText(
+                      title: "${tr("deliveryTo")}:",
+                      size: 12,
+                      color: MyColors.grey,
+                    ),
+                    MyText(
+                      title: deliveryTo ?? "",
+                      size: 12,
+                      color: MyColors.black,
+                    ),
+                  ],
+                ),
+                InkWell(
+                  onTap: () {
+                    Utils.openMap(
+                        json.encode({
+                          "lat": deliveryLat,
+                          "lng": deliveryLng,
+                        }),
+                        context);
+                  },
+                  child: Image.asset(
+                    Res.location,
+                    width: 32,
+                    height: 32,
+                  ),
+                )
+              ],
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MyText(
+                    title: "${tr("orderValue")}:",
+                    size: 12,
+                    color: MyColors.grey,
+                  ),
+                  MyText(
+                    title: total ?? "",
+                    size: 12,
+                    color: MyColors.black,
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MyText(
+                    title: "${tr("deliveryFees")}:",
+                    size: 12,
+                    color: MyColors.grey,
+                  ),
+                  MyText(
+                    title: tax ?? "",
+                    size: 12,
+                    color: MyColors.black,
+                  ),
+                ],
+              ),
+            ],
+          )
+        ],
       ),
       actions: [
         Container(
