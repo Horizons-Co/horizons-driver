@@ -95,7 +95,9 @@
   "acceptToUseBackgroundService": "This app collects location data to enable tracking orders location to let know it's place even when the app is closed or not in use",
   "gainMoney": "Gain money ",
   "order": "طلب",
-  "multipleOrder": "Multiple order"
+  "multipleOrder": "Multiple order",
+  "orderWillBeCanceled": "Order will be canceled after ",
+  "second": "second"
 
 
 

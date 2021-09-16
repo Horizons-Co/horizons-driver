@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:base_structure/general/blocs/generic_cubit/generic_cubit.dart';
 import 'package:base_structure/general/utilities/routers/Router.gr.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -74,12 +78,13 @@ class LoadingDialog {
       {@required BuildContext context,
       @required String title,
       @required Function confirm,
+      @required GenericCubit<int> timer,
       Function onCancel}) {
     return showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return _alertDialog(title, confirm, context, tr("accept"),
+        return _alertTimerDialog(title, confirm, context, tr("accept"), timer,
             bkText: tr("cancel"), onCancel: onCancel);
       },
     );
@@ -101,6 +106,7 @@ class LoadingDialog {
   static Widget _alertDialog(
       String title, Function confirm, BuildContext context, String okText,
       {String bkText, Function onCancel}) {
+    final GenericCubit<int> timer = GenericCubit<int>(20);
     return AlertDialog(
       title: MyText(
         title: title,
@@ -108,7 +114,6 @@ class LoadingDialog {
         color: MyColors.black,
         alien: TextAlign.center,
       ),
-      // content: MyText(title: title,size: 12,color: MyColors.blackOpacity,),
       actions: [
         TextButton(
           child: MyText(
@@ -117,6 +122,67 @@ class LoadingDialog {
             color: MyColors.headerColor,
           ),
           onPressed: onCancel ?? () => Navigator.pop(context),
+        ),
+        TextButton(
+          child: MyText(
+            title: okText,
+            size: 14,
+            color: MyColors.headerColor,
+          ),
+          onPressed: confirm,
+        ),
+      ],
+    );
+  }
+
+  static Widget _alertTimerDialog(String title, Function confirm,
+      BuildContext context, String okText, GenericCubit<int> timer,
+      {String bkText, Function onCancel}) {
+    Timer _timer = Timer.periodic(Duration(seconds: 1), (myTimer) {
+      if (timer.state.data == 0) {
+        myTimer.cancel();
+        if (onCancel != null) onCancel();
+      } else {
+        timer.onUpdateData(timer.state.data - 1);
+      }
+    });
+    return AlertDialog(
+      title: MyText(
+        title: title,
+        size: 16,
+        color: MyColors.black,
+        alien: TextAlign.center,
+      ),
+      content: BlocBuilder<GenericCubit<int>, GenericState<int>>(
+        cubit: timer,
+        builder: (context, state) {
+          return Container(
+            width: 100,
+            height: 100,
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+                border: Border.all(color: MyColors.primary, width: 5),
+                shape: BoxShape.circle),
+            alignment: Alignment.center,
+            child: MyText(
+              title: state.data.toString() + " : 00",
+              size: 12,
+              color: MyColors.blackOpacity,
+            ),
+          );
+        },
+      ),
+      actions: [
+        TextButton(
+          child: MyText(
+            title: bkText ?? tr("login"),
+            size: 14,
+            color: MyColors.headerColor,
+          ),
+          onPressed: () {
+            _timer.cancel();
+            onCancel();
+          },
         ),
         TextButton(
           child: MyText(

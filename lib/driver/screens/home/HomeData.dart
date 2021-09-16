@@ -11,13 +11,15 @@ class HomeData {
   DateTime lastTimeLocation;
   bool notifyDialog = false;
   bool locDialog = false;
+  final GenericCubit<int> timer = GenericCubit<int>(20);
 
   void fetchPage(BuildContext context) async {
     var orders = await DriverRepository(context).getNewOrders();
     final user = context.read<UserCubit>().state.model;
     print("user is online ${user.isOnline}");
     if (user.isOnline) {
-      handler.PermissionStatus requestLocation = await handler.Permission.locationAlways.request();
+      handler.PermissionStatus requestLocation =
+          await handler.Permission.locationAlways.request();
       print("requestLocation online ${requestLocation.isGranted}");
       if (requestLocation.isGranted) {
         changeActiveState(context: context, active: user.isOnline);
@@ -29,11 +31,19 @@ class HomeData {
   }
 
   void showOrderDialog(String id, BuildContext context, int no) {
+    timer.onUpdateData(20);
     LoadingDialog.showNotifyDialog(
+      timer: timer,
       context: context,
       title: "تم إسناد الطلب رقم $no",
-      confirm: () => CustomOneSignal.changeNewOrderState(context, id, tabController, "4"),
-      onCancel: () => CustomOneSignal.changeNewOrderState(context, id, tabController, "3"),
+      confirm: () {
+        CustomOneSignal.closeDialog(context);
+        CustomOneSignal.changeNewOrderState(context, id, tabController, "4");
+      },
+      onCancel: () {
+        CustomOneSignal.closeDialog(context);
+        CustomOneSignal.changeNewOrderState(context, id, tabController, "3");
+      },
       // confirm: ()=>CustomPushNotification.changeNewOrderState(context,id,tabController,"4"),
       // onCancel: ()=>CustomPushNotification.changeNewOrderState(context,id,tabController,"3"),
     );
@@ -43,7 +53,8 @@ class HomeData {
   }
 
   void changeActiveState({bool active, BuildContext context}) async {
-    handler.PermissionStatus requestLocation = await handler.Permission.locationAlways.request();
+    handler.PermissionStatus requestLocation =
+        await handler.Permission.locationAlways.request();
     if (requestLocation.isGranted) {
       final user = context.read<UserCubit>().state.model;
       if (user.isActive && !user.suspended) {
@@ -69,7 +80,8 @@ class HomeData {
     }
   }
 
-  Future<void> changeActiveStateFromNotify({bool active, BuildContext context}) async {
+  Future<void> changeActiveStateFromNotify(
+      {bool active, BuildContext context}) async {
     bool _changed = await DriverRepository(context).changeNotify(active);
     if (_changed) {
       if (active == true) {
@@ -176,7 +188,8 @@ class HomeData {
                   'Background location is on to keep the app up-tp-date with your location. This is required for main features to work properly when the app is not running.',
               notificationIcon: 'launcher_icon',
               notificationIconColor: Colors.grey,
-              notificationTapCallback: LocationCallbackHandler.notificationCallback),
+              notificationTapCallback:
+                  LocationCallbackHandler.notificationCallback),
           wakeLockTime: 10),
     );
   }

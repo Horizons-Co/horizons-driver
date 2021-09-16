@@ -88,12 +88,12 @@ class CustomOneSignal {
     if (order["a"]["driver"] != null) {
       onDriverReceived(notification, homeData, context);
     } else {
-      onOrderReceived(notification, homeData.tabController, context);
+      onOrderReceived(notification, homeData.tabController, context, homeData);
     }
   }
 
-  static onOrderReceived(
-      notification, TabController tabController, BuildContext context) {
+  static onOrderReceived(notification, TabController tabController,
+      BuildContext context, HomeData homeData) {
     var data = notification.payload.rawPayload;
     var order = Platform.isAndroid
         ? json.decode("${notification.payload.rawPayload['custom']}")
@@ -104,7 +104,9 @@ class CustomOneSignal {
     GlobalState.instance.set("currentOrderId", orderID);
     print("context is ${data["alert"]}");
     if (order['a']['order']["status_id"] == 6) {
+      homeData.timer.onUpdateData(20);
       LoadingDialog.showNotifyDialog(
+        timer: homeData.timer,
         context: context,
         title: data["title"],
         confirm: () =>
@@ -166,7 +168,7 @@ class CustomOneSignal {
     if (order["a"]["driver"] != null) {
       onDriverReceived(notification, homeData, context);
     } else {
-      onOrderReceived(notification, homeData.tabController, context);
+      onOrderReceived(notification, homeData.tabController, context, homeData);
     }
   }
 
@@ -250,7 +252,6 @@ class CustomOneSignal {
 
   static void changeNewOrderState(BuildContext context, String id,
       TabController tabController, String state) async {
-    closeDialog(context);
     await DriverRepository(context)
         .changeOrderStatusFromNotify(orderId: id, action: state);
     ExtendedNavigator.root.popUntilPath(Routes.home);

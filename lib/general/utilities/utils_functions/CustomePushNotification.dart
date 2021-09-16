@@ -65,17 +65,16 @@
 //     var order = data['custom'];
 //     print("order is ${order['a']['order']['id']}");
 //     if (order['a']['order']["status_id"] == 6) {
+//       homeData.timer.onUpdateData(20);
 //       LoadingDialog.showNotifyDialog(
+//         timer: homeData.timer,
 //         context: context,
-//         title: data["aps"]["alert"]["title"],
+//         title: data["title"],
 //         confirm: () =>
 //             changeOrderState(context, notification, tabController, "4"),
 //         onCancel: () =>
 //             changeOrderState(context, notification, tabController, "3"),
 //       );
-//       var orderID = order['a']['order']['id'];
-//       print("orderID is $orderID");
-//       GlobalState.instance.set("currentOrderId", orderID);
 //       print('playSound');
 //       PlayNotificationSound.playSound();
 //     } else
@@ -204,7 +203,7 @@
 //
 //   static void changeNewOrderState(BuildContext context, String id,
 //       TabController tabController, String state) async {
-//     closeDialog(context);
+////     closeDialog(context);
 //     await DriverRepository(context)
 //         .changeOrderStatusFromNotify(orderId: id, action: state);
 //     ExtendedNavigator.root.popUntilPath(Routes.home);
