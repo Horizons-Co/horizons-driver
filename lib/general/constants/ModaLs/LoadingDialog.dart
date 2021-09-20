@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
@@ -175,14 +174,15 @@ class LoadingDialog {
     String deliveryLat,
     String deliveryLng,
   }) {
-    Timer _timer = Timer.periodic(Duration(seconds: 1), (myTimer) {
-      if (timer.state.data == 0) {
-        myTimer.cancel();
-        if (onCancel != null) onCancel();
-      } else {
-        timer.onUpdateData(timer.state.data - 1);
-      }
-    });
+    // Timer _timer = Timer.periodic(Duration(seconds: 1), (myTimer) {
+    //   print("time is ${timer.state.data}");
+    //   if (timer.state.data == 0) {
+    //     myTimer.cancel();
+    //     if (onCancel != null) onCancel();
+    //   } else {
+    //     timer.onUpdateData(timer.state.data - 1);
+    //   }
+    // });
     return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
@@ -208,11 +208,28 @@ class LoadingDialog {
                     border: Border.all(color: Color(0xffE1402E), width: 10),
                     shape: BoxShape.circle),
                 alignment: Alignment.center,
-                child: MyText(
-                  title: state.data.toString() + " : 00",
-                  size: 12,
-                  color: MyColors.blackOpacity,
+                child: TweenAnimationBuilder<Duration>(
+                  duration: Duration(minutes: 2),
+                  onEnd: () => onCancel(),
+                  tween: Tween(begin: Duration(minutes: 2), end: Duration.zero),
+                  builder:
+                      (BuildContext context, Duration value, Widget child) {
+                    final int minutes = value.inMinutes;
+                    final int seconds = value.inSeconds % 60;
+                    return MyText(
+                      title:
+                          "0$minutes:${seconds < 10 ? "0$seconds" : seconds}",
+                      size: 12,
+                      color: MyColors.blackOpacity,
+                    );
+                  },
                 ),
+                // child: MyText(
+                //   title:
+                //       "${'${((120 - state.data) ~/ 60).toString().padLeft(2, '0')}: ${((120 - state.data) % 60).toString().padLeft(2, '0')}'}",
+                //   size: 12,
+                //   color: MyColors.blackOpacity,
+                // ),
               );
             },
           ),
@@ -366,7 +383,7 @@ class LoadingDialog {
                   color: MyColors.white,
                 ),
                 onSubmit: () {
-                  _timer.cancel();
+                  // _timer.cancel();
                   confirm();
                 },
               );

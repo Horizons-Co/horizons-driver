@@ -11,7 +11,7 @@ class HomeData {
   DateTime lastTimeLocation;
   bool notifyDialog = false;
   bool locDialog = false;
-  final GenericCubit<int> timer = GenericCubit<int>(20);
+  final GenericCubit<int> timer = GenericCubit<int>(120);
 
   void fetchPage(BuildContext context) async {
     var orders = await DriverRepository(context).getNewOrders();
@@ -31,7 +31,7 @@ class HomeData {
   }
 
   void showOrderDialog(String id, BuildContext context, int no) {
-    timer.onUpdateData(20);
+    timer.onUpdateData(120);
     LoadingDialog.showNotifyDialog(
       timer: timer,
       context: context,
