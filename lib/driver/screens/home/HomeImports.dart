@@ -23,7 +23,6 @@ import 'package:base_structure/general/constants/ModaLs/LoadingDialog.dart';
 import 'package:base_structure/general/constants/MyColors.dart';
 import 'package:base_structure/general/models/user_model.dart';
 import 'package:base_structure/general/utilities/utils_functions/CustomOneSignal.dart';
-import 'package:base_structure/general/utilities/utils_functions/CustomePushNotification.dart';
 import 'package:base_structure/general/utilities/utils_functions/playSound.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';

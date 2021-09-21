@@ -9,15 +9,19 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with TickerProviderStateMixin, WidgetsBindingObserver {
+class _HomeState extends State<Home>
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   final HomeData _homeData = HomeData();
 
   @override
   void initState() {
     var user = context.read<UserCubit>().state.model;
     _homeData.tabController = TabController(length: 4, vsync: this);
-    if (IsolateNameServer.lookupPortByName(LocationServiceRepository.isolateName) != null) {
-      IsolateNameServer.removePortNameMapping(LocationServiceRepository.isolateName);
+    if (IsolateNameServer.lookupPortByName(
+            LocationServiceRepository.isolateName) !=
+        null) {
+      IsolateNameServer.removePortNameMapping(
+          LocationServiceRepository.isolateName);
     }
     WidgetsBinding.instance.addObserver(this);
     IsolateNameServer.registerPortWithName(

@@ -26,15 +26,54 @@ class HomeData {
       }
     }
     if (orders.length > 0) {
-      showOrderDialog(orders.last.id, context, orders.last.no);
+      showOrderDialog(orders.last.id, context, orders.last.no,
+          tax:
+              "${num.parse(orders.last.deliveryFees) + num.parse(orders.last.vat.amount)}",
+          deliveryLng: orders.last.pickupPoint.id == 2
+              ? orders.last.branch.lng
+              : orders.last.client.lag,
+          deliveryLat: orders.last.pickupPoint.id == 2
+              ? orders.last.branch.lat
+              : orders.last.client.lat,
+          receiveLat: orders.last.pickupPoint.id == 1
+              ? orders.last.branch.lat
+              : orders.last.client.lat,
+          receiveLng: orders.last.pickupPoint.id == 1
+              ? orders.last.branch.lng
+              : orders.last.client.lag,
+          deliveryTo: orders.last.pickupPoint.id == 2
+              ? orders.last.branch.district.name
+              : orders.last.client.district.name,
+          receiveFrom: orders.last.pickupPoint.id == 1
+              ? orders.last.branch.district.name
+              : orders.last.client.district.name,
+          total: orders.last.price + orders.last.currency);
     }
   }
 
-  void showOrderDialog(String id, BuildContext context, int no) {
+  void showOrderDialog(
+    String id,
+    BuildContext context,
+    int no, {
+    String receiveFrom,
+    String deliveryTo,
+    String total,
+    String tax,
+    String receiveLat,
+    String receiveLng,
+    String deliveryLat,
+    String deliveryLng,
+  }) {
     timer.onUpdateData(120);
     LoadingDialog.showNotifyDialog(
       timer: timer,
       context: context,
+      tax: tax,
+      receiveLng: receiveLng, receiveLat: receiveLat, receiveFrom: receiveFrom,
+      deliveryTo: deliveryTo,
+      deliveryLng: deliveryLng,
+      deliveryLat: deliveryLat,
+      total: total,
       title: "تم إسناد الطلب رقم $no",
       confirm: () {
         print("confirm is homeeeeeeeeeee");

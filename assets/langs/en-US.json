@@ -99,6 +99,7 @@
   "orderWillBeCanceled": "Order will be canceled after ",
   "second": "second",
   "pullToAccept": "Pull to accept",
+  "pullToRefuse": "Pull to refuse",
   "newOrder": "New order",
   "receivingFrom": "Receiving from",
   "deliveryTo": "Delivery to",

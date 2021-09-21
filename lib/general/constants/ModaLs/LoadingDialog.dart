@@ -14,6 +14,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:slide_to_act/slide_to_act.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import '../../widgets/MyText.dart';
 import '../MyColors.dart';
@@ -98,7 +99,7 @@ class LoadingDialog {
       builder: (BuildContext context) {
         return _alertTimerDialog(
             title, confirm, context, tr("pullToAccept"), timer,
-            bkText: tr("cancel"),
+            bkText: tr("pullToRefuse"),
             onCancel: onCancel,
             deliveryLat: deliveryLat,
             deliveryLng: deliveryLng,
@@ -174,15 +175,6 @@ class LoadingDialog {
     String deliveryLat,
     String deliveryLng,
   }) {
-    // Timer _timer = Timer.periodic(Duration(seconds: 1), (myTimer) {
-    //   print("time is ${timer.state.data}");
-    //   if (timer.state.data == 0) {
-    //     myTimer.cancel();
-    //     if (onCancel != null) onCancel();
-    //   } else {
-    //     timer.onUpdateData(timer.state.data - 1);
-    //   }
-    // });
     return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
@@ -201,26 +193,39 @@ class LoadingDialog {
             builder: (context, state) {
               return Container(
                 margin: const EdgeInsets.only(bottom: 10),
-                width: 100,
-                height: 100,
-                padding: const EdgeInsets.all(8),
+                width: 120,
+                height: 120,
+                // padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                    border: Border.all(color: Color(0xffE1402E), width: 10),
+                    // border: Border.all(color: Color(0xffE1402E), width: 10),
                     shape: BoxShape.circle),
                 alignment: Alignment.center,
                 child: TweenAnimationBuilder<Duration>(
-                  duration: Duration(minutes: 2),
+                  duration: Duration(seconds: state.data),
                   onEnd: () => onCancel(),
-                  tween: Tween(begin: Duration(minutes: 2), end: Duration.zero),
+                  tween: Tween(
+                      begin: Duration(seconds: state.data), end: Duration.zero),
                   builder:
                       (BuildContext context, Duration value, Widget child) {
+                    timer.onUpdateData(value.inSeconds);
                     final int minutes = value.inMinutes;
                     final int seconds = value.inSeconds % 60;
-                    return MyText(
-                      title:
-                          "0$minutes:${seconds < 10 ? "0$seconds" : seconds}",
-                      size: 12,
-                      color: MyColors.blackOpacity,
+                    return CircularStepProgressIndicator(
+                      totalSteps: 120,
+                      currentStep: state.data,
+                      stepSize: 7,
+                      selectedColor: Color(0xffE1402E),
+                      unselectedColor: MyColors.greyWhite,
+                      padding: 0,
+                      width: 120,
+                      height: 120,
+                      child: Center(
+                          child: MyText(
+                        title:
+                            "0$minutes:${seconds < 10 ? "0$seconds" : seconds}",
+                        size: 12,
+                        color: MyColors.blackOpacity,
+                      )),
                     );
                   },
                 ),
@@ -375,7 +380,7 @@ class LoadingDialog {
                 ),
                 sliderButtonIcon: Icon(Icons.arrow_back, color: MyColors.white),
                 borderRadius: 16,
-                animationDuration: Duration(seconds: 1),
+                animationDuration: Duration(milliseconds: 500),
                 height: 50,
                 child: MyText(
                   title: okText,
@@ -385,6 +390,39 @@ class LoadingDialog {
                 onSubmit: () {
                   // _timer.cancel();
                   confirm();
+                },
+              );
+            },
+          ),
+        ),
+        Container(
+          height: 50,
+          width: MediaQuery.of(context).size.width,
+          margin: const EdgeInsets.only(top: 10),
+          child: Builder(
+            builder: (context) {
+              final GlobalKey<SlideActionState> _key = GlobalKey();
+              return SlideAction(
+                key: _key,
+                innerColor: Colors.transparent,
+                outerColor: Colors.red,
+                reversed: false,
+                submittedIcon: Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
+                sliderButtonIcon: Icon(Icons.arrow_back, color: MyColors.white),
+                borderRadius: 16,
+                animationDuration: Duration(milliseconds: 300),
+                height: 50,
+                child: MyText(
+                  title: bkText,
+                  size: 14,
+                  color: MyColors.white,
+                ),
+                onSubmit: () {
+                  // _timer.cancel();
+                  onCancel();
                 },
               );
             },

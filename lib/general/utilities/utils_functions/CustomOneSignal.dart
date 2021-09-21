@@ -115,7 +115,7 @@ class CustomOneSignal {
         receiveLat: order["a"]["order"]["from"]["lng"],
         receiveLng: order["a"]["order"]["from"]["lng"],
         tax: order["a"]["order"]["delivery_fees_with_tax"],
-        total: order["a"]["order"]["total"],
+        total: order["a"]["order"]["price"],
         title: order["title"],
         confirm: () {
           print("cccccccccccccccc");
