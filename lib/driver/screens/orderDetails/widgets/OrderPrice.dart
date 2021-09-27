@@ -27,26 +27,33 @@ class OrderPrice extends StatelessWidget {
           Divider(
             color: MyColors.grey,
           ),
-          MyText(
-            title: tr("name"),
-            size: 12,
-            color: MyColors.grey,
-          ),
-          MyText(
-            title: orderItemModel.client.name,
-            size: 12,
-            color: MyColors.black,
-          ),
+          // MyText(
+          //   title: tr("name"),
+          //   size: 12,
+          //   color: MyColors.grey,
+          // ),
+          // MyText(
+          //   title: orderItemModel.client.name,
+          //   size: 12,
+          //   color: MyColors.black,
+          // ),
           infoItems(
               title: tr("orderPrice"),
               value: "${orderItemModel.price} ${orderItemModel.currency}",
               bold: false),
-          infoItems(title: tr("delivery"), value: "${orderItemModel.deliveryFees}", bold: false),
-          infoItems(title: tr("tax"), value: "${orderItemModel.vat.amount}", bold: false),
+          infoItems(
+              title: tr("delivery"),
+              value: "${orderItemModel.deliveryFees}",
+              bold: false),
+          infoItems(
+              title: tr("tax"),
+              value: "${orderItemModel.vat.amount}",
+              bold: false),
           Divider(
             color: MyColors.grey,
           ),
-          infoItems(title: tr("total"), value: "${orderItemModel.total}", bold: true),
+          infoItems(
+              title: tr("total"), value: "${orderItemModel.total}", bold: true),
           Visibility(
             visible: orderItemModel.feesPaymentMethod.id == 2,
             child: Container(

@@ -86,7 +86,7 @@
   "noOrdersUntilActive": "You cannot receive requests until you are activated by the administration.",
   "pleaseActiveLoc": "Please activate the location",
   "pleaseActiveNotify": "Please enable notifications",
-  "whatsStatement": "With you a representative of Afaq company with me for you a shipment from a store",
+  "whatsStatement": "",
   "confirm": "Confirm",
   "settings": "Settings",
   "cancel": "Cancel",
@@ -104,7 +104,10 @@
   "receivingFrom": "Receiving from",
   "deliveryTo": "Delivery to",
   "orderValue": "Order price",
-  "deliveryFees": "Delivery fees"
+  "deliveryFees": "Delivery fees",
+  "shopBranch": "Shop branch",
+  "ordersCount": "Orders count",
+  "store": "Store"
 
 }
 

@@ -30,13 +30,14 @@ class _ContactUsState extends State<ContactUs> {
         ),
       ),
       body: Container(
-        color:  MyColors.grey.withOpacity(.1),
+        color: MyColors.grey.withOpacity(.1),
         height: MediaQuery.of(context).size.height,
-        child: BlocBuilder<GenericCubit<String>,GenericState<String>>(
+        child: BlocBuilder<GenericCubit<String>, GenericState<String>>(
           cubit: contactUsData.whatsCubit,
-          builder: (_,state){
+          builder: (_, state) {
             return SingleChildScrollView(
-              physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+              physics: BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
@@ -53,13 +54,14 @@ class _ContactUsState extends State<ContactUs> {
                     title: tr("contactUsWhatsapp"),
                     image: Res.contactWhatsApp,
                     onTap: () => Utils.launchURL(
-                        url: "https://api.whatsapp.com/send?phone=${state.data}"),
+                        url:
+                            "https://api.whatsapp.com/send?phone=${state.data}"),
                   ),
-                  BuildContactUsItem(
-                    title: tr("contactUs"),
-                    onTap: () => Utils.callPhone(phone: state.data),
-                    image: Res.contactUsMobile,
-                  ),
+                  // BuildContactUsItem(
+                  //   title: tr("contactUs"),
+                  //   onTap: () => Utils.callPhone(phone: state.data),
+                  //   image: Res.contactUsMobile,
+                  // ),
                 ],
               ),
             );

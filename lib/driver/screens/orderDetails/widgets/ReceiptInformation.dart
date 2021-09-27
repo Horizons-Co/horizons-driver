@@ -21,9 +21,9 @@ class ReceiptInfo extends StatelessWidget {
           infoItems(context),
           infoItemsColor(
               context: context,
-              timeValue: orderItemModel.type.id == 2
+              timeValue: orderItemModel.scheduledAt == null
                   ? orderItemModel.type.name
-                  : "${orderItemModel.logs[0].date} ${orderItemModel.logs[0].time.substring(0, orderItemModel.logs[0].time.length - 3)}",
+                  : orderItemModel.scheduledAt,
               timeTitle: "${tr("receiveTime")}:",
               addressValue: orderItemModel.pickupPoint.id == 1
                   ? orderItemModel.branch.district?.name ?? ""
@@ -72,7 +72,9 @@ class ReceiptInfo extends StatelessWidget {
             color: MyColors.grey,
           ),
           MyText(
-            title: orderItemModel.branch.name,
+            title: orderItemModel.pickupPoint.id == 1
+                ? orderItemModel.branch.name
+                : orderItemModel.client.name,
             size: 12,
             color: MyColors.black,
           ),
@@ -89,7 +91,9 @@ class ReceiptInfo extends StatelessWidget {
                     color: MyColors.grey,
                   ),
                   MyText(
-                    title: orderItemModel.merchant.mobile ?? "",
+                    title: orderItemModel.pickupPoint.id == 1
+                        ? orderItemModel.merchant.mobile ?? ""
+                        : orderItemModel.client.mobile ?? "",
                     size: 12,
                     color: MyColors.black,
                   ),
@@ -99,10 +103,11 @@ class ReceiptInfo extends StatelessWidget {
                 onTap: () => orderDetailsData.callWhatsAppOrPhone(
                     context: context,
                     whatsApp: () async {
-                      String phone = orderItemModel.merchant.mobile.replaceFirst("0", "");
+                      String phone =
+                          orderItemModel.merchant.mobile.replaceFirst("0", "");
                       final link = WhatsAppUnilink(
                         phoneNumber: "+966$phone",
-                        text: "${tr("whatsStatement")} ${orderItemModel.merchant.name}",
+                        text: "",
                       );
                       await launch('$link');
                       // Utils.launchURL(
@@ -110,7 +115,8 @@ class ReceiptInfo extends StatelessWidget {
                       //         "https://wa.me/+966$phone?text=معك مندوب شركة آفاق معي لك شحنة من متجر ${orderItemModel.merchant.name}");
                     },
                     phone: () {
-                      Utils.callPhone(phone: orderItemModel.merchant.mobile ?? "");
+                      Utils.callPhone(
+                          phone: orderItemModel.merchant.mobile ?? "");
                     }),
                 child: Image.asset(
                   Res.whats,
@@ -177,16 +183,24 @@ class ReceiptInfo extends StatelessWidget {
                     )
                   ],
                 ),
-                MyText(
-                  title: timeTitle,
-                  size: 12,
-                  color: MyColors.grey,
-                ),
-                MyText(
-                  title: timeValue,
-                  size: 12,
-                  color: MyColors.black,
-                ),
+                Visibility(
+                  visible: orderItemModel.type.id == 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MyText(
+                        title: timeTitle,
+                        size: 12,
+                        color: MyColors.grey,
+                      ),
+                      MyText(
+                        title: timeValue,
+                        size: 12,
+                        color: MyColors.black,
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           )

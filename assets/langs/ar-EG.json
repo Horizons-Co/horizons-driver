@@ -86,7 +86,7 @@
   "noOrdersUntilActive": "لايمكنك استقبال طلبات حتي يتم تفعيلك من قبل الادارة .",
   "pleaseActiveLoc": "  من فضلك قم بتفعيل الموقع",
   "pleaseActiveNotify": "  من فضلك قم بتفعيل الاشعارات",
-  "whatsStatement": "معك مندوب شركة آفاق معي لك شحنة من متجر",
+  "whatsStatement": "",
   "confirm": "تأكيد",
   "settings": "الاعدادت",
   "cancel": "الغاء",
@@ -104,9 +104,10 @@
   "receivingFrom": "الإستلام من",
   "deliveryTo": "التوصيل الي",
   "orderValue": "قيمة الطلب",
-  "deliveryFees": "رسوم التوصيل"
-
-
+  "deliveryFees": "رسوم التوصيل",
+  "shopBranch": "فرع المتجر",
+  "ordersCount": "عدد الطلبات",
+  "store": "المخزن"
 }
 
 

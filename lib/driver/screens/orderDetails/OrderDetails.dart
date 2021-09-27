@@ -22,7 +22,8 @@ class OrderDetails extends StatelessWidget {
       body: Container(
         color: MyColors.grey.withOpacity(.1),
         child: ListView(
-          physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          physics:
+              BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           children: [
             Visibility(
@@ -40,17 +41,26 @@ class OrderDetails extends StatelessWidget {
                   ReceiptInfo(orderItemModel, _orderDetailsData),
                   DeliveryInfo(orderItemModel, _orderDetailsData),
                   OrderPrice(orderItemModel),
+                  Visibility(
+                    visible: orderItemModel.itemImage != null,
+                    child: CachedImage(
+                      url: orderItemModel.itemImage,
+                      width: MediaQuery.of(context).size.width,
+                      height: 250,
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                  )
                 ],
               ),
               replacement: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   OrderInfo(orderItemModel),
-                  MultiOrderDetails(orderItemModel),
+                  MultiOrderDetails(orderItemModel, _orderDetailsData),
                 ],
               ),
             ),
-            OrderButton(_orderDetailsData, orderItemModel)
+            OrderButton(_orderDetailsData, orderItemModel),
           ],
         ),
       ),

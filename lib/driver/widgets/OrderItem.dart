@@ -4,17 +4,20 @@ import 'package:base_structure/general/constants/GlobalState.dart';
 import 'package:base_structure/general/constants/MyColors.dart';
 import 'package:base_structure/general/utilities/utils_functions/playSound.dart';
 import 'package:base_structure/general/widgets/MyText.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 Widget orderItem({OrderItemModel orderItemModel, BuildContext context}) {
-  print("asdasd ${orderItemModel.status.id != 5 || orderItemModel.status.id != 21}");
+  print(
+      "asdasd ${orderItemModel.status.id != 5 || orderItemModel.status.id != 21}");
   return InkWell(
     onTap: () {
       if (orderItemModel.id == GlobalState.instance.get("currentOrderId")) {
         PlayNotificationSound.stopSound();
       }
       if (orderItemModel.status.id != 5 && orderItemModel.status.id != 21)
-        Navigator.push(context, MaterialPageRoute(builder: (_) => OrderDetails(orderItemModel)));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (_) => OrderDetails(orderItemModel)));
     },
     child: Container(
       margin: const EdgeInsets.only(left: 10, right: 10, top: 15),
@@ -31,8 +34,9 @@ Widget orderItem({OrderItemModel orderItemModel, BuildContext context}) {
             ),
             decoration: BoxDecoration(
                 color: MyColors.primary,
-                borderRadius:
-                    BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    topLeft: Radius.circular(10))),
           ),
           Container(
             height: 90,
@@ -40,7 +44,8 @@ Widget orderItem({OrderItemModel orderItemModel, BuildContext context}) {
             decoration: BoxDecoration(
                 color: MyColors.white,
                 borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,7 +74,9 @@ Widget orderItem({OrderItemModel orderItemModel, BuildContext context}) {
                       size: 14,
                     ),
                     MyText(
-                      title: orderItemModel.type.name,
+                      title: orderItemModel.isMultiple
+                          ? tr("multipleOrder")
+                          : orderItemModel.type.name,
                       color: MyColors.black,
                       size: 14,
                     ),
