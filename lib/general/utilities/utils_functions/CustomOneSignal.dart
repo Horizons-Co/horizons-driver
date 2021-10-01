@@ -88,12 +88,13 @@ class CustomOneSignal {
     if (order["a"]["driver"] != null) {
       onDriverReceived(notification, homeData, context);
     } else {
-      onOrderReceived(notification, homeData.tabController, context, homeData);
+      onOrderReceived(
+          notification, homeData.tabController, context, homeData, false);
     }
   }
 
   static onOrderReceived(notification, TabController tabController,
-      BuildContext context, HomeData homeData) {
+      BuildContext context, HomeData homeData, bool open) {
     var data = notification.payload.rawPayload;
     var order = Platform.isAndroid
         ? json.decode("${notification.payload.rawPayload['custom']}")
@@ -103,7 +104,7 @@ class CustomOneSignal {
     print("orderID is $orderID");
     GlobalState.instance.set("currentOrderId", orderID);
     print("context is ${order["a"]["order"]["to"]}");
-    if (order['a']['order']["status_id"] == 6) {
+    if (order['a']['order']["status_id"] == 6 && open == false) {
       homeData.timer.onUpdateData(120);
       LoadingDialog.showNotifyDialog(
         timer: homeData.timer,
@@ -181,7 +182,8 @@ class CustomOneSignal {
     if (order["a"]["driver"] != null) {
       onDriverReceived(notification, homeData, context);
     } else {
-      onOrderReceived(notification, homeData.tabController, context, homeData);
+      onOrderReceived(
+          notification, homeData.tabController, context, homeData, true);
     }
   }
 

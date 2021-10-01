@@ -15,6 +15,7 @@ import '../../models/user_model.dart';
 import '../../screens/active_account/ActiveAccountImports.dart';
 import '../../screens/contact_us/ContactUsImports.dart';
 import '../../screens/forget_password/ForgetPasswordImports.dart';
+import '../../screens/image_zoom/ImageZoom.dart';
 import '../../screens/language/LanguageImports.dart';
 import '../../screens/location_premission/LocationPermissionImports.dart';
 import '../../screens/login/LoginImports.dart';
@@ -34,6 +35,7 @@ class Routes {
   static const String profile = '/Profile';
   static const String language = '/Language';
   static const String locationPermission = '/location-permission';
+  static const String imageZoom = '/image-zoom';
   static const all = <String>{
     splash,
     login,
@@ -46,6 +48,7 @@ class Routes {
     profile,
     language,
     locationPermission,
+    imageZoom,
   };
 }
 
@@ -64,6 +67,7 @@ class AppRouter extends RouterBase {
     RouteDef(Routes.profile, page: Profile),
     RouteDef(Routes.language, page: Language),
     RouteDef(Routes.locationPermission, page: LocationPermission),
+    RouteDef(Routes.imageZoom, page: ImageZoom),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -158,6 +162,17 @@ class AppRouter extends RouterBase {
         transitionsBuilder: TransitionsBuilders.slideRight,
       );
     },
+    ImageZoom: (data) {
+      final args = data.getArgs<ImageZoomArguments>(nullOk: false);
+      return PageRouteBuilder<dynamic>(
+        pageBuilder: (context, animation, secondaryAnimation) => ImageZoom(
+          images: args.images,
+          file: args.file,
+        ),
+        settings: data,
+        transitionsBuilder: TransitionsBuilders.slideRight,
+      );
+    },
   };
 }
 
@@ -183,4 +198,11 @@ class ActiveAccountArguments {
 class HomeArguments {
   final int index;
   HomeArguments({this.index = 0});
+}
+
+/// ImageZoom arguments holder class
+class ImageZoomArguments {
+  final List<dynamic> images;
+  final bool file;
+  ImageZoomArguments({@required this.images, this.file = false});
 }

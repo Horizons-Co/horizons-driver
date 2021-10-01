@@ -106,7 +106,18 @@ class _BuildRegisterInputsState extends State<BuildRegisterInputs> {
             margin: const EdgeInsets.only(top: 5),
             label: tr("carLicenceImage"),
             validate: (value) => value.noValidate,
-            onTab: () => widget.registerData.getCarLicenceImage(context),
+            onTab: () => widget.registerData.selectImageDialog(
+                context: context,
+                onCamera: () {
+                  ExtendedNavigator.root.pop();
+                  widget.registerData
+                      .getCarLicenceImage(context, ImageSource.camera);
+                },
+                onGallery: () {
+                  ExtendedNavigator.root.pop();
+                  widget.registerData
+                      .getCarLicenceImage(context, ImageSource.gallery);
+                }),
           ),
           BlocBuilder<GenericCubit<File>, GenericState<File>>(
               cubit: widget.registerData.carLicenceImage,
@@ -144,7 +155,16 @@ class _BuildRegisterInputsState extends State<BuildRegisterInputs> {
             validate: (value) => value.noValidate,
             icon: Icon(Icons.image),
             label: tr("carImage"),
-            onTab: () => widget.registerData.getCarImage(context),
+            onTab: () => widget.registerData.selectImageDialog(
+                context: context,
+                onCamera: () {
+                  ExtendedNavigator.root.pop();
+                  widget.registerData.getCarImage(context, ImageSource.camera);
+                },
+                onGallery: () {
+                  ExtendedNavigator.root.pop();
+                  widget.registerData.getCarImage(context, ImageSource.gallery);
+                }),
           ),
           BlocBuilder<GenericCubit<File>, GenericState<File>>(
               cubit: widget.registerData.carImage,
@@ -181,7 +201,17 @@ class _BuildRegisterInputsState extends State<BuildRegisterInputs> {
             margin: const EdgeInsets.only(top: 10),
             icon: Icon(Icons.image),
             label: tr("profileImage"),
-            onTab: () => widget.registerData.getUserImage(context),
+            onTab: () => widget.registerData.selectImageDialog(
+                context: context,
+                onCamera: () {
+                  ExtendedNavigator.root.pop();
+                  widget.registerData.getUserImage(context, ImageSource.camera);
+                },
+                onGallery: () {
+                  ExtendedNavigator.root.pop();
+                  widget.registerData
+                      .getUserImage(context, ImageSource.gallery);
+                }),
           ),
           BlocBuilder<GenericCubit<File>, GenericState<File>>(
               cubit: widget.registerData.userImage,

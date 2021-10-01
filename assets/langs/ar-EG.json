@@ -107,7 +107,10 @@
   "deliveryFees": "رسوم التوصيل",
   "shopBranch": "فرع المتجر",
   "ordersCount": "عدد الطلبات",
-  "store": "المخزن"
+  "store": "المخزن",
+  "pickImage": "اختر صورة",
+  "camera": "الكاميرا",
+  "gallery": "المعرض"
 }
 
 

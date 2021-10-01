@@ -43,11 +43,16 @@ class OrderDetails extends StatelessWidget {
                   OrderPrice(orderItemModel),
                   Visibility(
                     visible: orderItemModel.itemImage != null,
-                    child: CachedImage(
-                      url: orderItemModel.itemImage,
-                      width: MediaQuery.of(context).size.width,
-                      height: 250,
-                      borderRadius: BorderRadius.circular(24),
+                    child: InkWell(
+                      onTap: () => ExtendedNavigator.root.push(Routes.imageZoom,
+                          arguments: ImageZoomArguments(
+                              images: [orderItemModel.itemImage], file: false)),
+                      child: CachedImage(
+                        url: orderItemModel.itemImage,
+                        width: MediaQuery.of(context).size.width,
+                        height: 250,
+                        borderRadius: BorderRadius.circular(24),
+                      ),
                     ),
                   )
                 ],

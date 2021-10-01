@@ -38,10 +38,66 @@ class RegisterData {
     nationality = model != null ? model : null;
   }
 
-  Future<void> getCarLicenceImage(BuildContext context) async {
+  selectImageDialog(
+      {Function onGallery, BuildContext context, Function onCamera}) {
+    return showCupertinoDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return _alertDialog(onGallery, context, onCamera: onCamera);
+      },
+    );
+  }
+
+  Widget _alertDialog(Function onGallery, BuildContext context,
+      {Function onCamera}) {
+    return AlertDialog(
+      scrollable: false,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      title: MyText(
+        title: tr("pickImage"),
+        size: 16,
+        color: MyColors.black,
+        alien: TextAlign.center,
+      ),
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
+      actions: [
+        Expanded(
+          child: CupertinoButton(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            color: MyColors.offWhite,
+            child: MyText(
+              title: tr("camera"),
+              size: 14,
+              color: MyColors.secondary,
+            ),
+            onPressed: onCamera,
+          ),
+        ),
+        SizedBox(
+          width: 20,
+        ),
+        Expanded(
+          child: CupertinoButton(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            color: MyColors.primary,
+            child: MyText(
+              title: tr("gallery"),
+              size: 14,
+              color: MyColors.secondary,
+            ),
+            onPressed: onGallery,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> getCarLicenceImage(
+      BuildContext context, ImageSource imageSource) async {
     FocusScope.of(context).requestFocus(new FocusNode());
     LoadingDialog.showLoadingView();
-    File image = await Utils.getImageFile();
+    File image = await Utils.getImage(imageSource: imageSource);
     if (image != null) {
       var file = await compressAndGetFile(image);
       return carLicenceImage.onUpdateData(file);
@@ -49,10 +105,11 @@ class RegisterData {
     EasyLoading.dismiss();
   }
 
-  Future<void> getCarImage(BuildContext context) async {
+  Future<void> getCarImage(
+      BuildContext context, ImageSource imageSource) async {
     FocusScope.of(context).requestFocus(new FocusNode());
     LoadingDialog.showLoadingView();
-    File image = await Utils.getImageFile();
+    File image = await Utils.getImage(imageSource: imageSource);
     if (image != null) {
       var file = await compressAndGetFile(image);
       return carImage.onUpdateData(file);
@@ -60,10 +117,11 @@ class RegisterData {
     EasyLoading.dismiss();
   }
 
-  Future<void> getUserImage(BuildContext context) async {
+  Future<void> getUserImage(
+      BuildContext context, ImageSource imageSource) async {
     FocusScope.of(context).requestFocus(new FocusNode());
     LoadingDialog.showLoadingView();
-    File image = await Utils.getImageFile();
+    File image = await Utils.getImage(imageSource: imageSource);
     if (image != null) {
       var file = await compressAndGetFile(image);
       return userImage.onUpdateData(file);

@@ -5,6 +5,7 @@ import 'package:base_structure/driver/screens/profile/ProfileImports.dart';
 import 'package:base_structure/general/screens/active_account/ActiveAccountImports.dart';
 import 'package:base_structure/general/screens/contact_us/ContactUsImports.dart';
 import 'package:base_structure/general/screens/forget_password/ForgetPasswordImports.dart';
+import 'package:base_structure/general/screens/image_zoom/ImageZoom.dart';
 import 'package:base_structure/general/screens/language/LanguageImports.dart';
 import 'package:base_structure/general/screens/location_premission/LocationPermissionImports.dart';
 import 'package:base_structure/general/screens/login/LoginImports.dart';
@@ -38,6 +39,8 @@ import 'package:base_structure/general/screens/splash/SplashImports.dart';
     CustomRoute(
         page: LocationPermission,
         transitionsBuilder: TransitionsBuilders.slideRight),
+    CustomRoute(
+        page: ImageZoom, transitionsBuilder: TransitionsBuilders.slideRight),
   ],
 )
 class $AppRouter {}

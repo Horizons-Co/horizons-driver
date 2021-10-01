@@ -25,6 +25,7 @@ class HomeData {
         changeActiveState(context: context, active: user.isOnline);
       }
     }
+    print("orders is ${orders.length}");
     if (orders.length > 0) {
       showOrderDialog(orders.last.id, context, orders.last.no,
           tax:

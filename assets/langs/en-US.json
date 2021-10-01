@@ -107,7 +107,10 @@
   "deliveryFees": "Delivery fees",
   "shopBranch": "Shop branch",
   "ordersCount": "Orders count",
-  "store": "Store"
+  "store": "Store",
+  "pickImage": "Pick image",
+  "camera": "Camera",
+  "gallery": "Gallery"
 
 }
 

@@ -36,8 +36,8 @@ class CachedImage extends StatelessWidget {
     // TODO: implement build
     return CachedNetworkImage(
       imageUrl: "$url",
-      width: width,
-      height: height,
+      // width: width,
+      // height: height,
       imageBuilder: (context, imageProvider) => Container(
         width: width,
         height: height,
@@ -77,8 +77,8 @@ class CachedImage extends StatelessWidget {
         ),
       ),
       errorWidget: (context, url, error) => Container(
-        width: width,
-        height: height,
+        width: 0,
+        height: 0,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: bgColor ?? Colors.transparent,
