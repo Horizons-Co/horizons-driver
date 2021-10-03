@@ -110,8 +110,9 @@
   "store": "Store",
   "pickImage": "Pick image",
   "camera": "Camera",
-  "gallery": "Gallery"
-
+  "gallery": "Gallery",
+  "reversed": "Reversed",
+  "new": "New"
 }
 
 

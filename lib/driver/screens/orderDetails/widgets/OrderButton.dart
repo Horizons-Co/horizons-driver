@@ -30,13 +30,13 @@ class OrderButton extends StatelessWidget {
                     index: index,
                     place: index == 0
                         ? orderItemModel.pickupPoint.id == 1
-                            ? orderItemModel.branch.district?.name ?? ""
-                            : orderItemModel.client.district?.name ?? ""
+                            ? orderItemModel.branch?.district?.name ?? ""
+                            : orderItemModel.client?.district?.name ?? ""
                         : orderItemModel.isMultiple
                             ? tr("store")
                             : orderItemModel.pickupPoint.id == 2
-                                ? orderItemModel.branch.district?.name ?? ""
-                                : orderItemModel.client.district?.name ?? "",
+                                ? orderItemModel.branch?.district?.name ?? ""
+                                : orderItemModel.client?.district?.name ?? "",
                     title: index == 0 ? tr("receiveFrom") : tr("deliverTo"),
                     image: index == 0 ? Res.place : Res.location);
               },

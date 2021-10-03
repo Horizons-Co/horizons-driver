@@ -83,7 +83,9 @@ class OrderInfo extends StatelessWidget {
               fontWeight: FontWeight.w900,
               title: orderItemModel.isMultiple
                   ? tr("multipleOrder")
-                  : orderItemModel.type.name,
+                  : orderItemModel.pickupPoint.id == 1
+                      ? orderItemModel.type.name
+                      : orderItemModel.type.name + " - " + "${tr("reversed")}",
             ),
           ],
         ),

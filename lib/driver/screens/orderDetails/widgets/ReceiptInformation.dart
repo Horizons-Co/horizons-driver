@@ -26,8 +26,8 @@ class ReceiptInfo extends StatelessWidget {
                   : orderItemModel.scheduledAt,
               timeTitle: "${tr("receiveTime")}:",
               addressValue: orderItemModel.pickupPoint.id == 1
-                  ? orderItemModel.branch.district?.name ?? ""
-                  : orderItemModel.client.district?.name ?? "",
+                  ? orderItemModel.branch?.district?.name ?? ""
+                  : orderItemModel.client?.district?.name ?? "",
               onTap: () {
                 if (orderItemModel.pickupPoint.id == 1) {
                   Utils.openMap(
@@ -73,8 +73,8 @@ class ReceiptInfo extends StatelessWidget {
           ),
           MyText(
             title: orderItemModel.pickupPoint.id == 1
-                ? orderItemModel.branch.name
-                : orderItemModel.client.name,
+                ? orderItemModel.merchant?.name ?? ""
+                : orderItemModel.client?.name ?? "",
             size: 12,
             color: MyColors.black,
           ),
@@ -92,8 +92,8 @@ class ReceiptInfo extends StatelessWidget {
                   ),
                   MyText(
                     title: orderItemModel.pickupPoint.id == 1
-                        ? orderItemModel.merchant.mobile ?? ""
-                        : orderItemModel.client.mobile ?? "",
+                        ? orderItemModel.merchant?.mobile ?? ""
+                        : orderItemModel.client?.mobile ?? "",
                     size: 12,
                     color: MyColors.black,
                   ),

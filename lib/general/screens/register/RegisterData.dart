@@ -62,32 +62,28 @@ class RegisterData {
       ),
       actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
       actions: [
-        Expanded(
-          child: CupertinoButton(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            color: MyColors.offWhite,
-            child: MyText(
-              title: tr("camera"),
-              size: 14,
-              color: MyColors.secondary,
-            ),
-            onPressed: onCamera,
+        CupertinoButton(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          color: MyColors.offWhite,
+          child: MyText(
+            title: tr("camera"),
+            size: 14,
+            color: MyColors.secondary,
           ),
+          onPressed: onCamera,
         ),
         SizedBox(
           width: 20,
         ),
-        Expanded(
-          child: CupertinoButton(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            color: MyColors.primary,
-            child: MyText(
-              title: tr("gallery"),
-              size: 14,
-              color: MyColors.secondary,
-            ),
-            onPressed: onGallery,
+        CupertinoButton(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          color: MyColors.primary,
+          child: MyText(
+            title: tr("gallery"),
+            size: 14,
+            color: MyColors.secondary,
           ),
+          onPressed: onGallery,
         ),
       ],
     );

@@ -48,7 +48,7 @@ class DeliveryInfo extends StatelessWidget {
           ),
           MyText(
             title: orderItemModel.pickupPoint.id == 2
-                ? orderItemModel.branch.name
+                ? orderItemModel.merchant.name
                 : orderItemModel.client.name,
             size: 12,
             color: MyColors.black,

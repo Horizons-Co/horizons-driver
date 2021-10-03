@@ -49,7 +49,7 @@ class MultiOrderDetails extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               MyText(
-                title: orderItemModel.branch.name,
+                title: orderItemModel.merchant.name,
                 size: 12,
                 color: MyColors.black,
               ),
