@@ -11,8 +11,7 @@ class OrdersHttpMethods {
   OrdersHttpMethods({@required this.context});
 
   Future<List<OrderItemModel>> getNewOrders() async {
-    final response =
-        await DioHelper(context).getGET("orders?status=6");
+    final response = await DioHelper(context).getGET("orders?status=6");
     if (response != null) {
       return List<OrderItemModel>.from(
           response["data"].map((x) => OrderItemModel.fromJson(x)));
@@ -23,7 +22,7 @@ class OrdersHttpMethods {
 
   Future<List<OrderItemModel>> getCurrentOrders(int currentPage) async {
     final response =
-        await DioHelper(context).getGET("orders?status=3&page=$currentPage");
+        await DioHelper(context).getGET("orders?status=3,6&page=$currentPage");
     if (response != null) {
       return List<OrderItemModel>.from(
           response["data"].map((x) => OrderItemModel.fromJson(x)));
@@ -78,7 +77,8 @@ class OrdersHttpMethods {
     }
   }
 
-  Future<bool> changeOrderStatusFromNotify({String orderId, String action}) async {
+  Future<bool> changeOrderStatusFromNotify(
+      {String orderId, String action}) async {
     final response =
         await DioHelper(context).patch("orders/$orderId/actions/$action", {});
     if (response != null) {

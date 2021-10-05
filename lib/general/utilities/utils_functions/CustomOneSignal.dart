@@ -271,7 +271,8 @@ class CustomOneSignal {
         .changeOrderStatusFromNotify(orderId: id, action: state);
     ExtendedNavigator.root.popUntilPath(Routes.home);
     tabController.animateTo(0);
-    if (state == "4") _onMessageStreamController.add("refresh");
+    // if (state == "4")
+    _onMessageStreamController.add("refresh");
   }
 
   static void closeDialog(BuildContext context) {

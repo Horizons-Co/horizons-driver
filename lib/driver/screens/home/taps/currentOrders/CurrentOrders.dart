@@ -38,7 +38,9 @@ class _CurrentOrdersState extends State<CurrentOrders> {
                   child: Image.asset(Res.noOrders),
                 ),
                 MyText(
-                  title: !user.isActive || user.suspended ? tr("noActive") : tr("noOrders"),
+                  title: !user.isActive || user.suspended
+                      ? tr("noActive")
+                      : tr("noOrders"),
                   size: 12,
                   color: MyColors.grey.withOpacity(.3),
                 )
@@ -61,8 +63,36 @@ class _CurrentOrdersState extends State<CurrentOrders> {
                             color: MyColors.primary,
                           ),
                         ),
-                    itemBuilder: (context, item, index) =>
-                        orderItem(orderItemModel: item, context: context)),
+                    itemBuilder: (context, item, index) => orderItem(
+                        orderItemModel: item,
+                        context: context,
+                        pending: () {
+                          print(
+                              "sada ${item.vat.amount.replaceAll("ر.س.", "")}");
+                          widget._homeData.showOrderDialog(
+                              item.id, context, item.no,
+                              tax:
+                                  "${num.parse(item.deliveryFees.replaceAll("ر.س.", "")) + num.parse(item.vat.amount.replaceAll("ر.س.", ""))}",
+                              deliveryLng: item.pickupPoint.id == 2
+                                  ? item.branch.lng
+                                  : item.client.lag,
+                              deliveryLat: item.pickupPoint.id == 2
+                                  ? item.branch.lat
+                                  : item.client.lat,
+                              receiveLat: item.pickupPoint.id == 1
+                                  ? item.branch.lat
+                                  : item.client.lat,
+                              receiveLng: item.pickupPoint.id == 1
+                                  ? item.branch.lng
+                                  : item.client.lag,
+                              deliveryTo: item.pickupPoint.id == 2
+                                  ? item.branch.district.name
+                                  : item.client.district.name,
+                              receiveFrom: item.pickupPoint.id == 1
+                                  ? item.branch.district.name
+                                  : item.client.district.name,
+                              total: item.price + item.currency);
+                        })),
               ),
             );
           }

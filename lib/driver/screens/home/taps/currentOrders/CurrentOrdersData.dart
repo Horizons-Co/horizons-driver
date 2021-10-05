@@ -1,7 +1,6 @@
 part of 'CurrentOrdersImports.dart';
 
 class CurrentOrdersData {
-
   // final CustomPushNotification globalNotification = new CustomPushNotification();
   final CustomOneSignal globalNotification = new CustomOneSignal();
 
@@ -24,5 +23,4 @@ class CurrentOrdersData {
       pagingController.refresh();
     });
   }
-
 }
