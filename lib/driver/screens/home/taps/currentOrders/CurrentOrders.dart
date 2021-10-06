@@ -72,7 +72,8 @@ class _CurrentOrdersState extends State<CurrentOrders> {
                           widget._homeData.showOrderDialog(
                               item.id, context, item.no,
                               tax:
-                                  "${num.parse(item.deliveryFees.replaceAll("ر.س.", "")) + num.parse(item.vat.amount.replaceAll("ر.س.", ""))}",
+                                  "${num.parse(item.deliveryFees.replaceAll("ر.س.", "")) + num.parse(item.vat.amount.replaceAll("ر.س.", ""))}"
+                                  " ${tr("r.s")}",
                               deliveryLng: item.pickupPoint.id == 2
                                   ? item.branch.lng
                                   : item.client.lag,

@@ -22,7 +22,7 @@ class OrdersHttpMethods {
 
   Future<List<OrderItemModel>> getCurrentOrders(int currentPage) async {
     final response =
-        await DioHelper(context).getGET("orders?status=3,6&page=$currentPage");
+        await DioHelper(context).getGET("orders?status=6,3&page=$currentPage");
     if (response != null) {
       return List<OrderItemModel>.from(
           response["data"].map((x) => OrderItemModel.fromJson(x)));

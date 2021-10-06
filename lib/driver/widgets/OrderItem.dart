@@ -100,7 +100,8 @@ Widget orderItem(
     ),
     replacement: InkWell(
       onTap: () {
-        if (orderItemModel.id == GlobalState.instance.get("currentOrderId")) {
+        if ((orderItemModel.id == GlobalState.instance.get("currentOrderId")) &&
+            (orderItemModel.status.id != 3)) {
           PlayNotificationSound.stopSound();
         } else if (orderItemModel.status.id != 5 &&
             orderItemModel.status.id != 21)
