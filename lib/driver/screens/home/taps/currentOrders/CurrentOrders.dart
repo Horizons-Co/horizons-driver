@@ -2,6 +2,7 @@ part of 'CurrentOrdersImports.dart';
 
 class CurrentOrders extends StatefulWidget {
   final HomeData _homeData;
+
   const CurrentOrders(this._homeData);
 
   @override
@@ -67,32 +68,43 @@ class _CurrentOrdersState extends State<CurrentOrders> {
                         orderItemModel: item,
                         context: context,
                         pending: () {
-                          print(
-                              "sada ${item.vat.amount.replaceAll("ر.س.", "")}");
-                          widget._homeData.showOrderDialog(
-                              item.id, context, item.no,
-                              tax:
-                                  "${num.parse(item.deliveryFees.replaceAll("ر.س.", "")) + num.parse(item.vat.amount.replaceAll("ر.س.", ""))}"
-                                  " ${tr("r.s")}",
-                              deliveryLng: item.pickupPoint.id == 2
-                                  ? item.branch.lng
-                                  : item.client.lag,
-                              deliveryLat: item.pickupPoint.id == 2
-                                  ? item.branch.lat
-                                  : item.client.lat,
-                              receiveLat: item.pickupPoint.id == 1
-                                  ? item.branch.lat
-                                  : item.client.lat,
-                              receiveLng: item.pickupPoint.id == 1
-                                  ? item.branch.lng
-                                  : item.client.lag,
-                              deliveryTo: item.pickupPoint.id == 2
-                                  ? item.branch.district.name
-                                  : item.client.district.name,
-                              receiveFrom: item.pickupPoint.id == 1
-                                  ? item.branch.district.name
-                                  : item.client.district.name,
-                              total: item.price + item.currency);
+                          if (DateTime.now()
+                                  .difference(DateTime.parse(item.assignedAt)
+                                      .subtract(Duration(hours: 1)))
+                                  .inSeconds >=
+                              120) {
+                            currentOrdersData.pagingController.refresh();
+                          } else {
+                            widget._homeData.timer.onUpdateData(120 -
+                                (DateTime.now()
+                                    .difference(DateTime.parse(item.assignedAt)
+                                        .subtract(Duration(hours: 1)))
+                                    .inSeconds));
+                            widget._homeData.showOrderDialog(
+                                item.id, context, item.no,
+                                tax:
+                                    "${num.parse(item.deliveryFees.replaceAll("ر.س.", "")) + num.parse(item.vat.amount.replaceAll("ر.س.", ""))}"
+                                    " ${tr("r.s")}",
+                                deliveryLng: item.pickupPoint.id == 2
+                                    ? item.branch.lng
+                                    : item.client.lag,
+                                deliveryLat: item.pickupPoint.id == 2
+                                    ? item.branch.lat
+                                    : item.client.lat,
+                                receiveLat: item.pickupPoint.id == 1
+                                    ? item.branch.lat
+                                    : item.client.lat,
+                                receiveLng: item.pickupPoint.id == 1
+                                    ? item.branch.lng
+                                    : item.client.lag,
+                                deliveryTo: item.pickupPoint.id == 2
+                                    ? item.branch.district.name
+                                    : item.client.district.name,
+                                receiveFrom: item.pickupPoint.id == 1
+                                    ? item.branch.district.name
+                                    : item.client.district.name,
+                                total: item.price + item.currency);
+                          }
                         })),
               ),
             );

@@ -52,6 +52,9 @@ class OrderItemModel {
   String createdAt;
   @JsonKey(name: "updated_at")
   String updatedAt;
+  @JsonKey(name: "assigned_at")
+  String assignedAt;
+
   @JsonKey(name: "timeline")
   List<Timeline> timeline;
   @JsonKey(name: "logs")
@@ -82,10 +85,12 @@ class OrderItemModel {
       this.quantity,
       this.createdAt,
       this.updatedAt,
+      this.assignedAt,
       this.timeline,
       this.logs});
 
-  factory OrderItemModel.fromJson(Map<String, dynamic> json) => _$OrderItemModelFromJson(json);
+  factory OrderItemModel.fromJson(Map<String, dynamic> json) =>
+      _$OrderItemModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderItemModelToJson(this);
 }
@@ -99,7 +104,8 @@ class CollectionMethod {
 
   CollectionMethod({this.id, this.name});
 
-  factory CollectionMethod.fromJson(Map<String, dynamic> json) => _$CollectionMethodFromJson(json);
+  factory CollectionMethod.fromJson(Map<String, dynamic> json) =>
+      _$CollectionMethodFromJson(json);
 
   Map<String, dynamic> toJson() => _$CollectionMethodToJson(this);
 }
@@ -133,7 +139,8 @@ class District {
 
   District({this.id, this.name});
 
-  factory District.fromJson(Map<String, dynamic> json) => _$DistrictFromJson(json);
+  factory District.fromJson(Map<String, dynamic> json) =>
+      _$DistrictFromJson(json);
 
   Map<String, dynamic> toJson() => _$DistrictToJson(this);
 }
@@ -194,7 +201,8 @@ class Merchant {
       this.isActive,
       this.settings});
 
-  factory Merchant.fromJson(Map<String, dynamic> json) => _$MerchantFromJson(json);
+  factory Merchant.fromJson(Map<String, dynamic> json) =>
+      _$MerchantFromJson(json);
 
   Map<String, dynamic> toJson() => _$MerchantToJson(this);
 }
@@ -239,9 +247,13 @@ class Settings {
   int multipleShipmentsMax;
 
   Settings(
-      {this.multipleShipments, this.deliveryFees, this.multipleShipmentsMin, this.multipleShipmentsMax});
+      {this.multipleShipments,
+      this.deliveryFees,
+      this.multipleShipmentsMin,
+      this.multipleShipmentsMax});
 
-  factory Settings.fromJson(Map<String, dynamic> json) => _$SettingsFromJson(json);
+  factory Settings.fromJson(Map<String, dynamic> json) =>
+      _$SettingsFromJson(json);
 
   Map<String, dynamic> toJson() => _$SettingsToJson(this);
 }
@@ -341,7 +353,8 @@ class Nationality {
 
   Nationality({this.id, this.name});
 
-  factory Nationality.fromJson(Map<String, dynamic> json) => _$NationalityFromJson(json);
+  factory Nationality.fromJson(Map<String, dynamic> json) =>
+      _$NationalityFromJson(json);
 
   Map<String, dynamic> toJson() => _$NationalityToJson(this);
 }
@@ -383,7 +396,8 @@ class FeesPaymentMethod {
 
   FeesPaymentMethod({this.id, this.name});
 
-  factory FeesPaymentMethod.fromJson(Map<String, dynamic> json) => _$FeesPaymentMethodFromJson(json);
+  factory FeesPaymentMethod.fromJson(Map<String, dynamic> json) =>
+      _$FeesPaymentMethodFromJson(json);
 
   Map<String, dynamic> toJson() => _$FeesPaymentMethodToJson(this);
 }
@@ -397,7 +411,8 @@ class PickupPoint {
 
   PickupPoint({this.id, this.name});
 
-  factory PickupPoint.fromJson(Map<String, dynamic> json) => _$PickupPointFromJson(json);
+  factory PickupPoint.fromJson(Map<String, dynamic> json) =>
+      _$PickupPointFromJson(json);
 
   Map<String, dynamic> toJson() => _$PickupPointToJson(this);
 }
@@ -427,7 +442,8 @@ class Timeline {
 
   Timeline({this.event, this.createdBy, this.createdAt});
 
-  factory Timeline.fromJson(Map<String, dynamic> json) => _$TimelineFromJson(json);
+  factory Timeline.fromJson(Map<String, dynamic> json) =>
+      _$TimelineFromJson(json);
 
   Map<String, dynamic> toJson() => _$TimelineToJson(this);
 }
@@ -449,7 +465,14 @@ class Log {
   @JsonKey(name: "for_humans")
   String forHumans;
 
-  Log({this.status, this.updatedBy, this.notes, this.datetime, this.date, this.time, this.forHumans});
+  Log(
+      {this.status,
+      this.updatedBy,
+      this.notes,
+      this.datetime,
+      this.date,
+      this.time,
+      this.forHumans});
 
   factory Log.fromJson(Map<String, dynamic> json) => _$LogFromJson(json);
 
@@ -465,7 +488,8 @@ class UpdatedBy {
 
   UpdatedBy({this.name, this.type});
 
-  factory UpdatedBy.fromJson(Map<String, dynamic> json) => _$UpdatedByFromJson(json);
+  factory UpdatedBy.fromJson(Map<String, dynamic> json) =>
+      _$UpdatedByFromJson(json);
 
   Map<String, dynamic> toJson() => _$UpdatedByToJson(this);
 }

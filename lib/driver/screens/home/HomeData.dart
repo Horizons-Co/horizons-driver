@@ -27,6 +27,7 @@ class HomeData {
     }
     print("orders is ${orders.length}");
     if (orders.length > 0) {
+      timer.onUpdateData(120);
       showOrderDialog(orders.last.id, context, orders.last.no,
           tax:
               "${num.parse(orders.last.deliveryFees) + num.parse(orders.last.vat.amount)}",
@@ -65,7 +66,6 @@ class HomeData {
     String deliveryLat,
     String deliveryLng,
   }) {
-    timer.onUpdateData(120);
     LoadingDialog.showNotifyDialog(
       timer: timer,
       context: context,

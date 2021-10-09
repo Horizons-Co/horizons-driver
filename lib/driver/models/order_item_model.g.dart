@@ -54,6 +54,7 @@ OrderItemModel _$OrderItemModelFromJson(Map<String, dynamic> json) {
     quantity: json['quantity'],
     createdAt: json['created_at'] as String,
     updatedAt: json['updated_at'] as String,
+    assignedAt: json['assigned_at'] as String,
     timeline: (json['timeline'] as List)
         ?.map((e) =>
             e == null ? null : Timeline.fromJson(e as Map<String, dynamic>))
@@ -90,6 +91,7 @@ Map<String, dynamic> _$OrderItemModelToJson(OrderItemModel instance) =>
       'quantity': instance.quantity,
       'created_at': instance.createdAt,
       'updated_at': instance.updatedAt,
+      'assigned_at': instance.assignedAt,
       'timeline': instance.timeline,
       'logs': instance.logs,
     };

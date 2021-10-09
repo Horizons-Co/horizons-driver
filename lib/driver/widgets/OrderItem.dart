@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:base_structure/driver/models/order_item_model.dart';
 import 'package:base_structure/driver/screens/orderDetails/OrderDetailsImports.dart';
 import 'package:base_structure/general/constants/GlobalState.dart';
@@ -9,10 +11,18 @@ import 'package:flutter/material.dart';
 
 Widget orderItem(
     {OrderItemModel orderItemModel, BuildContext context, Function pending}) {
+  print("order is ${json.encode(orderItemModel)}");
   return Visibility(
     visible: orderItemModel.status.id == 6,
     child: InkWell(
       onTap: pending,
+      // onTap: () {
+      //   print("now ${DateFormat("HH:mm", "en").format(DateTime.now())}");
+      //   print(
+      //       "order ${DateFormat("HH:mm", "en").format(DateTime.parse(orderItemModel.assignedAt).subtract(Duration(hours: 1)))}");
+      //   print(
+      //       "asdasd ${DateTime.now().difference(DateTime.parse(orderItemModel.assignedAt).subtract(Duration(hours: 1))).inSeconds}");
+      // },
       child: Container(
         margin: const EdgeInsets.only(left: 10, right: 10, top: 15),
         child: Column(

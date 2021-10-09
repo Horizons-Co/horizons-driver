@@ -57,7 +57,9 @@ class DioHelper {
       } else if (e.response.statusCode == 401 || e.response.statusCode == 301) {
         LoadingDialog.showToastNotification(
             e.response.data["error"].toString());
-         tokenExpired();
+        tokenExpired();
+      } else if (e.response.statusCode == 403) {
+        LoadingDialog.showToastNotification(e.response.data["message"]);
       } else {
         LoadingDialog.showToastNotification(tr("chickNet"));
       }
@@ -84,6 +86,8 @@ class DioHelper {
       } else if (e.response.statusCode == 403) {
         LoadingDialog.showToastNotification(
             e.response.data["error"].toString());
+      } else if (e.response.statusCode == 403) {
+        LoadingDialog.showToastNotification(e.response.data["message"]);
       } else {
         LoadingDialog.showToastNotification(tr("chickNet"));
       }
@@ -111,24 +115,26 @@ class DioHelper {
       return data;
     } on DioError catch (e) {
       if (showLoader) EasyLoading.dismiss();
-      if (e.response.statusCode == 422||e.response.statusCode ==403) {
-        if(e.response.data["errors"]!=null){
-          Map<String,dynamic> errors = e.response.data["errors"];
+      if (e.response.statusCode == 422 || e.response.statusCode == 403) {
+        if (e.response.data["errors"] != null) {
+          Map<String, dynamic> errors = e.response.data["errors"];
           print("______________$errors");
-          errors.forEach((key, value){
+          errors.forEach((key, value) {
             List<String> lst = List<String>.from(value.map((e) => e));
             lst.forEach((e) {
               LoadingDialog.showToastNotification(e);
             });
           });
-        }else if(e.response.data["error"]!=null){
+        } else if (e.response.data["error"] != null) {
           LoadingDialog.showToastNotification(tr(e.response.data["error"]));
-        }else{
+        } else {
           LoadingDialog.showToastNotification(
               e.response.data["message"].toString());
         }
       } else if (e.response.statusCode == 401 || e.response.statusCode == 301) {
         tokenExpired();
+      } else if (e.response.statusCode == 403) {
+        LoadingDialog.showToastNotification(e.response.data["message"]);
       } else {
         LoadingDialog.showToastNotification(tr("chickNet"));
       }
@@ -163,6 +169,8 @@ class DioHelper {
         //     e.response.data["message"].toString());
       } else if (e.response.statusCode == 401 || e.response.statusCode == 301) {
         tokenExpired();
+      } else if (e.response.statusCode == 403) {
+        LoadingDialog.showToastNotification(e.response.data["message"]);
       } else {
         // LoadingDialog.showToastNotification(tr("chickNet"));
       }
@@ -197,6 +205,8 @@ class DioHelper {
             e.response.data["message"].toString());
       } else if (e.response.statusCode == 401 || e.response.statusCode == 301) {
         tokenExpired();
+      } else if (e.response.statusCode == 403) {
+        LoadingDialog.showToastNotification(e.response.data["message"]);
       } else {
         LoadingDialog.showToastNotification(tr("chickNet"));
       }
@@ -329,6 +339,8 @@ class DioHelper {
             e.response.data["message"].toString());
       } else if (e.response.statusCode == 401 || e.response.statusCode == 301) {
         tokenExpired();
+      } else if (e.response.statusCode == 403) {
+        LoadingDialog.showToastNotification(e.response.data["message"]);
       } else {
         // LoadingDialog.showToastNotification(tr("chickNet"));
       }
