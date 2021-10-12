@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:base_structure/driver/models/order_item_model.dart';
 import 'package:base_structure/driver/screens/orderDetails/OrderDetailsImports.dart';
 import 'package:base_structure/general/constants/GlobalState.dart';
@@ -11,7 +9,8 @@ import 'package:flutter/material.dart';
 
 Widget orderItem(
     {OrderItemModel orderItemModel, BuildContext context, Function pending}) {
-  print("order is ${json.encode(orderItemModel)}");
+  print(
+      "order is ${(orderItemModel.id == GlobalState.instance.get("currentOrderId")) && (orderItemModel.status.id != 3)}");
   return Visibility(
     visible: orderItemModel.status.id == 6,
     child: InkWell(
@@ -111,7 +110,7 @@ Widget orderItem(
     replacement: InkWell(
       onTap: () {
         if ((orderItemModel.id == GlobalState.instance.get("currentOrderId")) &&
-            (orderItemModel.status.id != 3)) {
+            (orderItemModel.status.id != 3 && orderItemModel.status.id != 4)) {
           PlayNotificationSound.stopSound();
         } else if (orderItemModel.status.id != 5 &&
             orderItemModel.status.id != 21)

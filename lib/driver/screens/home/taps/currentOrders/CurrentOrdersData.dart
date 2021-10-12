@@ -8,6 +8,7 @@ class CurrentOrdersData {
       PagingController(firstPageKey: 1);
 
   void fetchPage(BuildContext context, int pageKey) async {
+    PlayNotificationSound.stopSound();
     var _events = await DriverRepository(context).getCurrentOrders(pageKey);
     final isLastPage = _events.length < 10;
     if (isLastPage) {

@@ -48,7 +48,7 @@ class OrderButton extends StatelessWidget {
               title: orderItemModel.status.id == 3
                   ? tr("received")
                   : tr("delivered"),
-              color: Colors.blue,
+              color: orderItemModel.status.id == 3 ? Colors.blue : Colors.green,
               textColor: MyColors.white,
               onTap: () => orderDetailsData.showOrderAlert(
                   title: orderItemModel.status.id == 3

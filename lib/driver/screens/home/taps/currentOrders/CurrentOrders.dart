@@ -73,6 +73,7 @@ class _CurrentOrdersState extends State<CurrentOrders> {
                                       .subtract(Duration(hours: 1)))
                                   .inSeconds >=
                               120) {
+                            PlayNotificationSound.stopSound();
                             currentOrdersData.pagingController.refresh();
                           } else {
                             widget._homeData.timer.onUpdateData(120 -

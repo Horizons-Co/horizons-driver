@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:base_structure/general/blocs/generic_cubit/generic_cubit.dart';
 import 'package:base_structure/general/utilities/routers/Router.gr.dart';
 import 'package:base_structure/general/utilities/utils_functions/UtilsImports.dart';
+import 'package:base_structure/general/utilities/utils_functions/playSound.dart';
 import 'package:base_structure/res.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -175,280 +176,290 @@ class LoadingDialog {
     String deliveryLat,
     String deliveryLng,
   }) {
-    return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      title: MyText(
-        title: tr("newOrder"),
-        size: 16,
-        color: MyColors.black,
-        alien: TextAlign.center,
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          BlocBuilder<GenericCubit<int>, GenericState<int>>(
-            cubit: timer,
-            builder: (context, state) {
-              return Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                width: 120,
-                height: 120,
-                // padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    // border: Border.all(color: Color(0xffE1402E), width: 10),
-                    shape: BoxShape.circle),
-                alignment: Alignment.center,
-                child: TweenAnimationBuilder<Duration>(
-                  duration: Duration(seconds: state.data),
-                  onEnd: () => onCancel(),
-                  tween: Tween(
-                      begin: Duration(seconds: state.data), end: Duration.zero),
-                  builder:
-                      (BuildContext context, Duration value, Widget child) {
-                    timer.onUpdateData(value.inSeconds);
-                    final int minutes = value.inMinutes;
-                    final int seconds = value.inSeconds % 60;
-                    return CircularStepProgressIndicator(
-                      totalSteps: 120,
-                      currentStep: state.data,
-                      stepSize: 7,
-                      selectedColor: Color(0xffE1402E),
-                      unselectedColor: MyColors.greyWhite,
-                      padding: 0,
-                      width: 120,
-                      height: 120,
-                      child: Center(
-                          child: MyText(
-                        title:
-                            "0$minutes:${seconds < 10 ? "0$seconds" : seconds}",
+    return WillPopScope(
+      onWillPop: () async {
+        PlayNotificationSound.stopSound();
+        ExtendedNavigator.root.pop();
+        return true;
+      },
+      child: AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        title: MyText(
+          title: tr("newOrder"),
+          size: 16,
+          color: MyColors.black,
+          alien: TextAlign.center,
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            BlocBuilder<GenericCubit<int>, GenericState<int>>(
+              cubit: timer,
+              builder: (context, state) {
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  width: 120,
+                  height: 120,
+                  // padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      // border: Border.all(color: Color(0xffE1402E), width: 10),
+                      shape: BoxShape.circle),
+                  alignment: Alignment.center,
+                  child: TweenAnimationBuilder<Duration>(
+                    duration: Duration(seconds: state.data),
+                    onEnd: () => onCancel(),
+                    tween: Tween(
+                        begin: Duration(seconds: state.data),
+                        end: Duration.zero),
+                    builder:
+                        (BuildContext context, Duration value, Widget child) {
+                      timer.onUpdateData(value.inSeconds);
+                      final int minutes = value.inMinutes;
+                      final int seconds = value.inSeconds % 60;
+                      return CircularStepProgressIndicator(
+                        totalSteps: 120,
+                        currentStep: state.data,
+                        stepSize: 7,
+                        selectedColor: Color(0xffE1402E),
+                        unselectedColor: MyColors.greyWhite,
+                        padding: 0,
+                        width: 120,
+                        height: 120,
+                        child: Center(
+                            child: MyText(
+                          title:
+                              "0$minutes:${seconds < 10 ? "0$seconds" : seconds}",
+                          size: 12,
+                          color: MyColors.blackOpacity,
+                        )),
+                      );
+                    },
+                  ),
+                  // child: MyText(
+                  //   title:
+                  //       "${'${((120 - state.data) ~/ 60).toString().padLeft(2, '0')}: ${((120 - state.data) % 60).toString().padLeft(2, '0')}'}",
+                  //   size: 12,
+                  //   color: MyColors.blackOpacity,
+                  // ),
+                );
+              },
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: MyColors.grey.withOpacity(.1)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MyText(
+                        title: "${tr("receivingFrom")}:",
                         size: 12,
-                        color: MyColors.blackOpacity,
-                      )),
-                    );
-                  },
-                ),
-                // child: MyText(
-                //   title:
-                //       "${'${((120 - state.data) ~/ 60).toString().padLeft(2, '0')}: ${((120 - state.data) % 60).toString().padLeft(2, '0')}'}",
-                //   size: 12,
-                //   color: MyColors.blackOpacity,
-                // ),
-              );
-            },
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 5),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: MyColors.grey.withOpacity(.1)),
-            child: Row(
+                        color: MyColors.grey,
+                      ),
+                      MyText(
+                        title: receiveFrom ?? "",
+                        size: 12,
+                        color: MyColors.black,
+                      ),
+                    ],
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Utils.openMap(
+                          json.encode({
+                            "lat": receiveLat,
+                            "lng": receiveLng,
+                          }),
+                          context);
+                    },
+                    child: Image.asset(
+                      Res.location,
+                      width: 32,
+                      height: 32,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: MyColors.grey.withOpacity(.1)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MyText(
+                        title: "${tr("deliveryTo")}:",
+                        size: 12,
+                        color: MyColors.grey,
+                      ),
+                      MyText(
+                        title: deliveryTo ?? "",
+                        size: 12,
+                        color: MyColors.black,
+                      ),
+                    ],
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Utils.openMap(
+                          json.encode({
+                            "lat": deliveryLat,
+                            "lng": deliveryLng,
+                          }),
+                          context);
+                    },
+                    child: Image.asset(
+                      Res.location,
+                      width: 32,
+                      height: 32,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MyText(
-                      title: "${tr("receivingFrom")}:",
+                      title: "${tr("orderValue")}:",
                       size: 12,
                       color: MyColors.grey,
                     ),
                     MyText(
-                      title: receiveFrom ?? "",
+                      title: total ?? "",
                       size: 12,
                       color: MyColors.black,
                     ),
                   ],
                 ),
-                InkWell(
-                  onTap: () {
-                    Utils.openMap(
-                        json.encode({
-                          "lat": receiveLat,
-                          "lng": receiveLng,
-                        }),
-                        context);
-                  },
-                  child: Image.asset(
-                    Res.location,
-                    width: 32,
-                    height: 32,
-                  ),
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 5),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: MyColors.grey.withOpacity(.1)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MyText(
-                      title: "${tr("deliveryTo")}:",
+                      title: "${tr("deliveryFees")}:",
                       size: 12,
                       color: MyColors.grey,
                     ),
                     MyText(
-                      title: deliveryTo ?? "",
+                      title: tax ?? "",
                       size: 12,
                       color: MyColors.black,
                     ),
                   ],
                 ),
-                InkWell(
-                  onTap: () {
-                    Utils.openMap(
-                        json.encode({
-                          "lat": deliveryLat,
-                          "lng": deliveryLng,
-                        }),
-                        context);
-                  },
-                  child: Image.asset(
-                    Res.location,
-                    width: 32,
-                    height: 32,
-                  ),
-                )
               ],
+            )
+          ],
+        ),
+        actions: [
+          Container(
+            height: 50,
+            width: MediaQuery.of(context).size.width,
+            child: Builder(
+              builder: (context) {
+                final GlobalKey<SlideActionState> _key = GlobalKey();
+                return SlideAction(
+                  key: _key,
+                  innerColor: Colors.transparent,
+                  outerColor: Colors.blueAccent,
+                  reversed: true,
+                  submittedIcon: Icon(
+                    Icons.done,
+                    color: MyColors.white,
+                  ),
+                  sliderButtonIcon:
+                      Icon(Icons.arrow_back, color: MyColors.white),
+                  borderRadius: 16,
+                  animationDuration: Duration(milliseconds: 500),
+                  height: 50,
+                  child: MyText(
+                    title: okText,
+                    size: 14,
+                    color: MyColors.white,
+                  ),
+                  onSubmit: () {
+                    // _timer.cancel();
+                    confirm();
+                  },
+                );
+              },
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MyText(
-                    title: "${tr("orderValue")}:",
-                    size: 12,
-                    color: MyColors.grey,
+          Container(
+            height: 50,
+            width: MediaQuery.of(context).size.width,
+            margin: const EdgeInsets.only(top: 10),
+            child: Builder(
+              builder: (context) {
+                final GlobalKey<SlideActionState> _key = GlobalKey();
+                return SlideAction(
+                  key: _key,
+                  innerColor: Colors.transparent,
+                  outerColor: Colors.red,
+                  reversed: false,
+                  submittedIcon: Icon(
+                    Icons.close,
+                    color: Colors.white,
                   ),
-                  MyText(
-                    title: total ?? "",
-                    size: 12,
-                    color: MyColors.black,
+                  sliderButtonIcon:
+                      Icon(Icons.arrow_back, color: MyColors.white),
+                  borderRadius: 16,
+                  animationDuration: Duration(milliseconds: 300),
+                  height: 50,
+                  child: MyText(
+                    title: bkText,
+                    size: 14,
+                    color: MyColors.white,
                   ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MyText(
-                    title: "${tr("deliveryFees")}:",
-                    size: 12,
-                    color: MyColors.grey,
-                  ),
-                  MyText(
-                    title: tax ?? "",
-                    size: 12,
-                    color: MyColors.black,
-                  ),
-                ],
-              ),
-            ],
-          )
+                  onSubmit: () {
+                    // _timer.cancel();
+                    onCancel();
+                  },
+                );
+              },
+            ),
+          ),
+
+          // TextButton(
+          //   child: MyText(
+          //     title: bkText ?? tr("login"),
+          //     size: 14,
+          //     color: MyColors.headerColor,
+          //   ),
+          //   onPressed: () {
+          //     _timer.cancel();
+          //     onCancel();
+          //   },
+          // ),
+          // TextButton(
+          //   child: MyText(
+          //     title: okText,
+          //     size: 14,
+          //     color: MyColors.headerColor,
+          //   ),
+          //   onPressed: confirm,
+          // ),
         ],
       ),
-      actions: [
-        Container(
-          height: 50,
-          width: MediaQuery.of(context).size.width,
-          child: Builder(
-            builder: (context) {
-              final GlobalKey<SlideActionState> _key = GlobalKey();
-              return SlideAction(
-                key: _key,
-                innerColor: Colors.transparent,
-                outerColor: Colors.blueAccent,
-                reversed: true,
-                submittedIcon: Icon(
-                  Icons.done,
-                  color: MyColors.white,
-                ),
-                sliderButtonIcon: Icon(Icons.arrow_back, color: MyColors.white),
-                borderRadius: 16,
-                animationDuration: Duration(milliseconds: 500),
-                height: 50,
-                child: MyText(
-                  title: okText,
-                  size: 14,
-                  color: MyColors.white,
-                ),
-                onSubmit: () {
-                  // _timer.cancel();
-                  confirm();
-                },
-              );
-            },
-          ),
-        ),
-        Container(
-          height: 50,
-          width: MediaQuery.of(context).size.width,
-          margin: const EdgeInsets.only(top: 10),
-          child: Builder(
-            builder: (context) {
-              final GlobalKey<SlideActionState> _key = GlobalKey();
-              return SlideAction(
-                key: _key,
-                innerColor: Colors.transparent,
-                outerColor: Colors.red,
-                reversed: false,
-                submittedIcon: Icon(
-                  Icons.close,
-                  color: Colors.white,
-                ),
-                sliderButtonIcon: Icon(Icons.arrow_back, color: MyColors.white),
-                borderRadius: 16,
-                animationDuration: Duration(milliseconds: 300),
-                height: 50,
-                child: MyText(
-                  title: bkText,
-                  size: 14,
-                  color: MyColors.white,
-                ),
-                onSubmit: () {
-                  // _timer.cancel();
-                  onCancel();
-                },
-              );
-            },
-          ),
-        ),
-
-        // TextButton(
-        //   child: MyText(
-        //     title: bkText ?? tr("login"),
-        //     size: 14,
-        //     color: MyColors.headerColor,
-        //   ),
-        //   onPressed: () {
-        //     _timer.cancel();
-        //     onCancel();
-        //   },
-        // ),
-        // TextButton(
-        //   child: MyText(
-        //     title: okText,
-        //     size: 14,
-        //     color: MyColors.headerColor,
-        //   ),
-        //   onPressed: confirm,
-        // ),
-      ],
     );
   }
 
