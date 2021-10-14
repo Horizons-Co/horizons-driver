@@ -69,8 +69,7 @@ class _CurrentOrdersState extends State<CurrentOrders> {
                         context: context,
                         pending: () {
                           if (DateTime.now()
-                                  .difference(DateTime.parse(item.assignedAt)
-                                      .subtract(Duration(hours: 1)))
+                                  .difference(DateTime.parse(item.assignedAt))
                                   .inSeconds >=
                               120) {
                             PlayNotificationSound.stopSound();
@@ -78,8 +77,7 @@ class _CurrentOrdersState extends State<CurrentOrders> {
                           } else {
                             widget._homeData.timer.onUpdateData(120 -
                                 (DateTime.now()
-                                    .difference(DateTime.parse(item.assignedAt)
-                                        .subtract(Duration(hours: 1)))
+                                    .difference(DateTime.parse(item.assignedAt))
                                     .inSeconds));
                             widget._homeData.showOrderDialog(
                                 item.id, context, item.no,
