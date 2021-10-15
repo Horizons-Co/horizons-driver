@@ -73,7 +73,7 @@ dependencies:
   location_permissions:
   onesignal_flutter: ^2.6.3
   audioplayers: ^0.17.3
-#  flutter_one_signal: ^0.2.1
+  flutter_one_signal: ^0.2.1
   whatsapp_unilink: ^1.0.0+1
   quiver: ^2.1.5
   app_settings: ^4.0.4
@@ -87,7 +87,6 @@ dependencies:
 
 
 dev_dependencies:
-
   flutter_test:
     sdk: flutter
   build_runner:

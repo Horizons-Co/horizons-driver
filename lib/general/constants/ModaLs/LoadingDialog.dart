@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:base_structure/general/blocs/generic_cubit/generic_cubit.dart';
 import 'package:base_structure/general/utilities/routers/Router.gr.dart';
 import 'package:base_structure/general/utilities/utils_functions/CustomOneSignal.dart';
+import 'package:base_structure/general/utilities/utils_functions/CustomePushNotification.dart';
 import 'package:base_structure/general/utilities/utils_functions/UtilsImports.dart';
 import 'package:base_structure/general/utilities/utils_functions/playSound.dart';
 import 'package:base_structure/res.dart';
