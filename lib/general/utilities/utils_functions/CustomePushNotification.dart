@@ -1,5 +1,6 @@
 // import 'dart:async';
 // import 'dart:convert';
+// import 'dart:io';
 //
 // import 'package:auto_route/auto_route.dart';
 // import 'package:base_structure/driver/repository/DriverRepository.dart';
@@ -15,6 +16,7 @@
 // import 'package:base_structure/general/widgets/MyText.dart';
 // import 'package:base_structure/res.dart';
 // import 'package:bot_toast/bot_toast.dart';
+// import 'package:easy_localization/easy_localization.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_one_signal/flutter_one_signal.dart';
@@ -52,41 +54,62 @@
 //     if (order["a"]["driver"] != null) {
 //       onDriverReceived(notification, homeData, context);
 //     } else {
-//       onOrderReceived(notification, homeData.tabController, context,homeData);
+//       onOrderReceived(notification, homeData.tabController, context,homeData,false);
 //     }
 //   }
 //
-//   static onOrderReceived(
-//       notification, TabController tabController, BuildContext context, HomeData homeData) {
-//     var data = json.decode(notification)["payload"]["rawPayload"];
-//     var order = data['custom'];
-//     print("order is ${order['a']['order']['id']}");
-//     if (order['a']['order']["status_id"] == 6) {
-//       homeData.timer.onUpdateData(120);
-//       LoadingDialog.showNotifyDialog(
-//         timer: homeData.timer,
-//         context: context,
-//         deliveryLat: order["a"]["order"]["to"]["lat"],
-//         deliveryLng: order["a"]["order"]["to"]["lng"],
-//         deliveryTo: order["a"]["order"]["to"]["district"],
-//         receiveFrom: order["a"]["order"]["from"]["district"],
-//         receiveLat: order["a"]["order"]["from"]["lng"],
-//         receiveLng: order["a"]["order"]["from"]["lng"],
-//         tax: order["a"]["order"]["delivery_fees_with_tax"],
-//         total: order["a"]["order"]["price"],
-//         title: order["title"],
-//         confirm: () {
-//           print("cccccccccccccccc");
-//           closeDialog(context);
-//           changeOrderState(context, notification, tabController, "4");
-//         },
-//         onCancel: () {
-//           closeDialog(context);
-//           changeOrderState(context, notification, tabController, "3");
-//         },
-//       );
-//       print('playSound');
-//       PlayNotificationSound.playSound();
+//   static onOrderReceived(notification, TabController tabController,
+//       BuildContext context, HomeData homeData, bool open) {
+//     var data = notification.payload.rawPayload;
+//     var order = Platform.isAndroid
+//         ? json.decode("${notification.payload.rawPayload['custom']}")
+//         : data['custom'];
+//     print("order is $data");
+//     var orderID = order['a']['order']['id'];
+//     print("orderID is $orderID");
+//     GlobalState.instance.set("currentOrderId", orderID);
+//     print("context is ${order["a"]["order"]["to"]}");
+//     if (order['a']['order']["status_id"] == 6 && open == false) {
+//       print(
+//           "sadasd ${DateTime.now().difference(DateTime.parse(order["a"]["order"]["assigned_at"])).inSeconds >= 120}");
+//       if (DateTime.now()
+//           .difference(DateTime.parse(order["a"]["order"]["assigned_at"]))
+//           .inSeconds >=
+//           120) {
+//         PlayNotificationSound.playSound();
+//         _onMessageStreamController.add("refresh");
+//       } else {
+//         homeData.timer.onUpdateData(120 -
+//             DateTime.now()
+//                 .difference(DateTime.parse(order["a"]["order"]["assigned_at"]))
+//                 .inSeconds);
+//         LoadingDialog.showNotifyDialog(
+//           timer: homeData.timer,
+//           context: context,
+//           deliveryLat: order["a"]["order"]["to"]["lat"],
+//           deliveryLng: order["a"]["order"]["to"]["lng"],
+//           deliveryTo: order["a"]["order"]["is_multiple"] == true
+//               ? tr("store")
+//               : order["a"]["order"]["to"]["district"],
+//           receiveFrom: order["a"]["order"]["from"]["district"],
+//           receiveLat: order["a"]["order"]["from"]["lng"],
+//           receiveLng: order["a"]["order"]["from"]["lng"],
+//           tax: order["a"]["order"]["delivery_fees_with_tax"],
+//           total: order["a"]["order"]["price"],
+//           title: order["title"],
+//           confirm: () {
+//             print("cccccccccccccccc");
+//             closeDialog(context);
+//             changeOrderState(context, notification, tabController, "4");
+//           },
+//           onCancel: () {
+//             closeDialog(context);
+//             changeOrderState(context, notification, tabController, "3");
+//           },
+//         );
+//         print('playSound');
+//         PlayNotificationSound.playSound();
+//       }
 //     } else
 //       _onMessageStreamController.add("refresh");
 //
@@ -137,7 +160,7 @@
 //     if (order["a"]["driver"] != null) {
 //       onDriverReceived(notification, homeData, context);
 //     } else {
-//       onOrderReceived(notification, homeData.tabController, context,homeData);
+//       onOrderReceived(notification, homeData.tabController, context,homeData,true);
 //     }
 //   }
 //
