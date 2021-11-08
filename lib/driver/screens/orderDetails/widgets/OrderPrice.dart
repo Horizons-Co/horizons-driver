@@ -39,7 +39,7 @@ class OrderPrice extends StatelessWidget {
           // ),
           infoItems(
               title: tr("orderPrice"),
-              value: "${orderItemModel.price} ${orderItemModel.currency}",
+              value: "${orderItemModel.price==""?"0":orderItemModel.price} ${orderItemModel.currency}",
               bold: false),
           infoItems(
               title: tr("delivery"),

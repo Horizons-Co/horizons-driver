@@ -96,13 +96,17 @@ class _CurrentOrdersState extends State<CurrentOrders> {
                                 receiveLng: item.pickupPoint.id == 1
                                     ? item.branch.lng
                                     : item.client.lag,
-                                deliveryTo: item.pickupPoint.id == 2
-                                    ? item.branch.district.name
-                                    : item.client.district.name,
+                                deliveryTo: item.isMultiple
+                                    ? tr("store")
+                                    : item.pickupPoint.id == 2
+                                        ? item.branch.district.name
+                                        : item.client.district.name,
                                 receiveFrom: item.pickupPoint.id == 1
                                     ? item.branch.district.name
                                     : item.client.district.name,
-                                total: item.price + item.currency);
+                                total: item.price == ""
+                                    ? "0" + item.currency
+                                    : item.price + item.currency);
                           }
                         })),
               ),
