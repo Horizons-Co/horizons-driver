@@ -54,7 +54,8 @@
 //     if (order["a"]["driver"] != null) {
 //       onDriverReceived(notification, homeData, context);
 //     } else {
-//       onOrderReceived(notification, homeData.tabController, context,homeData,false);
+//       onOrderReceived(
+//           notification, homeData.tabController, context, homeData, false);
 //     }
 //   }
 //
@@ -73,8 +74,8 @@
 //       print(
 //           "sadasd ${DateTime.now().difference(DateTime.parse(order["a"]["order"]["assigned_at"])).inSeconds >= 120}");
 //       if (DateTime.now()
-//           .difference(DateTime.parse(order["a"]["order"]["assigned_at"]))
-//           .inSeconds >=
+//               .difference(DateTime.parse(order["a"]["order"]["assigned_at"]))
+//               .inSeconds >=
 //           120) {
 //         PlayNotificationSound.playSound();
 //         _onMessageStreamController.add("refresh");
@@ -160,7 +161,8 @@
 //     if (order["a"]["driver"] != null) {
 //       onDriverReceived(notification, homeData, context);
 //     } else {
-//       onOrderReceived(notification, homeData.tabController, context,homeData,true);
+//       onOrderReceived(
+//           notification, homeData.tabController, context, homeData, true);
 //     }
 //   }
 //
