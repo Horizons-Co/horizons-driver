@@ -62,7 +62,7 @@ class CustomOneSignal {
   static onOrderReceived(notification, TabController tabController,
       BuildContext context, HomeData homeData, bool open) {
     var data = json.decode(notification)["payload"]["rawPayload"];
-    var order =data['custom'];
+    var order = data['custom'];
     print("order is $order");
     var orderID = order['a']['order']['id'];
     print("orderID is $orderID");
@@ -87,8 +87,8 @@ class CustomOneSignal {
           context: context,
           deliveryLat: order["a"]["order"]["to"]["lat"],
           deliveryLng: order["a"]["order"]["to"]["lng"],
-                   assignedAt: DateTime.parse(order["a"]["order"]["assigned_at"]),
-                   deliveryTo: order["a"]["order"]["is_multiple"] == true
+          assignedAt: DateTime.parse(order["a"]["order"]["assigned_at"]),
+          deliveryTo: order["a"]["order"]["is_multiple"] == true
               ? tr("store")
               : order["a"]["order"]["to"]["district"],
           receiveFrom: order["a"]["order"]["from"]["district"],
