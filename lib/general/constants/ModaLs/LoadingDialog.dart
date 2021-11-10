@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:base_structure/general/blocs/generic_cubit/generic_cubit.dart';
 import 'package:base_structure/general/utilities/routers/Router.gr.dart';
 import 'package:base_structure/general/utilities/utils_functions/CustomOneSignal.dart';
-import 'package:base_structure/general/utilities/utils_functions/CustomePushNotification.dart';
 import 'package:base_structure/general/utilities/utils_functions/UtilsImports.dart';
 import 'package:base_structure/general/utilities/utils_functions/playSound.dart';
 import 'package:base_structure/res.dart';
@@ -87,6 +86,7 @@ class LoadingDialog {
     @required Function confirm,
     @required GenericCubit<int> timer,
     Function onCancel,
+    DateTime assignedAt,
     String receiveFrom,
     String deliveryTo,
     String total,
@@ -104,6 +104,7 @@ class LoadingDialog {
             title, confirm, context, tr("pullToAccept"), timer,
             bkText: tr("pullToRefuse"),
             onCancel: onCancel,
+            assignedAt: assignedAt,
             deliveryLat: deliveryLat,
             deliveryLng: deliveryLng,
             deliveryTo: deliveryTo,
@@ -168,6 +169,7 @@ class LoadingDialog {
     String okText,
     GenericCubit<int> timer, {
     String bkText,
+    DateTime assignedAt,
     Function onCancel,
     String receiveFrom,
     String deliveryTo,
@@ -178,6 +180,18 @@ class LoadingDialog {
     String deliveryLat,
     String deliveryLng,
   }) {
+    print("ass $assignedAt");
+    if (assignedAt != null) {
+      if (DateTime.now().difference(assignedAt).inSeconds >= 120) {
+        ExtendedNavigator.root.popUntilPath(Routes.home);
+        PlayNotificationSound.playSound();
+        CustomOneSignal().notificationSubject.add("refresh");
+      } else {
+        timer.onUpdateData(
+            120 - DateTime.now().difference(assignedAt).inSeconds);
+      }
+    }
+
     return WillPopScope(
       onWillPop: () async {
         PlayNotificationSound.stopSound();

@@ -122,6 +122,7 @@
 //         LoadingDialog.showNotifyDialog(
 //           timer: homeData.timer,
 //           context: context,
+//           assignedAt: DateTime.parse(order["a"]["order"]["assigned_at"]),
 //           deliveryLat: order["a"]["order"]["to"]["lat"],
 //           deliveryLng: order["a"]["order"]["to"]["lng"],
 //           deliveryTo: order["a"]["order"]["is_multiple"] == true
