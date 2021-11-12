@@ -18,18 +18,19 @@ class Utils {
         // GlobalState.instance.set("userId", data.id);
         changeLanguage(lang ?? "ar", context);
         // setCurrentUserData(data, context);
-        ExtendedNavigator.of(context)
-            .pushAndRemoveUntil(Routes.home, (route) => false, arguments: HomeArguments(index: 0));
+        ExtendedNavigator.of(context).pushAndRemoveUntil(
+            Routes.home, (route) => false,
+            arguments: HomeArguments(index: 0));
       } else {
         BackgroundLocator.unRegisterLocationUpdate();
         clearSavedData();
 
         changeLanguage("ar", context);
-        ExtendedNavigator.of(context).push(Routes.locationPermission);
+        ExtendedNavigator.of(context).push(Routes.login);
       }
     } else {
       changeLanguage("ar", context);
-      ExtendedNavigator.of(context).push(Routes.locationPermission);
+      ExtendedNavigator.of(context).push(Routes.login);
     }
   }
 
@@ -194,7 +195,8 @@ class Utils {
   }
 
   static Future<File> getImage({ImageSource imageSource}) async {
-    PickedFile image = await ImagePicker().getImage(source: imageSource ?? ImageSource.gallery);
+    PickedFile image = await ImagePicker()
+        .getImage(source: imageSource ?? ImageSource.gallery);
     if (image != null) {
       return File(image.path);
     } else {
@@ -203,8 +205,8 @@ class Utils {
   }
 
   static Future<List<File>> getImages() async {
-    FilePickerResult result =
-        await FilePicker.platform.pickFiles(allowMultiple: true, type: FileType.image);
+    FilePickerResult result = await FilePicker.platform
+        .pickFiles(allowMultiple: true, type: FileType.image);
 
     if (result != null) {
       List<File> files = result.paths.map((path) => File(path)).toList();
@@ -230,7 +232,8 @@ class Utils {
   }
 
   static Future<File> getVideo() async {
-    PickedFile image = await ImagePicker().getVideo(source: ImageSource.gallery);
+    PickedFile image =
+        await ImagePicker().getVideo(source: ImageSource.gallery);
     if (image != null) {
       return File(image.path);
     } else {
@@ -255,7 +258,8 @@ class Utils {
       return false;
     } else if (permission == PermissionStatus.DENIED) {
       permission = await location.requestPermission();
-      if (permission == PermissionStatus.DENIED || permission == PermissionStatus.DENIED_FOREVER) {
+      if (permission == PermissionStatus.DENIED ||
+          permission == PermissionStatus.DENIED_FOREVER) {
         return false;
       }
     }
@@ -276,8 +280,8 @@ class Utils {
     Map<String, dynamic> address = json.decode(location);
     String url;
     String urlAppleMaps;
-    final coords =
-        Coords(double.parse(address["lat"].toString()), double.parse(address["lng"].toString()));
+    final coords = Coords(double.parse(address["lat"].toString()),
+        double.parse(address["lng"].toString()));
     final title = "Destination";
     final availableMaps = await MapLauncher.installedMaps;
 

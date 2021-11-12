@@ -10,13 +10,15 @@ import 'package:base_structure/general/models/user_model.dart';
 import 'package:base_structure/general/utilities/dio_helper/DioImports.dart';
 import 'package:base_structure/general/utilities/routers/Router.gr.dart';
 import 'package:base_structure/general/utilities/utils_functions/CustomOneSignal.dart';
-import 'package:base_structure/general/utilities/utils_functions/CustomePushNotification.dart';
 import 'package:base_structure/general/utilities/utils_functions/UtilsImports.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:location/location.dart';
+import 'package:location_permissions/location_permissions.dart';
+import 'package:permission_handler/permission_handler.dart' as handler;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthHttpMethods {
@@ -33,7 +35,8 @@ class AuthHttpMethods {
       "mobile": "$phone",
       "password": "$pass",
     };
-    var _data = await DioHelper(context).post("drivers/login", body,showLoader: false);
+    var _data =
+        await DioHelper(context).post("drivers/login", body, showLoader: false);
     if (_data != null) {
       if (_data['data']['is_verified'] == false ||
           _data['data']["user"]['is_verified'] == false) {
@@ -53,8 +56,18 @@ class AuthHttpMethods {
         GlobalState.instance.set("token", _data["data"]["access_token"]);
         await Utils.saveUserData(user);
         Utils.setCurrentUserData(user, context);
-        ExtendedNavigator.root.push(Routes.home,
-            arguments: HomeArguments(index: 0));
+        final location = new Location();
+
+        bool permission = await Utils.askForPermission(location);
+        if (permission) {
+          handler.PermissionStatus requestLocation =
+              await handler.Permission.locationAlways.request();
+          if (requestLocation.isGranted) {
+            await LocationPermissions().checkPermissionStatus();
+          }
+        }
+        ExtendedNavigator.root
+            .push(Routes.home, arguments: HomeArguments(index: 0));
       }
 
       return true;
@@ -134,7 +147,8 @@ class AuthHttpMethods {
     Map<String, dynamic> body = {
       "mobile": "$phone",
     };
-    var _data = await DioHelper(context).post("drivers/forget-password", body,showLoader: false);
+    var _data = await DioHelper(context)
+        .post("drivers/forget-password", body, showLoader: false);
     if (_data != null) {
       ExtendedNavigator.root.push(Routes.resetPassword,
           arguments: ResetPasswordArguments(userId: "sss", phone: phone));
@@ -150,11 +164,8 @@ class AuthHttpMethods {
       "pin_code": "$pinCode",
       "mobile": userModel.mobile
     };
-    var _data = await DioHelper(context).post(
-      "drivers/mobile/verify",
-      body,
-      showLoader: false
-    );
+    var _data = await DioHelper(context)
+        .post("drivers/mobile/verify", body, showLoader: false);
     if (_data != null) {
       if (_data["data"]["status"]) {
         if (token == "" || token == null) {
@@ -188,8 +199,8 @@ class AuthHttpMethods {
       "pin_code": "$code",
       "password": "$pass",
     };
-    var _data =
-        await DioHelper(context).post("drivers/forget-password/confirm", body,showLoader: false);
+    var _data = await DioHelper(context)
+        .post("drivers/forget-password/confirm", body, showLoader: false);
     print("data is $_data");
     if (_data != null) {
       if (_data["data"]["status"] == true) {
@@ -242,7 +253,8 @@ class AuthHttpMethods {
     if (response != null) {
       // await CustomPushNotification.setLogOut();
       await CustomOneSignal.setLogOut();
-      await homeData.changeActiveStateFromNotify(active: false,context: context);
+      await homeData.changeActiveStateFromNotify(
+          active: false, context: context);
       EasyLoading.dismiss().then((value) {
         Utils.clearSavedData();
         Phoenix.rebirth(context);
