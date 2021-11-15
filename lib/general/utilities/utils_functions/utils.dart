@@ -243,11 +243,11 @@ class Utils {
 
   static void copToClipboard({String text, GlobalKey<ScaffoldState> scaffold}) {
     if (text.trim().isEmpty) {
-      LoadingDialog.showToastNotification(tr("couponValidation"));
+      LoadingDialog.showToastNotification(tr("noText"));
       return;
     } else {
       Clipboard.setData(ClipboardData(text: "$text")).then((value) {
-        LoadingDialog.showToastNotification(tr("couponSuccess"));
+        LoadingDialog.showToastNotification(tr("copiedSuccessfully"));
       });
     }
   }

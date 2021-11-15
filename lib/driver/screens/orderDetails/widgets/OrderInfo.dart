@@ -25,20 +25,23 @@ class OrderInfo extends StatelessWidget {
         //     ],
         //   ),
         // ),
-        Row(
-          children: [
-            MyText(
-              color: MyColors.black,
-              size: 12,
-              title: "${tr("orderNumber")} : ",
-            ),
-            MyText(
-              color: MyColors.black,
-              title: orderItemModel.no.toString(),
-              size: 13,
-              fontWeight: FontWeight.w900,
-            ),
-          ],
+        InkWell(
+          onTap: () => Utils.copToClipboard(text: orderItemModel.no.toString()),
+          child: Row(
+            children: [
+              MyText(
+                color: MyColors.black,
+                size: 12,
+                title: "${tr("orderNumber")} : ",
+              ),
+              MyText(
+                color: MyColors.black,
+                title: orderItemModel.no.toString(),
+                size: 13,
+                fontWeight: FontWeight.w900,
+              ),
+            ],
+          ),
         ),
         Row(
           children: [

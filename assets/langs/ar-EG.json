@@ -113,7 +113,9 @@
   "gallery": "المعرض",
   "reversed": "رجيع",
   "new": "جديد",
-  "r.s": "ر.س"
+  "r.s": "ر.س",
+  "noText": "لا يوجد نص",
+  "copiedSuccessfully": "تم النسخ بنجاح"
 }
 
 

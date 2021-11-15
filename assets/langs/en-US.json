@@ -113,8 +113,9 @@
   "gallery": "Gallery",
   "reversed": "Reversed",
   "new": "New",
-  "r.s": "r.s"
-
+  "r.s": "r.s",
+  "noText": "No text found",
+  "copiedSuccessfully": "Copied successfully"
 }
 
 

@@ -41,17 +41,29 @@ class DeliveryInfo extends StatelessWidget {
           Divider(
             color: MyColors.grey,
           ),
-          MyText(
-            title: tr("name"),
-            size: 12,
-            color: MyColors.grey,
+          InkWell(
+            onTap: () => Utils.copToClipboard(
+                text: orderItemModel.pickupPoint.id == 2
+                    ? orderItemModel.merchant.name
+                    : orderItemModel.client.name),
+            child: MyText(
+              title: tr("name"),
+              size: 12,
+              color: MyColors.grey,
+            ),
           ),
-          MyText(
-            title: orderItemModel.pickupPoint.id == 2
-                ? orderItemModel.merchant.name
-                : orderItemModel.client.name,
-            size: 12,
-            color: MyColors.black,
+          InkWell(
+            onTap: () => Utils.copToClipboard(
+                text: orderItemModel.pickupPoint.id == 2
+                    ? orderItemModel.merchant.name
+                    : orderItemModel.client.name),
+            child: MyText(
+              title: orderItemModel.pickupPoint.id == 2
+                  ? orderItemModel.merchant.name
+                  : orderItemModel.client.name,
+              size: 12,
+              color: MyColors.black,
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
