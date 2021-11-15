@@ -64,51 +64,54 @@ class _CurrentOrdersState extends State<CurrentOrders> {
                             color: MyColors.primary,
                           ),
                         ),
-                    itemBuilder: (context, item, index) => orderItem(
-                        orderItemModel: item,
-                        context: context,
-                        pending: () {
-                          if (DateTime.now()
-                                  .difference(DateTime.parse(item.assignedAt))
-                                  .inSeconds >=
-                              120) {
-                            PlayNotificationSound.stopSound();
-                            currentOrdersData.pagingController.refresh();
-                          } else {
-                            widget._homeData.timer.onUpdateData(120 -
-                                (DateTime.now()
+                    itemBuilder: (context, item, index) {
+                      return orderItem(
+                          orderItemModel: item,
+                          context: context,
+                          pending: () {
+                            if (DateTime.now()
                                     .difference(DateTime.parse(item.assignedAt))
-                                    .inSeconds));
-                            widget._homeData.showOrderDialog(
-                                item.id, context, item.no,
-                                tax:
-                                    "${num.parse(item.deliveryFees.replaceAll("ر.س.", "")) + num.parse(item.vat.amount.replaceAll("ر.س.", ""))}"
-                                    " ${tr("r.s")}",
-                                deliveryLng: item.pickupPoint.id == 2
-                                    ? item.branch.lng
-                                    : item.client.lag,
-                                deliveryLat: item.pickupPoint.id == 2
-                                    ? item.branch.lat
-                                    : item.client.lat,
-                                receiveLat: item.pickupPoint.id == 1
-                                    ? item.branch.lat
-                                    : item.client.lat,
-                                receiveLng: item.pickupPoint.id == 1
-                                    ? item.branch.lng
-                                    : item.client.lag,
-                                deliveryTo: item.isMultiple
-                                    ? tr("store")
-                                    : item.pickupPoint.id == 2
-                                        ? item.branch.district.name
-                                        : item.client.district.name,
-                                receiveFrom: item.pickupPoint.id == 1
-                                    ? item.branch.district.name
-                                    : item.client.district.name,
-                                total: item.price == ""
-                                    ? "0" + item.currency
-                                    : item.price + item.currency);
-                          }
-                        })),
+                                    .inSeconds >=
+                                120) {
+                              PlayNotificationSound.stopSound();
+                              currentOrdersData.pagingController.refresh();
+                            } else {
+                              widget._homeData.timer.onUpdateData(120 -
+                                  (DateTime.now()
+                                      .difference(
+                                          DateTime.parse(item.assignedAt))
+                                      .inSeconds));
+                              widget._homeData.showOrderDialog(
+                                  item.id, context, item.no,
+                                  tax:
+                                      "${(num.parse(item.deliveryFees.replaceAll("ر.س.", "")) + num.parse(item.vat.amount.replaceAll("ر.س.", ""))).toStringAsFixed(2)}"
+                                      " ${tr("r.s")}",
+                                  deliveryLng: item.pickupPoint.id == 2
+                                      ? item.branch.lng
+                                      : item.client.lag,
+                                  deliveryLat: item.pickupPoint.id == 2
+                                      ? item.branch.lat
+                                      : item.client.lat,
+                                  receiveLat: item.pickupPoint.id == 1
+                                      ? item.branch.lat
+                                      : item.client.lat,
+                                  receiveLng: item.pickupPoint.id == 1
+                                      ? item.branch.lng
+                                      : item.client.lag,
+                                  deliveryTo: item.isMultiple
+                                      ? tr("store")
+                                      : item.pickupPoint.id == 2
+                                          ? item.branch.district.name
+                                          : item.client.district.name,
+                                  receiveFrom: item.pickupPoint.id == 1
+                                      ? item.branch.district.name
+                                      : item.client.district.name,
+                                  total: item.price == ""
+                                      ? "0" + item.currency
+                                      : item.price + item.currency);
+                            }
+                          });
+                    }),
               ),
             );
           }
