@@ -156,7 +156,7 @@ class DriverDrawer extends StatelessWidget {
             // fit: BoxFit.contain,
           ),
           MyText(
-            title: "${tr("version")} v 1.0.29",
+            title: "Version 1.0.29",
             color: MyColors.black,
             size: 8,
             alien: TextAlign.center,
